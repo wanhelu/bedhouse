@@ -15,7 +15,9 @@ export default {
     }
   },
   mounted() {
-    getTestData().then((res)=>{
+    let params = new URLSearchParams()
+    params.append("data","哈哈哈")
+    getTestData(params).then((res)=>{
       this.testData=res.msg
     }).catch((err)=>{
       console.log(err)

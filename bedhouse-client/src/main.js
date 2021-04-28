@@ -6,12 +6,15 @@ import router from './router'
 import store from './store'
 import VCharts from 'v-charts'
 import Vuex from 'vuex'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
 
 Vue.config.productionTip = false
 Vue.use(Router)
 Vue.use(Vuex)
 Vue.use(VCharts)
+Vue.use(ElementUI)
 
 
 new Vue({

@@ -8,6 +8,10 @@ const router = {
     {
       path: '/About',
       component: ()=>import('@/pages/About')
+    },
+    {
+      path: '/',
+      component:()=>import('@/pages/login')
     }
   ]
 }

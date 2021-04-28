@@ -109,4 +109,9 @@
       </if>
     </trim>
   </insert>
+  <select id="loginStatus" resultType="java.lang.Integer">
+    select count(*)
+    from stf
+    where login_name=#{name} and password=#{password}
+  </select>
 </mapper>
