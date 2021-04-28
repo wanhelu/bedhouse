@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+  <!-- 本地数据库驱动程序jar包的全路径 -->
+  <classPathEntry location="D:\电脑\maven\MavenRepository\maven_jar\mysql\mysql-connector-java\8.0.23\mysql-connector-java-8.0.23.jar"/>
+
+  <context id="context" targetRuntime="MyBatis3">
+    <commentGenerator>
+      <property name="suppressAllComments" value="false"/>
+      <property name="suppressDate" value="true"/>
+    </commentGenerator>
+
+    <!-- 数据库的相关配置 -->
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/bedhouse?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=Asia/Shanghai&amp;nullCatalogMeansCurrent=true" userId="root" password="qwer1234"/>
+
+    <javaTypeResolver>
+      <property name="forceBigDecimals" value="false"/>
+    </javaTypeResolver>
+
+    <!-- 实体类生成的位置 -->
+    <javaModelGenerator targetPackage="com.example.bedhouseserver.POJO" targetProject="src/main/java">
+      <property name="enableSubPackages" value="true"/>
+      <property name="trimStrings" value="true"/>
+    </javaModelGenerator>
+
+    <!-- *Mapper.xml 文件的位置 -->
+    <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+      <property name="enableSubPackages" value="false"/>
+    </sqlMapGenerator>
+
+    <!-- Mapper 接口文件的位置 -->
+    <javaClientGenerator targetPackage="com.example.bedhouseserver.mapper" targetProject="src/main/java" type="XMLMAPPER">
+      <property name="enableSubPackages" value="false"/>
+    </javaClientGenerator>
+
+<!--
+    <table tableName="history" domainObjectName="History" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+-->
+    <table tableName="bed" domainObjectName="Bed" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+    <table tableName="customer" domainObjectName="Customer" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+    <table tableName="food" domainObjectName="Food" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+    <table tableName="live" domainObjectName="Live" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+    <table tableName="notice" domainObjectName="Notice" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+    <table tableName="nursing_content" domainObjectName="NursingContent" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+    <table tableName="nursing_level" domainObjectName="NursingLevel" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+    <table tableName="nursing_level_content" domainObjectName="NursingLevelContent" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+    <table tableName="nursing_record" domainObjectName="NursingRecord" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+    <table tableName="out_record" domainObjectName="OutRecord" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+    <table tableName="recipes" domainObjectName="Recipes" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+    <table tableName="role" domainObjectName="Role" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+    <table tableName="service_purchase" domainObjectName="ServicePurchase" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+    <table tableName="stf" domainObjectName="Stf" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+
+  </context>
+</generatorConfiguration>
