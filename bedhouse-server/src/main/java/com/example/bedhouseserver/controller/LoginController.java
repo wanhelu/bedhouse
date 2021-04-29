@@ -1,7 +1,10 @@
 package com.example.bedhouseserver.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.bedhouseserver.POJO.Stf;
 import com.example.bedhouseserver.service.impl.LoginServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,15 +20,24 @@ public class LoginController {
     @Autowired
     private LoginServiceImpl loginService;
 
+    private final Logger log= LoggerFactory.getLogger(this.getClass());
+
     @ResponseBody
     @RequestMapping(value = "/login/status", method = RequestMethod.POST)
     public Object loginStatus(HttpServletRequest req){
         String name=req.getParameter("name");
         String password=req.getParameter("password");
-        int res=loginService.loginStatus(name,password);
+        Stf res=loginService.loginStatus(name,password);
         JSONObject jsonObject=new JSONObject();
-        jsonObject.put("code",1);
-        jsonObject.put("status",res);
+        if(res!=null) {
+            jsonObject.put("code", 1);
+            jsonObject.put("status", res.getRoleId());
+            jsonObject.put("username",res.getName());
+        }
+        else{
+            jsonObject.put("code",1);
+            jsonObject.put("status",0);
+        }
         return jsonObject;
     }
 }

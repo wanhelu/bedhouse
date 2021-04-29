@@ -30,8 +30,10 @@
 
 <script>
 import {getLoginStatus} from "@/api";
+import {mixin} from '../mixin/index'
 
 export default {
+  mixins: [mixin],
   data: function () {
     return {
       ruleForm: {
@@ -49,19 +51,26 @@ export default {
   methods: {
     submitForm () {
       let params = new URLSearchParams()
-      params.append('name', this.ruleForm.username)
-      params.append('password', this.ruleForm.password)
-      getLoginStatus(params)
-          .then(res => {
-            if (res.code === 1) {
-              console.log("success")
-            } else {
-              console.log("failed")
-            }
-          })
-          .catch(err => {
-            console.log(err)
-          })
+      if (!(this.ruleForm.username && this.ruleForm.password)) {
+        this.notify('用户名和密码不能为空', 'error')
+      } else {
+        params.append('name', this.ruleForm.username)
+        params.append('password', this.ruleForm.password)
+        getLoginStatus(params)
+            .then(res => {
+              if (res.status >=1) {
+                this.notify("登录成功","success")
+                this.$store.commit("setLoginStatus",res.status)
+                this.$store.commit('setName',res.username)
+                this.$router.push('/home')
+              } else {
+                this.notify("用户名或密码错误","error")
+              }
+            })
+            .catch(err => {
+              console.log(err)
+            })
+      }
     }
   }
 }
@@ -70,6 +79,7 @@ export default {
 <style scoped>
 .login-wrap {
   position: relative;
+  background: #2c3e50;
   background-size: cover;
   width: 100%;
   height: 100%;

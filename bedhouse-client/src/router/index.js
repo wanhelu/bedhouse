@@ -1,19 +1,25 @@
-const router = {
+import VueRouter from 'vue-router'
+
+const router = new VueRouter({
   routes: [
     {
       path: '/Home',
-      component: () => import('@/pages/Home.vue'),
-      meta: { title: '自述文件' },
-    },
-    {
-      path: '/About',
-      component: ()=>import('@/pages/About')
+      component:()=>import('@/components/Home'),
+      children: [{
+        path:"/stf",
+        component:()=>import('@/pages/Stf')
+      }]
     },
     {
       path: '/',
       component:()=>import('@/pages/login')
     }
   ]
-}
+})
+
+router.beforeEach((to, from, next) => {
+  console.log("123321")
+  next()
+})
 
 export default router
