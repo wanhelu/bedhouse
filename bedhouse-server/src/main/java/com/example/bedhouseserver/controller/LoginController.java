@@ -33,6 +33,7 @@ public class LoginController {
             jsonObject.put("code", 1);
             jsonObject.put("status", res.getRoleId());
             jsonObject.put("username",res.getName());
+            jsonObject.put("id",res.getId());
         }
         else{
             jsonObject.put("code",1);

@@ -4,6 +4,8 @@ import com.example.bedhouseserver.POJO.Stf;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface StfMapper {
     /**
@@ -55,4 +57,6 @@ public interface StfMapper {
     int updateByPrimaryKey(Stf record);
 
     Stf loginStatus(@Param("name")String name,@Param("password")String password);
+
+    List<Stf> selectByRoleId(@Param("roleId")Integer roleId);
 }

@@ -2,32 +2,38 @@ import VueRouter from 'vue-router'
 import store from '../store'
 
 const router = new VueRouter({
-  routes: [
-    {
-      path: '/Home',
-      name:'home',
-      component:()=>import('@/components/Home'),
-      children: [{
-        path:"/stf",
-        name:'stf',
-        component:()=>import('@/pages/Stf')
-      }]
-    },
-    {
-      path: '/',
-      name:'login',
-      component:()=>import('@/pages/login')
-    }
-  ]
+    routes: [
+        {
+            path: '/Home',
+            name: 'home',
+            component: () => import('@/components/Home'),
+            children: [
+                {
+                    path: "/stf",
+                    name: 'stf',
+                    component: () => import('@/pages/Stf')
+                },
+                {
+                  path:"/info",
+                  name:'info',
+                  component:()=>import('@/pages/info')
+                }
+            ]
+        },
+        {
+            path: '/',
+            name: 'login',
+            component: () => import('@/pages/login')
+        }
+    ]
 })
 
 router.beforeEach((to, from, next) => {
-  if(to.name!=='login'&&store.getters.loginStatus(store.state)===0){
-    next({name:"login"})
-  }
-  else {
-    next()
-  }
+    if (to.name !== 'login' && store.getters.loginStatus(store.state) == 0) {
+        next({name: "login"})
+    } else {
+        next()
+    }
 })
 
 export default router

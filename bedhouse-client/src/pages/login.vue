@@ -62,6 +62,7 @@ export default {
                 this.notify("登录成功","success")
                 this.$store.commit("setLoginStatus",res.status)
                 this.$store.commit('setName',res.username)
+                this.$store.commit("setId",res.id)
                 this.$router.push('/home')
               } else {
                 this.notify("用户名或密码错误","error")

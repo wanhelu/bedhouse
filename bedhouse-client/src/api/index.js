@@ -9,3 +9,10 @@ export const getTestData=(params)=>post(`test`,params)
 //登录
 export const getLoginStatus = (params) => post(`login/status`, params)
 
+// =======================>员工API
+//根据role_id获取员工所有信息
+export const getStfInfoLessRoleId=(id)=>get(`stf/infoLessRole?roleId=${id}`)
+//根据员工id获取所有信息
+export const getStfInfoById=(id)=>get(`stf/infoById?id=${id}`)
+
+

@@ -10,6 +10,7 @@
             <i class="el-icon-caret-bottom"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="info">详细信息</el-dropdown-item>
             <el-dropdown-item command="loginout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -45,6 +46,8 @@ export default {
         this.$store.commit('setLoginStatus',0)
         this.$store.commit('setName','')
         this.$router.push('/')
+      }else if(command==='info') {
+        this.$router.push('/info')
       }
     },
     // 侧边栏折叠

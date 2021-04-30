@@ -198,4 +198,9 @@
     from stf
     where login_name=#{name} and password=#{password}
   </select>
+  <select id="selectByRoleId" resultMap="BaseResultMap">
+    select *
+    from stf
+    where role_id=${roleId}
+  </select>
 </mapper>
