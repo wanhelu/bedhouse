@@ -2,7 +2,7 @@
   <div class="table">
     <div class="container">
       <div class="handle-box">
-        <el-button type="primary" size="mini" class="search-button" @click="delAll">搜索</el-button>
+        <el-button type="primary" size="mini" class="search-button" @click="search">搜索</el-button>
         <el-input v-model="select_word" size="mini" placeholder="筛选关键词" class="handle-input"></el-input>
         <el-button type="primary" size="mini" class="add-button" @click="centerDialogVisible = true">添加</el-button>
       </div>
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import {getStfInfoLessRoleId} from "@/api";
+import {getStfInfoLessRoleId,searchStfInfo} from "@/api";
 import {mapGetters} from "vuex"
 
 export default {
@@ -67,7 +67,13 @@ export default {
     this.getData()
   },
   methods:{
-    delAll(){},
+    search(){
+      searchStfInfo(this.select_word).then(res=>{
+        console.log(res)
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
     handleEdit(row){},
     handleDelete(rowId){},
     getData(){

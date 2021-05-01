@@ -27,4 +27,14 @@ public class StfServiceImpl implements StfService {
     public Stf stfInfoById(Integer id) {
         return stfMapper.selectByPrimaryKey(id);
     }
+
+    @Override
+    public boolean updateSelective(Stf stf) {
+        return stfMapper.updateByPrimaryKeySelective(stf)>0;
+    }
+
+    @Override
+    public List<Stf> search(String word) {
+        return stfMapper.search(word);
+    }
 }

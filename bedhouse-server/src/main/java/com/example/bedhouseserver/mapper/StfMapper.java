@@ -59,4 +59,6 @@ public interface StfMapper {
     Stf loginStatus(@Param("name")String name,@Param("password")String password);
 
     List<Stf> selectByRoleId(@Param("roleId")Integer roleId);
+
+    List<Stf> search(@Param("word")String word);
 }

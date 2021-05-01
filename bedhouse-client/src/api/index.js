@@ -14,5 +14,9 @@ export const getLoginStatus = (params) => post(`login/status`, params)
 export const getStfInfoLessRoleId=(id)=>get(`stf/infoLessRole?roleId=${id}`)
 //根据员工id获取所有信息
 export const getStfInfoById=(id)=>get(`stf/infoById?id=${id}`)
+//更新员工信息
+export const updateStfInfo=(params)=>post(`stf/update`,params)
+//查询员工
+export const searchStfInfo=(word)=>get(`stf/search?word=${word}`)
 
 

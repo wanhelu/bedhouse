@@ -203,4 +203,8 @@
     from stf
     where role_id=${roleId}
   </select>
+  <select id="search" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select distinct * from stf
+    where name like CONCAT('%',#{word},'%') or login_name like CONCAT('%',#{word},'%') or gender like CONCAT('%',#{word},'%') or phone like CONCAT('%',#{word},'%')
+  </select>
 </mapper>

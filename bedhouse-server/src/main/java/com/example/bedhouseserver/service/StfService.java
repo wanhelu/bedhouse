@@ -8,4 +8,8 @@ public interface StfService {
     List<Stf> stfInfoLessRoleId(Integer roleId);
 
     Stf stfInfoById(Integer id);
+
+    boolean updateSelective(Stf stf);
+
+    List<Stf>search(String word);
 }
