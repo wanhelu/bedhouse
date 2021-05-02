@@ -11,5 +11,7 @@ public interface StfService {
 
     boolean updateSelective(Stf stf);
 
-    List<Stf>search(String word);
+    List<Stf>search(String word,Integer roleId);
+
+    boolean add(Stf stf);
 }

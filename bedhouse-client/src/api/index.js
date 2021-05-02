@@ -17,6 +17,7 @@ export const getStfInfoById=(id)=>get(`stf/infoById?id=${id}`)
 //更新员工信息
 export const updateStfInfo=(params)=>post(`stf/update`,params)
 //查询员工
-export const searchStfInfo=(word)=>get(`stf/search?word=${word}`)
-
+export const searchStfInfo=(word,roleId)=>get(`stf/search?word=${word}&roleId=${roleId}`)
+//新增员工
+export const addStf=(params)=>post(`stf/add`,params)
 

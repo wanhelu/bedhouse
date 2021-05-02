@@ -205,6 +205,10 @@
   </select>
   <select id="search" resultMap="BaseResultMap" parameterType="java.lang.String">
     select distinct * from stf
-    where name like CONCAT('%',#{word},'%') or login_name like CONCAT('%',#{word},'%') or gender like CONCAT('%',#{word},'%') or phone like CONCAT('%',#{word},'%')
+    where (name like CONCAT('%',#{word},'%') or login_name like CONCAT('%',#{word},'%') or gender like CONCAT('%',#{word},'%') or phone like CONCAT('%',#{word},'%')) and role_id=${roleId}
+  </select>
+  <select id="searchOfNumber" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select distinct * from stf
+    where (id=${num} or age=${num}) and role_id=${roleId}
   </select>
 </mapper>

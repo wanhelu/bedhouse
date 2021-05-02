@@ -2,6 +2,7 @@ package com.example.bedhouseserver.mapper;
 
 import com.example.bedhouseserver.POJO.Stf;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -60,5 +61,7 @@ public interface StfMapper {
 
     List<Stf> selectByRoleId(@Param("roleId")Integer roleId);
 
-    List<Stf> search(@Param("word")String word);
+    List<Stf> search(@Param("word")String word,@Param("roleId")Integer roleId);
+
+    List<Stf> searchOfNumber(@Param("num")Integer num,@Param("roleId")Integer roleId) throws DataAccessException;
 }

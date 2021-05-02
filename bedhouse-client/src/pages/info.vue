@@ -13,6 +13,7 @@
         <el-divider></el-divider>
         <span class="info-span">入职时间:{{ userInfo.entryTime }}</span>
         <el-divider></el-divider>
+        <span class="info-span">电话号:{{ userInfo.phone }}</span>
       </el-card>
       <el-card shadow="hover" class="card">
         <span class="info-span">员工编号:{{ userInfo.id }}</span>
@@ -41,6 +42,9 @@
         </el-form-item>
         <el-form-item label="年龄" size="mini">
           <el-input v-model="form.age"></el-input>
+        </el-form-item>
+        <el-form-item label="电话号" size="mini">
+          <el-input v-model="form.phone"></el-input>
         </el-form-item>
         <el-form-item label="登录名" size="mini">
           <el-input v-model="form.loginName"></el-input>
@@ -74,7 +78,8 @@ export default {
         gender:'',
         age:'',
         loginName:'',
-        password:''
+        password:'',
+        phone:''
       }
     }
   },
@@ -111,7 +116,7 @@ export default {
       params.append("loginName",this.form.loginName)
       params.append("password",this.form.password)
       params.append("id",this.userInfo.id)
-      console.log(this.userInfo.id)
+      params.append("phone",this.form.phone)
       updateStfInfo(params).then(res=>{
         if (res.code === 1) {
           this.notify('编辑成功', 'success')
@@ -137,7 +142,7 @@ export default {
 
 .card {
   width: 300px;
-  height: 300px;
+  height: 350px;
   margin: 20px;
   float: left;
 }
