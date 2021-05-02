@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @RestController
 @Controller
@@ -30,6 +31,8 @@ public class LoginController {
         Stf res=loginService.loginStatus(name,password);
         JSONObject jsonObject=new JSONObject();
         if(res!=null) {
+            loginService.updateStatus(res.getId(),new Date(),req.getRemoteAddr());
+
             jsonObject.put("code", 1);
             jsonObject.put("status", res.getRoleId());
             jsonObject.put("username",res.getName());

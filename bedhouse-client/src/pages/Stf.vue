@@ -4,7 +4,7 @@
       <div class="handle-box">
         <el-button type="primary" size="mini" class="search-button" @click="search">搜索</el-button>
         <el-input v-model="select_word" size="mini" placeholder="筛选关键词" class="handle-input"></el-input>
-        <el-button type="primary" size="mini" class="add-button" @click="addVisible = true" :disabled="this.loginStatus===3">添加</el-button>
+        <el-button type="primary" size="mini" class="add-button" @click="addVisible = true" :disabled="this.loginStatus!==3">添加</el-button>
       </div>
       <el-table :data="data" border size="mini" style="width: 100%" height=441px ref="multipleTable">
         <el-table-column label="编号" prop="id" align="center" ></el-table-column>
@@ -26,6 +26,7 @@
           </template>
         </el-table-column>
       </el-table>
+      <!--翻页按钮-->
       <div class="pagination">
         <el-pagination
             @current-change="handleCurrentChange"
@@ -36,6 +37,8 @@
             :total="tableData.length">
         </el-pagination>
       </div>
+
+      <!--添加弹窗-->
       <el-dialog title="添加" :visible.sync="addVisible" >
         <el-form ref="form" :model="form" label-width="80px">
           <el-form-item label="姓名" size="mini">
@@ -73,6 +76,7 @@
         <el-button type="primary" size="mini" @click="saveEdit">确 定</el-button>
       </span>
       </el-dialog>
+      
     </div>
   </div>
 </template>

@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class LoginServiceImpl implements LoginService {
     @Autowired
@@ -18,5 +20,14 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public Stf loginStatus(String name, String password) {
         return stfMapper.loginStatus(name,password);
+    }
+
+    @Override
+    public boolean updateStatus(Integer id, Date date, String add) {
+        Stf stf=new Stf();
+        stf.setId(id);
+        stf.setLastTime(date);
+        stf.setLastAddres(add);
+        return stfMapper.updateByPrimaryKeySelective(stf)>0;
     }
 }
