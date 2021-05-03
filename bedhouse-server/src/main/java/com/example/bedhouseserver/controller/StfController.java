@@ -81,48 +81,17 @@ public class StfController {
     @RequestMapping(value = "/stf/add", method = RequestMethod.POST)
     public Object add(HttpServletRequest req){
         JSONObject jsonObject=new JSONObject();
-        Stf stf=new Stf();
-        stf.setName(req.getParameter("name"));
-        stf.setGender(req.getParameter("gender"));
+        Stf stf;
 
         try {
-            stf.setAge(Integer.valueOf(req.getParameter("age")));
-        }catch( NumberFormatException e){
+            stf=getStfByReq(req);
+        } catch (Exception e) {
             e.printStackTrace();
             jsonObject.put("code",0);
-            jsonObject.put("msg","年龄错误");
+            jsonObject.put("msg","数据转换错误");
             return jsonObject;
         }
 
-        stf.setLoginName(req.getParameter("loginName"));
-        stf.setPassword(req.getParameter("password"));
-        stf.setPhone(req.getParameter("phone"));
-
-        try {
-            String dateString=req.getParameter("entryTime");
-            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
-            Date date;
-            if(simpleDateFormat.parse(dateString)==null){
-                date=null;
-            }else {
-                date = simpleDateFormat.parse(req.getParameter("entryTime"));
-            }
-            stf.setEntryTime(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            jsonObject.put("code",0);
-            jsonObject.put("msg","日期错误");
-            return jsonObject;
-        }
-
-        try {
-            stf.setRoleId(Integer.valueOf(req.getParameter("roleId")));
-        }catch( NumberFormatException e){
-            e.printStackTrace();
-            jsonObject.put("code",0);
-            jsonObject.put("msg","权限错误");
-            return jsonObject;
-        }
         boolean res=false;
         try {
             res=stfService.add(stf);
@@ -136,5 +105,96 @@ public class StfController {
         return jsonObject;
     }
 
-    //TODO 编辑和删除
+    //删除
+    @ResponseBody
+    @RequestMapping(value = "/stf/delete", method = RequestMethod.DELETE)
+    public Object del(@RequestParam("id")Integer id){
+        JSONObject jsonObject=new JSONObject();
+        if(stfService.del(id)){
+            jsonObject.put("code",1);
+        }
+        else{
+            jsonObject.put("code",0);
+        }
+        return jsonObject;
+    }
+
+    //修改
+    @ResponseBody
+    @RequestMapping(value = "/stf/edit", method = RequestMethod.POST)
+    public Object upd(HttpServletRequest req){
+        JSONObject jsonObject=new JSONObject();
+        Stf stf;
+
+        try {
+            stf=getStfByReq(req);
+        } catch (Exception e) {
+            e.printStackTrace();
+            jsonObject.put("code",0);
+            jsonObject.put("msg","数据转换错误");
+            return jsonObject;
+        }
+
+        if(stf.getId()==null){
+            jsonObject.put("code",0);
+            jsonObject.put("msg","无id");
+            return jsonObject;
+        }
+
+        boolean res;
+        try {
+            res=stfService.upd(stf);
+        }catch (DataAccessException e){
+            e.printStackTrace();
+            jsonObject.put("code",0);
+            jsonObject.put("msg","数据库操作错误");
+            return jsonObject;
+        }
+        jsonObject.put("code",res?1:0);
+        return jsonObject;
+    }
+
+    private Stf getStfByReq(HttpServletRequest req) throws Exception {
+        Stf stf = new Stf();
+
+        String idS=req.getParameter("id");
+        if (idS == null || idS.equals("")||idS.equals("null")) stf.setId(null);
+        else stf.setId(Integer.valueOf(idS));
+
+        stf.setName(getString(req,"name"));
+        stf.setGender(getString(req,"gender"));
+
+        String ageS = req.getParameter("age");
+        if (ageS == null || ageS.equals("")||ageS.equals("null")) stf.setAge(null);
+        else stf.setAge(Integer.valueOf(ageS));
+
+        stf.setLoginName(getString(req,"loginName"));
+        stf.setPassword(getString(req,"password"));
+        stf.setPhone(getString(req,"phone"));
+
+        String dateString = req.getParameter("entryTime");
+        if (dateString == null || dateString.equals("")||dateString.equals("null")) stf.setEntryTime(null);
+        else {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date;
+            if (simpleDateFormat.parse(dateString) == null) {
+                date = null;
+            } else {
+                date = simpleDateFormat.parse(req.getParameter("entryTime"));
+            }
+            stf.setEntryTime(date);
+        }
+
+        String roleIdS = req.getParameter("roleId");
+        if (roleIdS == null || roleIdS.equals("")||roleIdS.equals("null")) stf.setRoleId(null);
+        else stf.setRoleId(Integer.valueOf(req.getParameter("roleId")));
+
+        return stf;
+    }
+
+    private String getString(HttpServletRequest req,String name){
+        String s=req.getParameter(name);
+        if(s.equals("null")) s=null;
+        return s;
+    }
 }

@@ -14,4 +14,8 @@ public interface StfService {
     List<Stf>search(String word,Integer roleId);
 
     boolean add(Stf stf);
+
+    boolean del(Integer id);
+
+    boolean upd(Stf stf);
 }

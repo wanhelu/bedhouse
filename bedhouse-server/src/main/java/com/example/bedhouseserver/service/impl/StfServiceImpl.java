@@ -60,4 +60,14 @@ public class StfServiceImpl implements StfService {
     public boolean add(Stf stf) throws DataAccessException {
         return stfMapper.insertSelective(stf)>0;
     }
+
+    @Override
+    public boolean del(Integer id) {
+        return stfMapper.deleteByPrimaryKey(id)>0;
+    }
+
+    @Override
+    public boolean upd(Stf stf) throws DataAccessException{
+        return stfMapper.updateByPrimaryKeySelective(stf)>0;
+    }
 }

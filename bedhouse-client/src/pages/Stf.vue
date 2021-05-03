@@ -4,7 +4,7 @@
       <div class="handle-box">
         <el-button type="primary" size="mini" class="search-button" @click="search">搜索</el-button>
         <el-input v-model="select_word" size="mini" placeholder="筛选关键词" class="handle-input"></el-input>
-        <el-button type="primary" size="mini" class="add-button" @click="addVisible = true" :disabled="this.loginStatus!==3">添加</el-button>
+        <el-button type="primary" size="mini" class="add-button" @click="handleAdd" :disabled="this.loginStatus!==3">添加</el-button>
       </div>
       <el-table :data="data" border size="mini" style="width: 100%" height=441px ref="multipleTable">
         <el-table-column label="编号" prop="id" align="center" ></el-table-column>
@@ -73,6 +73,54 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
         <el-button size="mini" @click="addVisible = false">取 消</el-button>
+        <el-button type="primary" size="mini" @click="saveAdd">确 定</el-button>
+      </span>
+      </el-dialog>
+
+      <!--删除提示框-->
+      <el-dialog title="提示" :visible.sync="delVisible" width="300px" center>
+        <div class="del-dialog-cnt" align="center">删除不可恢复，是否确定删除？</div>
+        <span slot="footer" class="dialog-footer">
+        <el-button size="mini" @click="delVisible = false">取 消</el-button>
+        <el-button type="primary" size="mini" @click="deleteRow">确 定</el-button>
+      </span>
+      </el-dialog>
+
+      <!-- 编辑提示框 -->
+      <el-dialog title="编辑" :visible.sync="editVisible" width="400px">
+        <el-form ref="form" :model="form" label-width="80px">
+          <el-form-item label="姓名" size="mini">
+            <el-input v-model="form.name"></el-input>
+          </el-form-item>
+          <el-form-item label="性别" size="mini">
+            <el-input v-model="form.gender"></el-input>
+          </el-form-item>
+          <el-form-item label="年龄" size="mini">
+            <el-input v-model="form.age"></el-input>
+          </el-form-item>
+          <el-form-item label="电话号" size="mini">
+            <el-input v-model="form.phone"></el-input>
+          </el-form-item>
+          <el-form-item label="入职日期" size="mini">
+            <el-date-picker
+                v-model=form.entryTime
+                type="date"
+                placeholder="选择日期"
+                value-format="yyyy-MM-dd">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="登录名" size="mini">
+            <el-input v-model="form.loginName"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" size="mini">
+            <el-input v-model="form.password"></el-input>
+          </el-form-item>
+          <el-form-item label="权限" size="mini">
+            <el-input v-model="form.roleId"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+        <el-button size="mini" @click="addVisible = false">取 消</el-button>
         <el-button type="primary" size="mini" @click="saveEdit">确 定</el-button>
       </span>
       </el-dialog>
@@ -82,7 +130,7 @@
 </template>
 
 <script>
-import {getStfInfoLessRoleId,searchStfInfo,addStf} from "@/api";
+import {getStfInfoLessRoleId,searchStfInfo,addStf,delStf,editStf} from "@/api";
 import {mapGetters} from "vuex"
 import {mixin} from '../mixin'
 
@@ -96,7 +144,11 @@ export default {
       currentPage: 1,
       pageSize:5,
       addVisible:false,
+      delVisible:false,
+      editVisible:false,
+      delId:'',
       form:{
+        id:'',
         name:'',
         gender:'',
         age:'',
@@ -105,7 +157,7 @@ export default {
         phone:'',
         entryTime:'',
         roleId:''
-      }
+      },
     }
   },
   computed:{
@@ -130,11 +182,51 @@ export default {
         this.getData()
       }
     },
-    handleEdit(row){},
-    handleDelete(rowId){},
+    cleanForm(){
+      this.form={
+        id:'',
+        name:'',
+        gender:'',
+        age:'',
+        loginName:'',
+        password:'',
+        phone:'',
+        entryTime:'',
+        roleId:''
+      }
+    },
+    handleEdit(row){
+      this.form={
+        id:row.id,
+        name:row.name,
+        gender:row.gender,
+        age:row.age,
+        loginName: row.loginName,
+        password: row.password,
+        phone: row.phone,
+        entryTime: row.entryTime,
+        roleId:row.roleId
+      }
+      this.editVisible=true
+    },
+    handleDelete(rowId){
+      this.delId=rowId
+      this.delVisible=true
+    },
+    handleAdd(){
+      this.cleanForm()
+      this.addVisible=true
+    },
+    deleteRow(){
+      this.delVisible=false
+      delStf(this.delId).then(res=>{
+        this.getData()
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
     getData(){
       this.tableData=[]
-      console.log(1)
       getStfInfoLessRoleId(this.loginStatus).then(res=>{
         this.tableData=res
         this.currentPage=1
@@ -145,7 +237,7 @@ export default {
     handleCurrentChange (val) {
       this.currentPage = val
     },
-    saveEdit() {
+    saveAdd() {
       let params = new URLSearchParams()
       params.append("name",this.form.name)
       params.append("gender",this.form.gender)
@@ -159,15 +251,44 @@ export default {
       addStf(params).then(res=>{
         if(res.code){
           this.notify("添加成功","success")
+          this.addVisible=false
         }else{
           this.notify("添加失败","error")
           console.log(res.msg)
-          this.addVisible=false;
+          this.addVisible=false
         }
       }).catch(err=>{
         console.log(err)
       })
       this.getData();
+    },
+    saveEdit() {
+      let params = new URLSearchParams()
+      params.append("id",this.form.id)
+      params.append("name",this.form.name)
+      params.append("gender",this.form.gender)
+      params.append("age",this.form.age)
+      params.append("loginName",this.form.loginName)
+      params.append("password",this.form.password)
+      params.append("phone",this.form.phone)
+      params.append("entryTime",this.form.entryTime)
+      params.append("roleId",this.form.roleId)
+
+      editStf(params).then(res=>{
+        if(res.code===1){
+          this.getData()
+          this.editVisible=false
+          this.notify("修改成功","success")
+        }
+        else{
+          this.getData()
+          this.editVisible=false
+          this.notify("修改失败","error")
+          console.log(res)
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
     }
   }
 }

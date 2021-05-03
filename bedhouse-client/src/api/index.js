@@ -1,6 +1,6 @@
 /* eslint-disable*/
 import axios from 'axios'
-import {get, post} from './http'
+import {get, post,deletes} from './http'
 
 //测试
 export const getTestData=(params)=>post(`test`,params)
@@ -20,4 +20,7 @@ export const updateStfInfo=(params)=>post(`stf/update`,params)
 export const searchStfInfo=(word,roleId)=>get(`stf/search?word=${word}&roleId=${roleId}`)
 //新增员工
 export const addStf=(params)=>post(`stf/add`,params)
-
+//删除员工
+export const delStf=(id)=>deletes(`stf/delete?id=${id}`)
+//修改员工信息
+export const editStf=(params)=>post(`stf/edit`,params)
