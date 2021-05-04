@@ -1,0 +1,445 @@
+-- MySQL dump 10.13  Distrib 8.0.23, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: test
+-- ------------------------------------------------------
+-- Server version	8.0.23
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `bed`
+--
+
+DROP TABLE IF EXISTS `bed`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bed` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `room_id` int DEFAULT NULL,
+  `detail` varchar(254) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `bed_id_uindex` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bed`
+--
+
+LOCK TABLES `bed` WRITE;
+/*!40000 ALTER TABLE `bed` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bed` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `customer`
+--
+
+DROP TABLE IF EXISTS `customer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `customer` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(254) DEFAULT NULL,
+  `gender` varchar(254) DEFAULT NULL,
+  `age` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `customer_id_uindex` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `customer`
+--
+
+LOCK TABLES `customer` WRITE;
+/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `food`
+--
+
+DROP TABLE IF EXISTS `food`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `food` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(254) DEFAULT NULL,
+  `type` varchar(254) DEFAULT NULL,
+  `label` varchar(254) DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `picurl` varchar(254) DEFAULT NULL,
+  `muslim` varchar(254) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `food_id_uindex` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `food`
+--
+
+LOCK TABLES `food` WRITE;
+/*!40000 ALTER TABLE `food` DISABLE KEYS */;
+/*!40000 ALTER TABLE `food` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `live`
+--
+
+DROP TABLE IF EXISTS `live`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `live` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `customer_id` int DEFAULT NULL,
+  `bed_id` int DEFAULT NULL,
+  `begin_date` date DEFAULT NULL,
+  `leave_date` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `live_id_uindex` (`id`),
+  KEY `live_bed_id_fk` (`bed_id`),
+  KEY `live_customer_id_fk` (`customer_id`),
+  CONSTRAINT `live_bed_id_fk` FOREIGN KEY (`bed_id`) REFERENCES `bed` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `live_customer_id_fk` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `live`
+--
+
+LOCK TABLES `live` WRITE;
+/*!40000 ALTER TABLE `live` DISABLE KEYS */;
+/*!40000 ALTER TABLE `live` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `notice`
+--
+
+DROP TABLE IF EXISTS `notice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `notice` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `release_id` int DEFAULT NULL,
+  `accept_id` int DEFAULT NULL,
+  `notice_time` date DEFAULT NULL,
+  `notice_text` varchar(254) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `notice_id_uindex` (`id`),
+  KEY `notice_stf_id_fk` (`release_id`),
+  KEY `notice_stf_id_fk_2` (`accept_id`),
+  CONSTRAINT `notice_stf_id_fk` FOREIGN KEY (`release_id`) REFERENCES `stf` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `notice_stf_id_fk_2` FOREIGN KEY (`accept_id`) REFERENCES `stf` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `notice`
+--
+
+LOCK TABLES `notice` WRITE;
+/*!40000 ALTER TABLE `notice` DISABLE KEYS */;
+/*!40000 ALTER TABLE `notice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `nursing_content`
+--
+
+DROP TABLE IF EXISTS `nursing_content`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `nursing_content` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `content` varchar(254) DEFAULT NULL,
+  `title` varchar(254) DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nursing_content_id_uindex` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `nursing_content`
+--
+
+LOCK TABLES `nursing_content` WRITE;
+/*!40000 ALTER TABLE `nursing_content` DISABLE KEYS */;
+/*!40000 ALTER TABLE `nursing_content` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `nursing_level`
+--
+
+DROP TABLE IF EXISTS `nursing_level`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `nursing_level` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(254) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nursing_level_id_uindex` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `nursing_level`
+--
+
+LOCK TABLES `nursing_level` WRITE;
+/*!40000 ALTER TABLE `nursing_level` DISABLE KEYS */;
+/*!40000 ALTER TABLE `nursing_level` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `nursing_level_content`
+--
+
+DROP TABLE IF EXISTS `nursing_level_content`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `nursing_level_content` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `level_id` int DEFAULT NULL,
+  `content_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nursing_level_content_id_uindex` (`id`),
+  KEY `nursing_level_content_nursing_content_id_fk` (`content_id`),
+  KEY `nursing_level_content_nursing_level_id_fk` (`level_id`),
+  CONSTRAINT `nursing_level_content_nursing_content_id_fk` FOREIGN KEY (`content_id`) REFERENCES `nursing_content` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `nursing_level_content_nursing_level_id_fk` FOREIGN KEY (`level_id`) REFERENCES `nursing_level` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `nursing_level_content`
+--
+
+LOCK TABLES `nursing_level_content` WRITE;
+/*!40000 ALTER TABLE `nursing_level_content` DISABLE KEYS */;
+/*!40000 ALTER TABLE `nursing_level_content` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `nursing_record`
+--
+
+DROP TABLE IF EXISTS `nursing_record`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `nursing_record` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `stf_id` int DEFAULT NULL,
+  `customer_id` int DEFAULT NULL,
+  `nursing_content_id` int DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nursing_record_id_uindex` (`id`),
+  KEY `nursing_record_customer_id_fk` (`customer_id`),
+  KEY `nursing_record_nursing_content_id_fk` (`nursing_content_id`),
+  KEY `nursing_record_stf_id_fk` (`stf_id`),
+  CONSTRAINT `nursing_record_customer_id_fk` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `nursing_record_nursing_content_id_fk` FOREIGN KEY (`nursing_content_id`) REFERENCES `nursing_content` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `nursing_record_stf_id_fk` FOREIGN KEY (`stf_id`) REFERENCES `stf` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `nursing_record`
+--
+
+LOCK TABLES `nursing_record` WRITE;
+/*!40000 ALTER TABLE `nursing_record` DISABLE KEYS */;
+/*!40000 ALTER TABLE `nursing_record` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `out_record`
+--
+
+DROP TABLE IF EXISTS `out_record`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `out_record` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `stf_id` int DEFAULT NULL,
+  `customer_id` int DEFAULT NULL,
+  `submit_time` date DEFAULT NULL,
+  `out_time` date DEFAULT NULL,
+  `forcast_bac` date DEFAULT NULL,
+  `back_time` date DEFAULT NULL,
+  `text` varchar(254) DEFAULT NULL,
+  `state` bigint DEFAULT NULL,
+  `checker_id` int DEFAULT NULL,
+  `check_time` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `out_record_id_uindex` (`id`),
+  KEY `out_record_customer_id_fk` (`customer_id`),
+  KEY `out_record_stf_id_fk` (`stf_id`),
+  KEY `out_record_stf_id_fk_2` (`checker_id`),
+  CONSTRAINT `out_record_customer_id_fk` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `out_record_stf_id_fk` FOREIGN KEY (`stf_id`) REFERENCES `stf` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `out_record_stf_id_fk_2` FOREIGN KEY (`checker_id`) REFERENCES `stf` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `out_record`
+--
+
+LOCK TABLES `out_record` WRITE;
+/*!40000 ALTER TABLE `out_record` DISABLE KEYS */;
+/*!40000 ALTER TABLE `out_record` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `recipes`
+--
+
+DROP TABLE IF EXISTS `recipes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `recipes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `customer_id` int DEFAULT NULL,
+  `food_id` int DEFAULT NULL,
+  `type` varchar(254) DEFAULT NULL,
+  `provide_dat` date DEFAULT NULL,
+  `week` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `recipes_id_uindex` (`id`),
+  KEY `recipes_customer_id_fk` (`customer_id`),
+  KEY `recipes_food_id_fk` (`food_id`),
+  CONSTRAINT `recipes_customer_id_fk` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `recipes_food_id_fk` FOREIGN KEY (`food_id`) REFERENCES `food` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `recipes`
+--
+
+LOCK TABLES `recipes` WRITE;
+/*!40000 ALTER TABLE `recipes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `recipes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `role`
+--
+
+DROP TABLE IF EXISTS `role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `role` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `context` varchar(254) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `role_id_uindex` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `role`
+--
+
+LOCK TABLES `role` WRITE;
+/*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` VALUES (1,NULL),(2,NULL),(3,NULL);
+/*!40000 ALTER TABLE `role` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `service_purchase`
+--
+
+DROP TABLE IF EXISTS `service_purchase`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `service_purchase` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `customer_id` int DEFAULT NULL,
+  `nursing_content_id` int DEFAULT NULL,
+  `purchase_date` date DEFAULT NULL,
+  `effective_t` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `service_purchase_id_uindex` (`id`),
+  KEY `service_purchase_customer_id_fk` (`customer_id`),
+  KEY `service_purchase_nursing_content_id_fk` (`nursing_content_id`),
+  CONSTRAINT `service_purchase_customer_id_fk` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `service_purchase_nursing_content_id_fk` FOREIGN KEY (`nursing_content_id`) REFERENCES `nursing_content` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `service_purchase`
+--
+
+LOCK TABLES `service_purchase` WRITE;
+/*!40000 ALTER TABLE `service_purchase` DISABLE KEYS */;
+/*!40000 ALTER TABLE `service_purchase` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `stf`
+--
+
+DROP TABLE IF EXISTS `stf`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `stf` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(254) DEFAULT NULL,
+  `login_name` varchar(254) NOT NULL,
+  `password` varchar(254) DEFAULT NULL,
+  `role_id` int NOT NULL DEFAULT '0',
+  `last_time` date DEFAULT NULL,
+  `last_addres` varchar(254) DEFAULT NULL,
+  `gender` varchar(254) DEFAULT NULL,
+  `age` int DEFAULT NULL,
+  `entry_time` date DEFAULT NULL,
+  `phone` varchar(254) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `stf_id_uindex` (`id`),
+  UNIQUE KEY `stf_login_name_uindex` (`login_name`),
+  KEY `stf_role_id_fk` (`role_id`),
+  CONSTRAINT `stf_role_id_fk` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `stf`
+--
+
+LOCK TABLES `stf` WRITE;
+/*!40000 ALTER TABLE `stf` DISABLE KEYS */;
+INSERT INTO `stf` VALUES (1,'wanhelu','admin','123',3,'2021-05-04','127.0.0.1','男',1,NULL,'123321'),(2,'test1','test1change','3334',2,NULL,NULL,'',NULL,'2021-05-10',''),(3,'test1','test2','333',1,NULL,NULL,NULL,NULL,NULL,NULL),(4,'test1','test3','333',1,NULL,NULL,NULL,NULL,NULL,NULL),(5,'test1','test4','333',1,NULL,NULL,NULL,NULL,NULL,'12831209388192ujiodjsa9acckna98cjas'),(7,'test1','test5','333',1,NULL,NULL,NULL,NULL,NULL,'12831209388192ujiodjsa9acckna98cjas'),(8,'test1','test6','333',1,NULL,NULL,NULL,NULL,NULL,'12831209388192ujiodjsa9acckna98cjas'),(9,'test1','test7','333',1,NULL,NULL,NULL,NULL,NULL,'12831209388192ujiodjsa9acckna98cjas'),(13,'testadd1','testadd1','123',1,'2021-05-02','127.0.0.1','男',123,'2021-05-24','123321');
+/*!40000 ALTER TABLE `stf` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2021-05-04 16:14:49
