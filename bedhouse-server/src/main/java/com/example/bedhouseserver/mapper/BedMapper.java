@@ -1,7 +1,10 @@
 package com.example.bedhouseserver.mapper;
 
 import com.example.bedhouseserver.POJO.Bed;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface BedMapper {
@@ -52,4 +55,12 @@ public interface BedMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Bed record);
+
+    List<Bed> allInfo();
+
+    int bedUsed(@Param("id")Integer id);
+
+    List<Bed> searchByDetail(@Param("word")String word);
+
+    List<Bed> searchByNum(@Param("num")Integer num);
 }

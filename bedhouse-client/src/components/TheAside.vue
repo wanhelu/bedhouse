@@ -10,7 +10,7 @@
         unique-opened
         router
     >
-      <el-menu-item>
+      <el-menu-item index="bed">
         床位管理
       </el-menu-item>
       <el-submenu index="2">

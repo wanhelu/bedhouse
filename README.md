@@ -36,5 +36,5 @@ mvn spring-boot:run
 ```
 npm install // 安装依赖
 
-npm run dev // 启动项目
+npm run serve // 启动项目
 ```

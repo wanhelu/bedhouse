@@ -1,8 +1,8 @@
 const store = {
   state: {
-    loginStatus:0,
-    name:'',
-    id:'',
+    loginStatus:0,//登录状态及权限
+    name:'',//用户名
+    id:'',//用户id
   },
   getters: {
     loginStatus: state=> {
