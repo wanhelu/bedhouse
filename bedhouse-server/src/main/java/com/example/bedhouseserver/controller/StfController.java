@@ -194,7 +194,7 @@ public class StfController {
 
     private String getString(HttpServletRequest req,String name){
         String s=req.getParameter(name);
-        if(s.equals("null")) s=null;
+        if(s!=null&&s.equals("null")) s=null;
         return s;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.bedhouseserver.POJO;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Stf {
     /**
@@ -353,5 +354,18 @@ public class Stf {
      */
     public void setPhone(String phone) {
         this.phone = phone == null ? null : phone.trim();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Stf stf = (Stf) o;
+        return Objects.equals(id, stf.id) && Objects.equals(name, stf.name) && Objects.equals(loginName, stf.loginName) && Objects.equals(password, stf.password) && Objects.equals(roleId, stf.roleId) && Objects.equals(lastTime, stf.lastTime) && Objects.equals(lastAddres, stf.lastAddres) && Objects.equals(gender, stf.gender) && Objects.equals(age, stf.age) && Objects.equals(entryTime, stf.entryTime) && Objects.equals(phone, stf.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, loginName, password, roleId, lastTime, lastAddres, gender, age, entryTime, phone);
     }
 }

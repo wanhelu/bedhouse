@@ -24,3 +24,13 @@ export const addStf=(params)=>post(`stf/add`,params)
 export const delStf=(id)=>deletes(`stf/delete?id=${id}`)
 //修改员工信息
 export const editStf=(params)=>post(`stf/edit`,params)
+
+// =======================>床位API
+//获取所有床位信息
+export const getBedInfo=()=>get(`bed/info`)
+//获取床位占用信息
+export const getBedUsedInfo=(id)=>get(`bed/usedInfo?id=${id}`)
+//查询床位信息
+export const searchBedInfo=(word)=>get(`bed/search?word=${word}`)
+//新增床位
+export const addBed=(params)=>post(`bed/add`,params)

@@ -1,6 +1,7 @@
 package com.example.bedhouseserver.POJO;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Recipes {
     /**
@@ -193,5 +194,18 @@ public class Recipes {
      */
     public void setWeek(Long week) {
         this.week = week;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Recipes recipes = (Recipes) o;
+        return Objects.equals(id, recipes.id) && Objects.equals(customerId, recipes.customerId) && Objects.equals(foodId, recipes.foodId) && Objects.equals(type, recipes.type) && Objects.equals(provideDat, recipes.provideDat) && Objects.equals(week, recipes.week);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, customerId, foodId, type, provideDat, week);
     }
 }

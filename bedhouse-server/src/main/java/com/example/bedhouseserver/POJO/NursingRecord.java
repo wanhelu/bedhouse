@@ -1,6 +1,7 @@
 package com.example.bedhouseserver.POJO;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class NursingRecord {
     /**
@@ -161,5 +162,18 @@ public class NursingRecord {
      */
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NursingRecord that = (NursingRecord) o;
+        return Objects.equals(id, that.id) && Objects.equals(stfId, that.stfId) && Objects.equals(customerId, that.customerId) && Objects.equals(nursingContentId, that.nursingContentId) && Objects.equals(date, that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, stfId, customerId, nursingContentId, date);
     }
 }

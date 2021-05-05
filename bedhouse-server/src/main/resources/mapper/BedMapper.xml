@@ -100,4 +100,22 @@
       detail = #{detail,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="allInfo" resultMap="BaseResultMap">
+    select * from bed
+  </select>
+  <select id="bedUsed" resultType="java.lang.Integer">
+    select count(*)
+    from bed join live l on bed.id = l.bed_id
+    where bed.id=#{id}
+  </select>
+  <select id="searchByDetail" resultMap="BaseResultMap">
+    select *
+    from bed
+    where detail=#{word}
+  </select>
+  <select id="searchByNum" resultMap="BaseResultMap">
+    select distinct *
+    from bed
+    where id=#{num} or room_id=#{num}
+  </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.example.bedhouseserver.POJO;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class OutRecord {
     /**
@@ -353,5 +354,18 @@ public class OutRecord {
      */
     public void setCheckTime(Date checkTime) {
         this.checkTime = checkTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OutRecord outRecord = (OutRecord) o;
+        return Objects.equals(id, outRecord.id) && Objects.equals(stfId, outRecord.stfId) && Objects.equals(customerId, outRecord.customerId) && Objects.equals(submitTime, outRecord.submitTime) && Objects.equals(outTime, outRecord.outTime) && Objects.equals(forcastBac, outRecord.forcastBac) && Objects.equals(backTime, outRecord.backTime) && Objects.equals(text, outRecord.text) && Objects.equals(state, outRecord.state) && Objects.equals(checkerId, outRecord.checkerId) && Objects.equals(checkTime, outRecord.checkTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, stfId, customerId, submitTime, outTime, forcastBac, backTime, text, state, checkerId, checkTime);
     }
 }
