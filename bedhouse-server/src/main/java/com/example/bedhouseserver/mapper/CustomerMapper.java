@@ -3,6 +3,8 @@ package com.example.bedhouseserver.mapper;
 import com.example.bedhouseserver.POJO.Customer;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface CustomerMapper {
     /**
@@ -52,4 +54,6 @@ public interface CustomerMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Customer record);
+
+    List<Customer> allInfo();
 }

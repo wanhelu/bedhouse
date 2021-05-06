@@ -111,4 +111,7 @@
       age = #{age,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="allInfo" resultMap="BaseResultMap">
+    select * from customer
+  </select>
 </mapper>
