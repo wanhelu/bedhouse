@@ -34,3 +34,7 @@ export const getBedUsedInfo=(id)=>get(`bed/usedInfo?id=${id}`)
 export const searchBedInfo=(word)=>get(`bed/search?word=${word}`)
 //新增床位
 export const addBed=(params)=>post(`bed/add`,params)
+//修改床位信息
+export const editBed=(params)=>post(`bed/edit`,params)
+//删除床位信息
+export const delBed=(id)=>deletes(`bed/delete?id=${id}`)

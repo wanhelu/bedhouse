@@ -78,7 +78,7 @@
 
 <script>
 import {mapGetters} from "vuex";
-import {getBedInfo,getBedUsedInfo,searchBedInfo,addBed} from "@/api";
+import {getBedInfo,getBedUsedInfo,searchBedInfo,addBed,editBed,delBed} from "@/api";
 import {mixin} from '../mixin'
 
 export default {
@@ -97,7 +97,8 @@ export default {
         id:'',
         roomId:'',
         detail:''
-      }
+      },
+      delId:''
     }
   },
   computed:{
@@ -113,25 +114,66 @@ export default {
       if(this.select_word && this.select_word != ''){
         searchBedInfo(this.select_word).then((res=>{
           this.tableData=res
-          console.log(res)
           this.getUsed()
           this.currentPage=1
         })).catch(err=>{
           console.log(err)
         })
+      }else{
+        this.getData()
       }
     },
     handleAdd(){
       this.cleanForm()
       this.addVisible=true
     },
-    handleEdit(){},
-    handleDelete(){},
+    handleEdit(row){
+      this.form={
+        id:row.id,
+        roomId:row.roomId,
+        detail: row.detail
+      }
+      this.editVisible=true
+    },
+    handleDelete(rowId){
+      this.delId=rowId
+      this.delVisible=true
+    },
     handleCurrentChange(val){
       this.currentPage=val
     },
-    deleteRow(){},
-    saveEdit(){},
+    deleteRow(){
+      this.delVisible=false
+      delBed(this.delId).then(res=>{
+        if(res.code===1){
+          this.getData()
+          this.notify("删除成功","success")
+        }else{
+          this.notify("删除失败","error")
+        }
+      })
+    },
+    saveEdit(){
+      let params=new URLSearchParams()
+      params.append("id",this.form.id)
+      params.append("roomId",this.form.roomId)
+      params.append("detail",this.form.detail)
+
+      editBed(params).then(res=>{
+        if(res.code===1){
+          this.getData()
+          this.editVisible=false
+          this.notify("修改成功","success")
+        }else{
+          this.getData()
+          this.editVisible=false
+          this.notify("修改失败","error")
+          console.log(res)
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
     saveAdd(){
       let params=new URLSearchParams()
       params.append("roomId",this.form.roomId)

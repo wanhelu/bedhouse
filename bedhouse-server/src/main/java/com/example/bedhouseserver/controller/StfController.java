@@ -110,7 +110,8 @@ public class StfController {
     @RequestMapping(value = "/stf/delete", method = RequestMethod.DELETE)
     public Object del(@RequestParam("id")Integer id){
         JSONObject jsonObject=new JSONObject();
-        if(stfService.del(id)){
+        if(id==null)jsonObject.put("code",0);
+        else if(stfService.del(id)){
             jsonObject.put("code",1);
         }
         else{

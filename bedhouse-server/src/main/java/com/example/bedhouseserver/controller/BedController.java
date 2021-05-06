@@ -40,7 +40,6 @@ public class BedController {
         jsonObject.put("code",1);
         return jsonObject;
     }
-    //TODO  编辑和删除
     //查找
     @ResponseBody
     @RequestMapping(value = "/bed/search", method = RequestMethod.GET)
@@ -76,6 +75,50 @@ public class BedController {
         }
         if(res)jsonObject.put("code",1);
         else jsonObject.put("code",0);
+        return jsonObject;
+    }
+
+    //修改
+    @ResponseBody
+    @RequestMapping(value = "/bed/edit", method = RequestMethod.POST)
+    public Object upd(HttpServletRequest req){
+        JSONObject jsonObject=new JSONObject();
+        Bed bed;
+
+        try{
+            bed=getBedByReq(req);
+        }catch (Exception e){
+            e.printStackTrace();
+            jsonObject.put("code",0);
+            jsonObject.put("msg","数据转换错误");
+            return jsonObject;
+        }
+
+        boolean res=false;
+
+        try{
+            res= bedService.upd(bed);
+        } catch (Exception e){
+            e.printStackTrace();
+            jsonObject.put("code",0);
+            jsonObject.put("msg","数据库操作错误");
+            return jsonObject;
+        }
+        if(res)jsonObject.put("code",1);
+        else jsonObject.put("code",0);
+        return jsonObject;
+    }
+    @ResponseBody
+    @RequestMapping(value = "/bed/delete", method = RequestMethod.DELETE)
+    public Object del(@RequestParam("id")Integer id){
+        JSONObject jsonObject=new JSONObject();
+        if(id==null)jsonObject.put("code",0);
+        else if(bedService.del(id)){
+            jsonObject.put("code",1);
+        }
+        else{
+            jsonObject.put("code",0);
+        }
         return jsonObject;
     }
 

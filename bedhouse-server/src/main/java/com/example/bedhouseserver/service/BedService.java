@@ -12,4 +12,8 @@ public interface BedService {
     List<Bed> search(String word);
 
     boolean add(Bed bed);
+
+    boolean upd(Bed bed);
+
+    boolean del(Integer id);
 }

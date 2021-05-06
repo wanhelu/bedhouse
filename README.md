@@ -1,6 +1,11 @@
 # bedhouse
 实训项目
-
+## 项目说明
+### 技术栈
+#### 前端
+Vue + Vue-Router + Vuex + Axios + ElementUI
+#### 后端
+springboot+mybatis
 ## 安装
 ### 安装IDEA和MYSQL
 请自行查找教程  
