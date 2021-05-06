@@ -45,4 +45,14 @@ public class BedServiceImpl implements BedService {
     public boolean add(Bed bed) {
         return bedMapper.insertSelective(bed)>0;
     }
+
+    @Override
+    public boolean upd(Bed bed) {
+        return bedMapper.updateByPrimaryKeySelective(bed)>0;
+    }
+
+    @Override
+    public boolean del(Integer id) {
+        return bedMapper.deleteByPrimaryKey(id)>0;
+    }
 }

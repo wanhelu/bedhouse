@@ -225,7 +225,12 @@ export default {
     deleteRow() {
       this.delVisible = false
       delStf(this.delId).then(res => {
-        this.getData()
+        if(res.code===1){
+          this.getData()
+          this.notify("删除成功","success")
+        }else{
+          this.notify("删除失败","error")
+        }
       }).catch(err => {
         console.log(err)
       })
