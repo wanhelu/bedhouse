@@ -40,7 +40,6 @@ public class BedController {
         jsonObject.put("code",1);
         return jsonObject;
     }
-    //TODO  编辑和删除
     //查找
     @ResponseBody
     @RequestMapping(value = "/bed/search", method = RequestMethod.GET)
