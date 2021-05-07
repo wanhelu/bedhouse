@@ -68,7 +68,6 @@ export default {
   font-size: 22px;
   color: #B0B3B2;
   background: #1A1B1C;
-  box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.3);
 }
 
 .collapse-btn {

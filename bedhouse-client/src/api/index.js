@@ -38,3 +38,17 @@ export const addBed=(params)=>post(`bed/add`,params)
 export const editBed=(params)=>post(`bed/edit`,params)
 //删除床位信息
 export const delBed=(id)=>deletes(`bed/delete?id=${id}`)
+
+// =======================>客户API
+//获取所有客户信息
+export const getCustomerInfo=()=>get(`customer/info`)
+//获取所使用的床位号
+export const getUseBed=(id)=>get(`live/useBed?id=${id}`)
+//查询
+export const searchCustomerInfo=(word)=>get(`customer/search?word=${word}`)
+//新增
+export const addCustomer=(params)=>post(`customer/add`,params)
+//删除
+export const delCustomer=(id)=>deletes(`customer/del?id=${id}`)
+//修改
+export const editCustomer=(params)=>post(`customer/edit`,params)

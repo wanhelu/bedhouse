@@ -6,13 +6,16 @@
       <el-button type="primary" size="mini" class="add-button" @click="handleAdd" :disabled="this.loginStatus!=3">添加</el-button>
     </div>
     <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center" sortable width="100px"></el-table-column>
-      <el-table-column label="房间号" prop="roomId" align="center" sortable width="100px"></el-table-column>
-      <el-table-column label="是否占用" prop="used" align="center" width="100px"
-                       :filters="[{text:'是',value:'是'},{text:'否',value:'否'}]"
+      <el-table-column label="编号" prop="id" align="center" sortable ></el-table-column>
+      <el-table-column label="姓名" prop="name" align="center" ></el-table-column>
+      <el-table-column label="性别" prop="gender" align="center"
+                       :filters="[{text:'男',value:'男'},{text:'女',value:'女'}]"
                        :filter-method="filterHandlerSimple"></el-table-column>
-      <el-table-column label="详情" prop="detail" align="center"></el-table-column>
-      <el-table-column label="操作"  align="center" width="100px">
+      <el-table-column label="年龄" prop="age" align="center" sortable ></el-table-column>
+      <el-table-column label="床位" prop="bedId" align="center" sortable
+                       :filters="[{text:'已有床位',value:true},{text:'无床位',value:false}]"
+                       :filter-method="filterHandlerBed"></el-table-column>
+      <el-table-column label="操作"  align="center" >
         <template slot-scope="scope">
           <div class="optionButton">
             <el-button size="mini" class="optionButton" @click="handleEdit(scope.row)">编辑</el-button>
@@ -36,11 +39,14 @@
     <!--添加弹窗-->
     <el-dialog title="添加" :visible.sync="addVisible">
       <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="房间号" size="mini">
-          <el-input v-model="form.roomId"></el-input>
+        <el-form-item label="姓名" size="mini">
+          <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item label="详情" size="mini">
-          <el-input v-model="form.detail" type="textarea" :rows="5"></el-input>
+        <el-form-item label="性别" size="mini">
+          <el-input v-model="form.gender"></el-input>
+        </el-form-item>
+        <el-form-item label="年龄" size="mini">
+          <el-input v-model="form.age"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -61,11 +67,14 @@
     <!-- 编辑提示框 -->
     <el-dialog title="编辑" :visible.sync="editVisible" width="400px">
       <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="房间号" size="mini">
-          <el-input v-model="form.roomId"></el-input>
+        <el-form-item label="姓名" size="mini">
+          <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item label="详情" size="mini">
-          <el-input v-model="form.detail" type="textarea" :rows="5"></el-input>
+        <el-form-item label="年龄" size="mini">
+          <el-input v-model="form.age"></el-input>
+        </el-form-item>
+        <el-form-item label="性别" size="mini">
+          <el-input v-model="form.gender"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -78,93 +87,97 @@
 
 <script>
 import {mapGetters} from "vuex";
-import {getBedInfo,getBedUsedInfo,searchBedInfo,addBed,editBed,delBed} from "@/api";
-import {mixin, mixinDriectly} from '../mixin'
+import {mixin, mixinDriectly} from "@/mixin";
+import {getCustomerInfo, getUseBed, searchCustomerInfo, addCustomer, delCustomer, editCustomer} from "@/api"
+import bed from "@/pages/bed";
 
 export default {
-  name: "bed",
-  mixins: [mixin,mixinDriectly],
+  name: "customer",
+  mixins:[mixin,mixinDriectly],
   data(){
-    return{
+    return {
       select_word:'',
-      tableData: [],
+      tableData:[],
       currentPage: 1,
       pageSize:5,
       delVisible:false,
       editVisible:false,
       addVisible:false,
       form:{
-        id:'',
-        roomId:'',
-        detail:''
+       id:'',
+       name:'',
+       gender:'',
+       age:''
       },
       delId:''
     }
   },
   computed:{
     ...mapGetters([
-      'loginStatus'
+        'loginStatus'
     ]),
     data(){
       return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     }
   },
   methods:{
+    getData(){
+      this.tableData=[]
+      getCustomerInfo().then(res=>{
+        this.tableData=res
+        this.getUse()
+        this.currentPage=1
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
     search(){
       if(this.select_word && this.select_word != ''){
-        searchBedInfo(this.select_word).then((res=>{
+        searchCustomerInfo(this.select_word).then(res=>{
           this.tableData=res
-          this.getUsed()
+          this.getUse()
           this.currentPage=1
-        })).catch(err=>{
+        }).catch(err=>{
           console.log(err)
         })
       }else{
         this.getData()
       }
     },
-    deleteRow(){
-      this.deleteRowMix(delBed)
-    },
-    saveEdit(){
-      this.saveEditMix(editBed)
-    },
-    saveAdd(){
-      this.saveAddMix(addBed)
-    },
-    getData(){
-      this.tableData=[]
-      getBedInfo().then(res=>{
-        this.tableData=res
-        this.getUsed()
-        this.currentPage=1
-      }).catch(err=>{
-        console.log(err)
-      })
-    },
-    getUsed(){
+    getUse(){
       let i=0
       for(let item of this.tableData){
         let ii=i++
-        getBedUsedInfo(item.id).then(res=>{
+        getUseBed(item.id).then(res=>{
           if(res.code===1){
-            if(res.used>=1){
-              this.$set(this.tableData[ii],"used","是")
-            }
-            else{
-              this.$set(this.tableData[ii],"used","否")
-            }
+            this.$set(this.tableData[ii],"bedId",res.bedId)
+          }
+          else{
+            this.$set(this.tableData[ii],"bedId",null)
           }
         })
       }
+    },
+    saveAdd(){
+      this.saveAddMix(addCustomer)
+    },
+    deleteRow(){
+      this.deleteRowMix(delCustomer)
+    },
+    saveEdit(){
+      this.saveEditMix(editCustomer)
+    },
+    filterHandlerBed(value, row, column){
+      const property = column['property'];
+      return (value ^ row[property]==null)
     }
   },
   mounted() {
-    this.getData();
+    this.getData()
   }
 }
 </script>
 
 <style scoped>
-@import "../assets/css/commenTable.css";
+  @import "../assets/css/commenTable.css";
 </style>

@@ -39,8 +39,11 @@
       <el-menu-item>
         服务管理
       </el-menu-item>
-      <el-menu-item>
+      <el-menu-item index="customer">
         客户管理
+      </el-menu-item>
+      <el-menu-item>
+        入住管理
       </el-menu-item>
       <el-menu-item index="stf">
         员工管理
