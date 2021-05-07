@@ -42,7 +42,7 @@
       <el-menu-item index="customer">
         客户管理
       </el-menu-item>
-      <el-menu-item>
+      <el-menu-item index="live">
         入住管理
       </el-menu-item>
       <el-menu-item index="stf">

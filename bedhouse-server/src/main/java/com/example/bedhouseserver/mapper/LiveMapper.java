@@ -1,8 +1,12 @@
 package com.example.bedhouseserver.mapper;
 
 import com.example.bedhouseserver.POJO.Live;
+import com.example.bedhouseserver.POJO.LiveWithCustomerName;
+import org.apache.catalina.LifecycleState;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface LiveMapper {
@@ -55,4 +59,6 @@ public interface LiveMapper {
     int updateByPrimaryKey(Live record);
 
     Integer getBedIdByCustomerId(@Param("id")Integer id);
+
+    List<LiveWithCustomerName> allInfo();
 }

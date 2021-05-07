@@ -89,7 +89,6 @@
 import {mapGetters} from "vuex";
 import {mixin, mixinDriectly} from "@/mixin";
 import {getCustomerInfo, getUseBed, searchCustomerInfo, addCustomer, delCustomer, editCustomer} from "@/api"
-import bed from "@/pages/bed";
 
 export default {
   name: "customer",
@@ -179,5 +178,5 @@ export default {
 </script>
 
 <style scoped>
-  @import "../assets/css/commenTable.css";
+@import "../assets/css/commenTable.css";
 </style>

@@ -27,4 +27,10 @@ public class LiveController {
         jsonObject.put("bedId",bedId);
         return jsonObject;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/live/info", method = RequestMethod.GET)
+    public Object allLiveInfo(){
+        return liveService.allLiveInfo();
+    }
 }
