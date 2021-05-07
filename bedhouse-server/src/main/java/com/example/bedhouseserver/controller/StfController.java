@@ -2,6 +2,7 @@ package com.example.bedhouseserver.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.bedhouseserver.POJO.Stf;
+import com.example.bedhouseserver.myUtil.Httpreq;
 import com.example.bedhouseserver.service.StfService;
 import com.example.bedhouseserver.service.impl.StfServiceImpl;
 import org.slf4j.Logger;
@@ -101,7 +102,11 @@ public class StfController {
             jsonObject.put("msg","数据库操作错误");
             return jsonObject;
         }
-        jsonObject.put("code",res);
+        if(res){
+            jsonObject.put("code",1);
+        }else{
+            jsonObject.put("code",0);
+        }
         return jsonObject;
     }
 
@@ -162,16 +167,16 @@ public class StfController {
         if (idS == null || idS.equals("")||idS.equals("null")) stf.setId(null);
         else stf.setId(Integer.valueOf(idS));
 
-        stf.setName(getString(req,"name"));
-        stf.setGender(getString(req,"gender"));
+        stf.setName(Httpreq.getString(req,"name"));
+        stf.setGender(Httpreq.getString(req,"gender"));
 
         String ageS = req.getParameter("age");
         if (ageS == null || ageS.equals("")||ageS.equals("null")) stf.setAge(null);
         else stf.setAge(Integer.valueOf(ageS));
 
-        stf.setLoginName(getString(req,"loginName"));
-        stf.setPassword(getString(req,"password"));
-        stf.setPhone(getString(req,"phone"));
+        stf.setLoginName(Httpreq.getString(req,"loginName"));
+        stf.setPassword(Httpreq.getString(req,"password"));
+        stf.setPhone(Httpreq.getString(req,"phone"));
 
         String dateString = req.getParameter("entryTime");
         if (dateString == null || dateString.equals("")||dateString.equals("null")) stf.setEntryTime(null);
@@ -191,11 +196,5 @@ public class StfController {
         else stf.setRoleId(Integer.valueOf(req.getParameter("roleId")));
 
         return stf;
-    }
-
-    private String getString(HttpServletRequest req,String name){
-        String s=req.getParameter(name);
-        if(s!=null&&s.equals("null")) s=null;
-        return s;
     }
 }

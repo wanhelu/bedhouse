@@ -2,6 +2,7 @@ package com.example.bedhouseserver.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.bedhouseserver.POJO.Bed;
+import com.example.bedhouseserver.myUtil.Httpreq;
 import com.example.bedhouseserver.service.impl.BedServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,6 +109,8 @@ public class BedController {
         else jsonObject.put("code",0);
         return jsonObject;
     }
+
+    //删除
     @ResponseBody
     @RequestMapping(value = "/bed/delete", method = RequestMethod.DELETE)
     public Object del(@RequestParam("id")Integer id){
@@ -125,22 +128,16 @@ public class BedController {
     private Bed getBedByReq(HttpServletRequest req) throws Exception{
         Bed bed=new Bed();
 
-        String idS=getString(req,"id");
+        String idS=Httpreq.getString(req,"id");
         if(idS==null||idS.equals(""))bed.setId(null);
         else bed.setId(Integer.valueOf(idS));
 
-        String roomIdS=getString(req,"roomId");
+        String roomIdS=Httpreq.getString(req,"roomId");
         if(roomIdS==null||roomIdS.equals(""))bed.setRoomId(null);
         else bed.setRoomId(Integer.valueOf(roomIdS));
 
-        bed.setDetail(getString(req,"detail"));
+        bed.setDetail(Httpreq.getString(req,"detail"));
 
         return bed;
-    }
-
-    private String getString(HttpServletRequest req,String name){
-        String s=req.getParameter(name);
-        if(s!=null&&s.equals("null"))s=null;
-        return s;
     }
 }

@@ -111,7 +111,7 @@
   <select id="searchByDetail" resultMap="BaseResultMap">
     select *
     from bed
-    where detail=#{word}
+    where detail like CONCAT('%',#{word},'%')
   </select>
   <select id="searchByNum" resultMap="BaseResultMap">
     select distinct *

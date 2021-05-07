@@ -17,6 +17,9 @@
         <el-table-column label="电话号" prop="phone" align="center"></el-table-column>
         <el-table-column label="登录名" prop="loginName" align="center"></el-table-column>
         <el-table-column label="密码" prop="password" align="center"></el-table-column>
+        <el-table-column label="权限" prop="roleId" sortable align="center"
+                         :filters="[{text:'1',value:1},{text:'2',value:2},{text:'3',value:3}]"
+                         :filter-method="filterHandlerSimple"></el-table-column>
         <el-table-column label="上次登录时间" prop="lastTime" align="center"></el-table-column>
         <el-table-column label="上次登录地址" prop="lastAddress" align="center"></el-table-column>
         <el-table-column label="操作" align="center">
@@ -135,11 +138,11 @@
 <script>
 import {getStfInfoLessRoleId, searchStfInfo, addStf, delStf, editStf} from "@/api";
 import {mapGetters} from "vuex"
-import {mixin} from '../mixin'
+import {mixin, mixinDriectly} from '../mixin'
 
 export default {
   name: "Stf",
-  mixins: [mixin],
+  mixins: [mixin,mixinDriectly],
   data() {
     return {
       select_word: '',
@@ -187,53 +190,8 @@ export default {
         this.getData()
       }
     },
-    cleanForm() {
-      this.form = {
-        id: '',
-        name: '',
-        gender: '',
-        age: '',
-        loginName: '',
-        password: '',
-        phone: '',
-        entryTime: '',
-        roleId: ''
-      }
-    },
-    handleEdit(row) {
-      this.form = {
-        id: row.id,
-        name: row.name,
-        gender: row.gender,
-        age: row.age,
-        loginName: row.loginName,
-        password: row.password,
-        phone: row.phone,
-        entryTime: row.entryTime,
-        roleId: row.roleId
-      }
-      this.editVisible = true
-    },
-    handleDelete(rowId) {
-      this.delId = rowId
-      this.delVisible = true
-    },
-    handleAdd() {
-      this.cleanForm()
-      this.addVisible = true
-    },
     deleteRow() {
-      this.delVisible = false
-      delStf(this.delId).then(res => {
-        if(res.code===1){
-          this.getData()
-          this.notify("删除成功","success")
-        }else{
-          this.notify("删除失败","error")
-        }
-      }).catch(err => {
-        console.log(err)
-      })
+      this.deleteRowMix(delStf)
     },
     getData() {
       this.tableData = []
@@ -244,94 +202,16 @@ export default {
         console.log(err)
       })
     },
-    handleCurrentChange(val) {
-      this.currentPage = val
-    },
     saveAdd() {
-      let params = new URLSearchParams()
-      params.append("name", this.form.name)
-      params.append("gender", this.form.gender)
-      params.append("age", this.form.age)
-      params.append("loginName", this.form.loginName)
-      params.append("password", this.form.password)
-      params.append("phone", this.form.phone)
-      params.append("entryTime", this.form.entryTime)
-      params.append("roleId", this.form.roleId)
-
-      addStf(params).then(res => {
-        if (res.code) {
-          this.notify("添加成功", "success")
-          this.addVisible = false
-        } else {
-          this.notify("添加失败", "error")
-          console.log(res.msg)
-          this.addVisible = false
-        }
-      }).catch(err => {
-        console.log(err)
-      })
-      this.getData();
+      this.saveAddMix(addStf)
     },
     saveEdit() {
-      let params = new URLSearchParams()
-      params.append("id", this.form.id)
-      params.append("name", this.form.name)
-      params.append("gender", this.form.gender)
-      params.append("age", this.form.age)
-      params.append("loginName", this.form.loginName)
-      params.append("password", this.form.password)
-      params.append("phone", this.form.phone)
-      params.append("entryTime", this.form.entryTime)
-      params.append("roleId", this.form.roleId)
-
-      editStf(params).then(res => {
-        if (res.code === 1) {
-          this.getData()
-          this.editVisible = false
-          this.notify("修改成功", "success")
-        } else {
-          this.getData()
-          this.editVisible = false
-          this.notify("修改失败", "error")
-          console.log(res)
-        }
-      }).catch(err => {
-        console.log(err)
-      })
+      this.saveEditMix(editStf())
     }
   }
 }
 </script>
 
 <style scoped>
-.handle-box {
-  margin-bottom: 20px;
-}
-
-.handle-input {
-  width: 300px;
-  display: inline-block;
-  float: left;
-  margin: 10px;
-}
-
-.search-button {
-  float: left;
-  margin: 10px;
-}
-
-.add-button {
-  margin: 10px;
-  float: right;
-}
-
-.optionButton {
-  margin: 2px;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  float: bottom;
-}
+@import "../assets/css/commenTable.css";
 </style>

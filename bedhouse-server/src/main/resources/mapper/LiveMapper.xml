@@ -122,4 +122,7 @@
       leave_date = #{leaveDate,jdbcType=DATE}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getBedIdByCustomerId" resultType="java.lang.Integer">
+    select bed_id from live where customer_id=#{id} and leave_date is null
+  </select>
 </mapper>

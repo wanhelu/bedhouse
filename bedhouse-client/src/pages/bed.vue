@@ -10,7 +10,7 @@
       <el-table-column label="房间号" prop="roomId" align="center" sortable width="100px"></el-table-column>
       <el-table-column label="是否占用" prop="used" align="center" width="100px"
                        :filters="[{text:'是',value:'是'},{text:'否',value:'否'}]"
-                       :filter-method="filterHandler"></el-table-column>
+                       :filter-method="filterHandlerSimple"></el-table-column>
       <el-table-column label="详情" prop="detail" align="center"></el-table-column>
       <el-table-column label="操作"  align="center" width="100px">
         <template slot-scope="scope">
@@ -79,11 +79,11 @@
 <script>
 import {mapGetters} from "vuex";
 import {getBedInfo,getBedUsedInfo,searchBedInfo,addBed,editBed,delBed} from "@/api";
-import {mixin} from '../mixin'
+import {mixin, mixinDriectly} from '../mixin'
 
 export default {
   name: "bed",
-  mixins: [mixin],
+  mixins: [mixin,mixinDriectly],
   data(){
     return{
       select_word:'',
@@ -123,75 +123,14 @@ export default {
         this.getData()
       }
     },
-    handleAdd(){
-      this.cleanForm()
-      this.addVisible=true
-    },
-    handleEdit(row){
-      this.form={
-        id:row.id,
-        roomId:row.roomId,
-        detail: row.detail
-      }
-      this.editVisible=true
-    },
-    handleDelete(rowId){
-      this.delId=rowId
-      this.delVisible=true
-    },
-    handleCurrentChange(val){
-      this.currentPage=val
-    },
     deleteRow(){
-      this.delVisible=false
-      delBed(this.delId).then(res=>{
-        if(res.code===1){
-          this.getData()
-          this.notify("删除成功","success")
-        }else{
-          this.notify("删除失败","error")
-        }
-      })
+      this.deleteRowMix(delBed)
     },
     saveEdit(){
-      let params=new URLSearchParams()
-      params.append("id",this.form.id)
-      params.append("roomId",this.form.roomId)
-      params.append("detail",this.form.detail)
-
-      editBed(params).then(res=>{
-        if(res.code===1){
-          this.getData()
-          this.editVisible=false
-          this.notify("修改成功","success")
-        }else{
-          this.getData()
-          this.editVisible=false
-          this.notify("修改失败","error")
-          console.log(res)
-        }
-      }).catch(err=>{
-        console.log(err)
-      })
+      this.saveEditMix(editBed)
     },
     saveAdd(){
-      let params=new URLSearchParams()
-      params.append("roomId",this.form.roomId)
-      params.append("detail",this.form.detail)
-
-      addBed(params).then(res=>{
-        if(res.code===1){
-          this.notify("添加成功", "success")
-          this.addVisible = false
-          this.getData()
-        }else{
-          this.notify("添加失败", "error")
-          console.log(res.msg)
-          this.addVisible = false
-        }
-      }).catch(err=>{
-        console.log(err)
-      })
+      this.saveAddMix(addBed)
     },
     getData(){
       this.tableData=[]
@@ -202,13 +141,6 @@ export default {
       }).catch(err=>{
         console.log(err)
       })
-    },
-    cleanForm() {
-      this.form = {
-        id: '',
-        roomId:'',
-        detail:''
-      }
     },
     getUsed(){
       let i=0
@@ -225,10 +157,6 @@ export default {
           }
         })
       }
-    },
-    filterHandler(value, row, column){
-      const property = column['property'];
-      return row[property] === value;
     }
   },
   mounted() {
@@ -238,29 +166,5 @@ export default {
 </script>
 
 <style scoped>
-.handle-box {
-  margin-bottom: 20px;
-}
-.handle-input {
-  width: 300px;
-  display: inline-block;
-  float: left;
-  margin: 10px;
-}
-.search-button{
-  float: left;
-  margin: 10px;
-}
-.add-button{
-  margin: 10px;
-  float: right;
-}
-.optionButton{
-  margin: 2px;
-}
-.pagination {
-  display: flex;
-  justify-content: center;
-  float: bottom;
-}
+@import "../assets/css/commenTable.css";
 </style>

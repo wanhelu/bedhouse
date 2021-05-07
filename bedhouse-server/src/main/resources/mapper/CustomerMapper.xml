@@ -114,4 +114,12 @@
   <select id="allInfo" resultMap="BaseResultMap">
     select * from customer
   </select>
+  <select id="search" resultMap="BaseResultMap">
+    select DISTINCT * from customer
+    where name like CONCAT('%',#{word},'%') or gender like CONCAT('%',#{word},'%')
+  </select>
+  <select id="searchByNum" resultMap="BaseResultMap">
+    select DISTINCT * from customer
+    where id=#{word} or age=#{word}
+  </select>
 </mapper>

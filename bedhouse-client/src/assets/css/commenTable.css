@@ -1,0 +1,25 @@
+.handle-box {
+    margin-bottom: 20px;
+}
+.handle-input {
+    width: 300px;
+    display: inline-block;
+    float: left;
+    margin: 10px;
+}
+.search-button{
+    float: left;
+    margin: 10px;
+}
+.add-button{
+    margin: 10px;
+    float: right;
+}
+.optionButton{
+    margin: 2px;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    float: bottom;
+}

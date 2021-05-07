@@ -1,6 +1,7 @@
 package com.example.bedhouseserver.mapper;
 
 import com.example.bedhouseserver.POJO.Live;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -52,4 +53,6 @@ public interface LiveMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Live record);
+
+    Integer getBedIdByCustomerId(@Param("id")Integer id);
 }
