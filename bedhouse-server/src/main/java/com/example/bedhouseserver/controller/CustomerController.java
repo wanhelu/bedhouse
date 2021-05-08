@@ -27,7 +27,7 @@ public class CustomerController {
         return customerService.allCustomerInfo();
     }
 
-    //获取所有客户信息
+    //搜索
     @ResponseBody
     @RequestMapping(value = "/customer/search", method = RequestMethod.GET)
     public Object search(@RequestParam("word")String word){

@@ -56,4 +56,13 @@ export const editCustomer=(params)=>post(`customer/edit`,params)
 export const getLiveInfo=()=>get(`live/info`)
 //获取所使用的床位号
 export const getUseBed=(id)=>get(`live/useBed?id=${id}`)
-
+//搜索入住信息
+export const searchLiveInfo=(params)=>post(`live/search`,params)
+//新增入住
+export const addLive=(params)=>post(`live/add`,params)
+//删除记录
+export const delLive=(id)=>deletes(`live/del?id=${id}`)
+//修改
+export const editLive=(params)=>post(`live/edit`,params)
+//退住
+export const leave=(id)=>get(`live/leave?id=${id}`)

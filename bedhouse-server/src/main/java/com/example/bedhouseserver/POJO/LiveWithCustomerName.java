@@ -3,14 +3,14 @@ package com.example.bedhouseserver.POJO;
 import java.util.Objects;
 
 public class LiveWithCustomerName extends Live{
-    private String CustomerName;
+    private String customerName;
 
     public String getCustomerName() {
-        return CustomerName;
+        return customerName;
     }
 
     public void setCustomerName(String customerName) {
-        CustomerName = customerName;
+        this.customerName = customerName;
     }
 
     @Override
@@ -19,11 +19,11 @@ public class LiveWithCustomerName extends Live{
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         LiveWithCustomerName that = (LiveWithCustomerName) o;
-        return Objects.equals(CustomerName, that.CustomerName);
+        return Objects.equals(customerName, that.customerName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), CustomerName);
+        return Objects.hash(super.hashCode(), customerName);
     }
 }

@@ -58,7 +58,11 @@ public interface LiveMapper {
      */
     int updateByPrimaryKey(Live record);
 
-    Integer getBedIdByCustomerId(@Param("id")Integer id);
+    Integer getUsedBedIdByCustomerId(@Param("id")Integer id);
+
+    Integer getUsedCustomerIdByBedId(@Param("id")Integer id);
 
     List<LiveWithCustomerName> allInfo();
+
+    List<LiveWithCustomerName> search(@Param("num")Integer num,@Param("fromDate")String fromDate,@Param("toDate")String toDate);
 }
