@@ -34,6 +34,18 @@
       </el-table-column>
     </el-table>
 
+    <!--翻页按钮-->
+    <div class="pagination">
+      <el-pagination
+          @current-change="handleCurrentChange"
+          background
+          layout="total, prev, pager, next"
+          :current-page="currentPage"
+          :page-size="pageSize"
+          :total="tableData.length">
+      </el-pagination>
+    </div>
+
     <!--添加弹窗-->
     <el-dialog title="添加" :visible.sync="addVisible">
       <el-form ref="form" :model="form" label-width="80px">
@@ -103,22 +115,14 @@ export default {
   mixins:[mixin,mixinDriectly],
   data(){
     return{
-      select_word:'',
       select_date:'',
-      tableData:[],
-      currentPage: 1,
-      pageSize:5,
-      delVisible:false,
-      editVisible:false,
-      addVisible:false,
       form:{
         id:'',
         customerId:'',
         bedId:'',
         beginDate:'',
         leaveDate:''
-      },
-      delId:''
+      }
     }
   },
   computed:{

@@ -3,6 +3,8 @@ package com.example.bedhouseserver.mapper;
 import com.example.bedhouseserver.POJO.Food;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface FoodMapper {
     /**
@@ -52,4 +54,6 @@ public interface FoodMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Food record);
+
+    List<Food> allInfo();
 }

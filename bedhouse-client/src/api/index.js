@@ -66,3 +66,7 @@ export const delLive=(id)=>deletes(`live/del?id=${id}`)
 export const editLive=(params)=>post(`live/edit`,params)
 //退住
 export const leave=(id)=>get(`live/leave?id=${id}`)
+
+// =======================>食品项API
+//获取所有食品信息
+export const getFoodInfo=()=>get(`food/info`)

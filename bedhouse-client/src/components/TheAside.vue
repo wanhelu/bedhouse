@@ -29,7 +29,7 @@
       </el-submenu>
       <el-submenu index="3">
         <template slot="title">膳食管理</template>
-        <el-menu-item>
+        <el-menu-item index="food">
           食品项
         </el-menu-item>
         <el-menu-item>

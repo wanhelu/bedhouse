@@ -96,5 +96,21 @@ export const mixinDriectly={
       const property = column['property'];
       return row[property] === value;
     }
+  },
+  data(){
+    return{
+      select_word:'',
+      tableData:[],
+      currentPage: 1,
+      pageSize:5,
+      delVisible:false,
+      editVisible:false,
+      addVisible:false,
+      delId:'',
+      query:''
+    }
+  },
+  mounted() {
+    this.query=this.$route.query
   }
 }

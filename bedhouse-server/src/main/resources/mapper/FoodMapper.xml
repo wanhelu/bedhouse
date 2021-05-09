@@ -146,4 +146,7 @@
       muslim = #{muslim,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="allInfo" resultMap="BaseResultMap">
+    select * from food
+  </select>
 </mapper>
