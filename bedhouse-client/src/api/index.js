@@ -90,3 +90,15 @@ export const addRecipes = (params) => post(`recipes/add`, params)
 export const delRecipes = (id) => deletes(`recipes/del?id=${id}`)
 //修改
 export const editRecipes = (params) => post(`recipes/edit`, params)
+
+// =======================>外出API
+//获取所有外出记录
+export const getOutInfo = () => get(`out/info`)
+//搜索
+export const searchOutInfo = (word, date) => get(`out/search?word=${word}&date=${date}`)
+//新增
+export const addOut = (params) => post(`out/add`, params)
+//删除
+export const delOut = (id) => deletes(`out/del?id=${id}`)
+//修改
+export const editOut = (params) => post(`out/edit`, params)
