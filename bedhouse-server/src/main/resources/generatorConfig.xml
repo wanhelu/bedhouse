@@ -36,9 +36,7 @@
       <property name="enableSubPackages" value="false"/>
     </javaClientGenerator>
 
-<!--
-    <table tableName="history" domainObjectName="History" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
--->
+   <!-- <table tableName="history" domainObjectName="History" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
     <table tableName="bed" domainObjectName="Bed" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
     <table tableName="customer" domainObjectName="Customer" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
     <table tableName="food" domainObjectName="Food" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
@@ -47,12 +45,12 @@
     <table tableName="nursing_content" domainObjectName="NursingContent" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
     <table tableName="nursing_level" domainObjectName="NursingLevel" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
     <table tableName="nursing_level_content" domainObjectName="NursingLevelContent" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
-    <table tableName="nursing_record" domainObjectName="NursingRecord" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+    <table tableName="nursing_record" domainObjectName="NursingRecord" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>-->
     <table tableName="out_record" domainObjectName="OutRecord" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
-    <table tableName="recipes" domainObjectName="Recipes" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
-    <table tableName="role" domainObjectName="Role" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
-    <table tableName="service_purchase" domainObjectName="ServicePurchase" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
-    <table tableName="stf" domainObjectName="Stf" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+      <!-- <table tableName="recipes" domainObjectName="Recipes" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+       <table tableName="role" domainObjectName="Role" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+       <table tableName="service_purchase" domainObjectName="ServicePurchase" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+       <table tableName="stf" domainObjectName="Stf" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>-->
 
   </context>
 </generatorConfiguration>
