@@ -7,4 +7,12 @@ import java.util.List;
 
 public interface FoodService {
     List<Food> allInfo();
+
+    List<Food> search(String word);
+
+    boolean add(Food food);
+
+    boolean del(Integer id);
+
+    boolean upd(Food food);
 }

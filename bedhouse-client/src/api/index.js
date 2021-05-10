@@ -70,3 +70,11 @@ export const leave=(id)=>get(`live/leave?id=${id}`)
 // =======================>食品项API
 //获取所有食品信息
 export const getFoodInfo=()=>get(`food/info`)
+//搜索
+export const searchFoodInfo=(word)=>get(`food/search?word=${word}`)
+//新增
+export const addFood=(params)=>post(`food/add`,params)
+//删除
+export const delFood=(id)=>deletes(`food/del?id=${id}`)
+//修改
+export const editFood=(params)=>post(`food/edit`,params)

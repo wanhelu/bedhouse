@@ -1,6 +1,7 @@
 package com.example.bedhouseserver.mapper;
 
 import com.example.bedhouseserver.POJO.Food;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -56,4 +57,8 @@ public interface FoodMapper {
     int updateByPrimaryKey(Food record);
 
     List<Food> allInfo();
+
+    List<Food> searchByString(@Param("word") String word);
+
+    List<Food> searchByNum(@Param("num") int num);
 }

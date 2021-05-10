@@ -44,13 +44,78 @@
           :total="tableData.length">
       </el-pagination>
     </div>
+
+    <!--添加弹窗-->
+    <el-dialog title="添加" :visible.sync="addVisible">
+      <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item label="名称" size="mini">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item label="类型" size="mini">
+          <el-input v-model="form.type"></el-input>
+        </el-form-item>
+        <el-form-item label="标签" size="mini">
+          <el-input v-model="form.label"></el-input>
+        </el-form-item>
+        <el-form-item label="价格" size="mini">
+          <el-input v-model="form.price"></el-input>
+        </el-form-item>
+        <el-form-item label="图片链接" size="mini">
+          <el-input v-model="form.picurl"></el-input>
+        </el-form-item>
+        <el-form-item label="是否清真" size="mini">
+          <el-input v-model="form.muslim"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="mini" @click="addVisible = false">取 消</el-button>
+        <el-button type="primary" size="mini" @click="saveAdd">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!--删除提示框-->
+    <el-dialog title="提示" :visible.sync="delVisible" width="300px" center>
+      <div class="del-dialog-cnt" align="center">删除不可恢复，是否确定删除？</div>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="mini" @click="delVisible = false">取 消</el-button>
+        <el-button type="primary" size="mini" @click="deleteRow">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 编辑提示框 -->
+    <el-dialog title="编辑" :visible.sync="editVisible" width="400px">
+      <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item label="名称" size="mini">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item label="类型" size="mini">
+          <el-input v-model="form.type"></el-input>
+        </el-form-item>
+        <el-form-item label="标签" size="mini">
+          <el-input v-model="form.label"></el-input>
+        </el-form-item>
+        <el-form-item label="价格" size="mini">
+          <el-input v-model="form.price"></el-input>
+        </el-form-item>
+        <el-form-item label="图片链接" size="mini">
+          <el-input v-model="form.picurl"></el-input>
+        </el-form-item>
+        <el-form-item label="是否清真" size="mini">
+          <el-input v-model="form.muslim"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+          <el-button size="mini" @click="editVisible = false">取 消</el-button>
+          <el-button type="primary" size="mini" @click="saveEdit">确 定</el-button>
+        </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import {mixin, mixinDriectly} from "@/mixin";
 import {mapGetters} from "vuex";
-import {getFoodInfo} from "@/api";
+import {addFood, delFood, editFood, getFoodInfo, searchFoodInfo} from "@/api";
 
 export default {
   name: "food",
@@ -93,11 +158,26 @@ export default {
       })
     },
     search(){
-
+      if (this.select_word && this.select_word != ''){
+        searchFoodInfo(this.select_word).then(res=>{
+          this.tableData=res
+          this.currentPage=1
+        }).catch(err=>{
+          console.log(err)
+        })
+      }else{
+        this.getData()
+      }
     },
-    saveAdd(){},
-    deleteRow(){},
-    saveEdit(){},
+    saveAdd(){
+      this.saveAddMix(addFood)
+    },
+    deleteRow(){
+      this.deleteRowMix(delFood)
+    },
+    saveEdit(){
+      this.saveEditMix(editFood)
+    },
     createLabelArray(){
       for(let item of this.tableData){
         this.$set(item,"labelArray",item.label.split("-"))

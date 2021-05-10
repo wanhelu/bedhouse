@@ -32,7 +32,7 @@
         <el-menu-item index="food">
           食品项
         </el-menu-item>
-        <el-menu-item>
+        <el-menu-item index="recipes">
           食谱
         </el-menu-item>
       </el-submenu>
