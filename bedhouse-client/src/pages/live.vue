@@ -168,11 +168,6 @@ export default {
     saveEdit(){
       this.saveEditMix(editLive)
     },
-    dateFormat(row,column){
-      let data=row[column.property]
-      if(data===null)return null;
-      return data.split(" ")[0]
-    },
     leaveRow(row){
       leave(row.id).then(res=>{
         if(res.code===1){

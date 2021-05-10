@@ -34,14 +34,19 @@ const router = new VueRouter({
                     component:()=>import('@/pages/live')
                 },
                 {
-                    path:"/food",
-                    name:"food",
-                    component:()=>import('@/pages/food')
+                    path: "/food",
+                    name: "food",
+                    component: () => import('@/pages/food')
                 },
                 {
-                    path:"/recipes",
-                    name:"recipes",
-                    component:()=>import('@/pages/recipes')
+                    path: "/recipes",
+                    name: "recipes",
+                    component: () => import('@/pages/recipes')
+                },
+                {
+                    path: "/out",
+                    name: "out",
+                    component: () => import('@/pages/out')
                 }
             ]
         },

@@ -151,7 +151,6 @@ export default {
       this.tableData=[]
       getFoodInfo().then(res=>{
         this.tableData=res
-        this.createLabelArray()
         this.currentPage=1
       }).catch(err=>{
         console.log(err)

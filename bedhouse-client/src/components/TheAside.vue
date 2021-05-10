@@ -13,7 +13,7 @@
       <el-menu-item index="bed">
         床位管理
       </el-menu-item>
-      <el-submenu index="2">
+<!--      <el-submenu index="2">
         <template slot="title">
           护理管理
         </template>
@@ -26,7 +26,7 @@
         <el-menu-item>
           护理记录
         </el-menu-item>
-      </el-submenu>
+      </el-submenu>-->
       <el-submenu index="3">
         <template slot="title">膳食管理</template>
         <el-menu-item index="food">
@@ -36,9 +36,9 @@
           食谱
         </el-menu-item>
       </el-submenu>
-      <el-menu-item>
-        服务管理
-      </el-menu-item>
+      <!--      <el-menu-item>
+              服务管理
+            </el-menu-item>-->
       <el-menu-item index="customer">
         客户管理
       </el-menu-item>
@@ -52,11 +52,11 @@
         <template slot="title">
           外出管理
         </template>
-        <el-menu-item>
+        <el-menu-item index="out">
           外出登记
         </el-menu-item>
         <el-menu-item>
-          历史记录
+          审核
         </el-menu-item>
       </el-submenu>
     </el-menu>

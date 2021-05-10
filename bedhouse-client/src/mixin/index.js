@@ -85,17 +85,22 @@ export const mixinDriectly={
         }else{
           this.getData()
           this.editVisible=false
-          this.notify("修改失败","error")
-          console.log(res)
+            this.notify("修改失败", "error")
+            console.log(res)
         }
-      }).catch(err=>{
-        console.log(err)
+      }).catch(err => {
+          console.log(err)
       })
     },
-    filterHandlerSimple(value, row, column){
-      const property = column['property'];
-      return row[property] === value;
-    }
+      filterHandlerSimple(value, row, column) {
+          const property = column['property'];
+          return row[property] === value;
+      },
+      dateFormat(row, column) {
+          let data = row[column.property]
+          if (data === null) return null;
+          return data.split(" ")[0]
+      },
   },
   data(){
     return{
