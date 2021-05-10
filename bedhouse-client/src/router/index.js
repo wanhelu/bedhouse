@@ -32,6 +32,21 @@ const router = new VueRouter({
                     path:"/live",
                     name:"live",
                     component:()=>import('@/pages/live')
+                },
+                {
+                    path: "/food",
+                    name: "food",
+                    component: () => import('@/pages/food')
+                },
+                {
+                    path: "/recipes",
+                    name: "recipes",
+                    component: () => import('@/pages/recipes')
+                },
+                {
+                    path: "/out",
+                    name: "out",
+                    component: () => import('@/pages/out')
                 }
             ]
         },

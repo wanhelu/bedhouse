@@ -86,19 +86,11 @@ export default {
   mixins: [mixin,mixinDriectly],
   data(){
     return{
-      select_word:'',
-      tableData: [],
-      currentPage: 1,
-      pageSize:5,
-      delVisible:false,
-      editVisible:false,
-      addVisible:false,
       form:{
         id:'',
         roomId:'',
         detail:''
-      },
-      delId:''
+      }
     }
   },
   computed:{

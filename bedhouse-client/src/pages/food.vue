@@ -7,15 +7,23 @@
     </div>
     <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
       <el-table-column label="编号" prop="id" align="center" sortable ></el-table-column>
-      <el-table-column label="姓名" prop="name" align="center" ></el-table-column>
-      <el-table-column label="性别" prop="gender" align="center"
-                       :filters="[{text:'男',value:'男'},{text:'女',value:'女'}]"
-                       :filter-method="filterHandlerSimple"></el-table-column>
-      <el-table-column label="年龄" prop="age" align="center" sortable ></el-table-column>
-      <el-table-column label="床位" prop="bedId" align="center" sortable
-                       :filters="[{text:'已有床位',value:true},{text:'无床位',value:false}]"
-                       :filter-method="filterHandlerBed"></el-table-column>
-      <el-table-column label="操作"  align="center" >
+      <el-table-column label="名称" prop="name" align="center"></el-table-column>
+      <el-table-column label="类型" prop="type" align="center"></el-table-column>
+      <el-table-column label="标签" align="center">
+        <template slot-scope="scope">
+          <el-tag v-for="item in scope.row.labelArray" class="tag">
+            {{item}}
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="价格" prop="price" align="center" sortable ></el-table-column>
+      <el-table-column label="图片" align="center">
+        <template slot-scope="scope">
+          <img :src="scope.row.picurl"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="清真" prop="muslim" align="center"></el-table-column>
+      <el-table-column label="操作"  align="center">
         <template slot-scope="scope">
           <div class="optionButton">
             <el-button size="mini" class="optionButton" @click="handleEdit(scope.row)">编辑</el-button>
@@ -24,7 +32,8 @@
         </template>
       </el-table-column>
     </el-table>
-    <!--换页按钮-->
+
+    <!--翻页按钮-->
     <div class="pagination">
       <el-pagination
           @current-change="handleCurrentChange"
@@ -39,14 +48,23 @@
     <!--添加弹窗-->
     <el-dialog title="添加" :visible.sync="addVisible">
       <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="姓名" size="mini">
+        <el-form-item label="名称" size="mini">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item label="性别" size="mini">
-          <el-input v-model="form.gender"></el-input>
+        <el-form-item label="类型" size="mini">
+          <el-input v-model="form.type"></el-input>
         </el-form-item>
-        <el-form-item label="年龄" size="mini">
-          <el-input v-model="form.age"></el-input>
+        <el-form-item label="标签" size="mini">
+          <el-input v-model="form.label"></el-input>
+        </el-form-item>
+        <el-form-item label="价格" size="mini">
+          <el-input v-model="form.price"></el-input>
+        </el-form-item>
+        <el-form-item label="图片链接" size="mini">
+          <el-input v-model="form.picurl"></el-input>
+        </el-form-item>
+        <el-form-item label="是否清真" size="mini">
+          <el-input v-model="form.muslim"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -67,66 +85,81 @@
     <!-- 编辑提示框 -->
     <el-dialog title="编辑" :visible.sync="editVisible" width="400px">
       <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="姓名" size="mini">
+        <el-form-item label="名称" size="mini">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item label="年龄" size="mini">
-          <el-input v-model="form.age"></el-input>
+        <el-form-item label="类型" size="mini">
+          <el-input v-model="form.type"></el-input>
         </el-form-item>
-        <el-form-item label="性别" size="mini">
-          <el-input v-model="form.gender"></el-input>
+        <el-form-item label="标签" size="mini">
+          <el-input v-model="form.label"></el-input>
+        </el-form-item>
+        <el-form-item label="价格" size="mini">
+          <el-input v-model="form.price"></el-input>
+        </el-form-item>
+        <el-form-item label="图片链接" size="mini">
+          <el-input v-model="form.picurl"></el-input>
+        </el-form-item>
+        <el-form-item label="是否清真" size="mini">
+          <el-input v-model="form.muslim"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button size="mini" @click="editVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" @click="saveEdit">确 定</el-button>
-      </span>
+          <el-button size="mini" @click="editVisible = false">取 消</el-button>
+          <el-button type="primary" size="mini" @click="saveEdit">确 定</el-button>
+        </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import {mapGetters} from "vuex";
 import {mixin, mixinDriectly} from "@/mixin";
-import {getCustomerInfo, getUseBed, searchCustomerInfo, addCustomer, delCustomer, editCustomer} from "@/api"
+import {mapGetters} from "vuex";
+import {addFood, delFood, editFood, getFoodInfo, searchFoodInfo} from "@/api";
 
 export default {
-  name: "customer",
+  name: "food",
   mixins:[mixin,mixinDriectly],
   data(){
     return {
-      form:{
-       id:'',
-       name:'',
-       gender:'',
-       age:''
+      form: {
+        id:'',
+        name:'',
+        type:'',
+        label:'',
+        price:'',
+        picurl:'',
+        muslim:'',
+        labelArray:[]
       }
     }
   },
   computed:{
     ...mapGetters([
-        'loginStatus'
+      'loginStatus'
     ]),
     data(){
-      return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+      let temp=this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+      for(let item of temp){
+        this.$set(item,"labelArray",item.label.split("-"))
+      }
+      return temp
     }
   },
   methods:{
     getData(){
       this.tableData=[]
-      getCustomerInfo().then(res=>{
+      getFoodInfo().then(res=>{
         this.tableData=res
-        this.getUse()
         this.currentPage=1
       }).catch(err=>{
         console.log(err)
       })
     },
     search(){
-      if(this.select_word && this.select_word != ''){
-        searchCustomerInfo(this.select_word).then(res=>{
+      if (this.select_word && this.select_word != ''){
+        searchFoodInfo(this.select_word).then(res=>{
           this.tableData=res
-          this.getUse()
           this.currentPage=1
         }).catch(err=>{
           console.log(err)
@@ -135,32 +168,19 @@ export default {
         this.getData()
       }
     },
-    getUse(){
-      let i=0
-      for(let item of this.tableData){
-        let ii=i++
-        getUseBed(item.id).then(res=>{
-          if(res.code===1){
-            this.$set(this.tableData[ii],"bedId",res.bedId)
-          }
-          else{
-            this.$set(this.tableData[ii],"bedId",null)
-          }
-        })
-      }
-    },
     saveAdd(){
-      this.saveAddMix(addCustomer)
+      this.saveAddMix(addFood)
     },
     deleteRow(){
-      this.deleteRowMix(delCustomer)
+      this.deleteRowMix(delFood)
     },
     saveEdit(){
-      this.saveEditMix(editCustomer)
+      this.saveEditMix(editFood)
     },
-    filterHandlerBed(value, row, column){
-      const property = column['property'];
-      return (value ^ row[property]==null)
+    createLabelArray(){
+      for(let item of this.tableData){
+        this.$set(item,"labelArray",item.label.split("-"))
+      }
     }
   },
   mounted() {
@@ -171,4 +191,7 @@ export default {
 
 <style scoped>
 @import "../assets/css/commenTable.css";
+.tag{
+  margin: 1px;
+}
 </style>

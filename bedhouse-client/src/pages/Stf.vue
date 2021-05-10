@@ -145,14 +145,6 @@ export default {
   mixins: [mixin,mixinDriectly],
   data() {
     return {
-      select_word: '',
-      tableData: [],
-      currentPage: 1,
-      pageSize: 5,
-      addVisible: false,
-      delVisible: false,
-      editVisible: false,
-      delId: '',
       form: {
         id: '',
         name: '',
@@ -163,7 +155,7 @@ export default {
         phone: '',
         entryTime: '',
         roleId: ''
-      },
+      }
     }
   },
   computed: {

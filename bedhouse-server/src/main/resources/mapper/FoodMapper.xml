@@ -146,4 +146,15 @@
       muslim = #{muslim,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="allInfo" resultMap="BaseResultMap">
+    select * from food
+  </select>
+  <select id="searchByString" resultMap="BaseResultMap">
+    select * from food
+    where name like CONCAT('%',#{word},'%') or type like CONCAT('%',#{word},'%') or label like CONCAT('%',#{word},'%') or muslim=#{word}
+  </select>
+  <select id="searchByNum" resultMap="BaseResultMap">
+    select * from food
+    where id=#{num} or price=#{num}
+  </select>
 </mapper>

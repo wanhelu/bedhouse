@@ -66,3 +66,27 @@ export const delLive=(id)=>deletes(`live/del?id=${id}`)
 export const editLive=(params)=>post(`live/edit`,params)
 //退住
 export const leave=(id)=>get(`live/leave?id=${id}`)
+
+// =======================>食品项API
+//获取所有食品信息
+export const getFoodInfo = () => get(`food/info`)
+//搜索
+export const searchFoodInfo = (word) => get(`food/search?word=${word}`)
+//新增
+export const addFood = (params) => post(`food/add`, params)
+//删除
+export const delFood = (id) => deletes(`food/del?id=${id}`)
+//修改
+export const editFood = (params) => post(`food/edit`, params)
+
+// =======================>食谱API
+//获取所有食谱信息
+export const getRecipesInfo = () => get(`recipes/info`)
+//搜索
+export const searchRecipesInfo = (word) => get(`recipes/search?word=${word}`)
+//新增
+export const addRecipes = (params) => post(`recipes/add`, params)
+//删除
+export const delRecipes = (id) => deletes(`recipes/del?id=${id}`)
+//修改
+export const editRecipes = (params) => post(`recipes/edit`, params)
