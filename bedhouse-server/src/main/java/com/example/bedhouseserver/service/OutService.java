@@ -15,4 +15,8 @@ public interface OutService {
     boolean upd(OutRecord outRecord);
 
     boolean del(int id);
+
+    boolean goOut(int id);
+
+    boolean goBack(int id);
 }

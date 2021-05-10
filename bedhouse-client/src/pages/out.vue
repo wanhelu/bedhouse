@@ -11,7 +11,7 @@
           value-format="yyyy-MM-dd"
           placeholder="选择日期">
       </el-date-picker>
-      <el-button type="primary" size="mini" class="add-button" @click="handleAdd" :disabled="this.loginStatus!=3">添加
+      <el-button type="primary" size="mini" class="add-button" @click="handleAdd">添加
       </el-button>
     </div>
     <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
@@ -31,10 +31,17 @@
       <el-table-column label="操作" align="center" width="250px">
         <template slot-scope="scope">
           <div class="optionButton">
-            <el-button size="mini" class="optionButton" type="primary" @click="handleEdit(scope.row)">归来</el-button>
-            <el-button size="mini" class="optionButton" type="primary" @click="handleEdit(scope.row)">外出</el-button>
-            <el-button size="mini" class="optionButton" @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button size="mini" class="optionButton" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+            <el-button size="mini" class="optionButton" type="primary" @click="handleBack(scope.row)"
+                       v-if="scope.row.state==4">归来
+            </el-button>
+            <el-button size="mini" class="optionButton" type="primary" @click="handleOut(scope.row)"
+                       v-if="scope.row.state==3">外出
+            </el-button>
+            <el-button size="mini" class="optionButton" @click="handleEdit(scope.row)" v-if="loginStatus>=2">编辑
+            </el-button>
+            <el-button size="mini" class="optionButton" type="danger" @click="handleDelete(scope.row.id)"
+                       v-if="loginStatus>=2">删除
+            </el-button>
           </div>
         </template>
       </el-table-column>
@@ -163,7 +170,7 @@
 <script>
 import {mixin, mixinDriectly} from "@/mixin";
 import {mapGetters} from "vuex";
-import {addOut, delOut, editOut, getOutInfo, searchOutInfo} from "@/api";
+import {addOut, delOut, editOut, getOutInfo, goBack, goOut, searchOutInfo} from "@/api";
 
 export default {
   name: "out",
@@ -244,6 +251,30 @@ export default {
     filterHandler(value, row, column) {
       if (row.state == value) return true
       else return false
+    },
+    handleOut(row) {
+      goOut(row.id).then(res => {
+        if (res.code == 1) {
+          this.notify("操作成功", "success")
+          this.getData()
+        } else {
+          this.notify("操作失败", "error")
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    handleBack(row) {
+      goBack(row.id).then(res => {
+        if (res.code == 1) {
+          this.notify("操作成功", "success")
+          this.getData()
+        } else {
+          this.notify("操作失败", "error")
+        }
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
   mounted() {

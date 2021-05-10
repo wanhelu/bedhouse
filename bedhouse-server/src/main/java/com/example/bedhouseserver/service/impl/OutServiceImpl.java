@@ -50,4 +50,27 @@ public class OutServiceImpl implements OutService {
     public boolean del(int id) {
         return outRecordMapper.deleteByPrimaryKey(id) > 0;
     }
+
+    @Override
+    public boolean goOut(int id) {
+        OutRecord selectRes = outRecordMapper.selectByPrimaryKey(id);
+        if (selectRes == null || selectRes.getState() != 3) return false;
+
+        OutRecord outRecord = new OutRecord();
+        outRecord.setId(id);
+        outRecord.setState(4L);
+        return outRecordMapper.updateByPrimaryKeySelective(outRecord) > 0;
+    }
+
+    @Override
+    public boolean goBack(int id) {
+        OutRecord selectRes = outRecordMapper.selectByPrimaryKey(id);
+        if (selectRes == null || selectRes.getState() != 4) return false;
+
+        OutRecord outRecord = new OutRecord();
+        outRecord.setId(id);
+        outRecord.setBackTime(new Date());
+        outRecord.setState(5L);
+        return outRecordMapper.updateByPrimaryKeySelective(outRecord) > 0;
+    }
 }

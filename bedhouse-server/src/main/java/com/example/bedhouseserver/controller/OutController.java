@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.bedhouseserver.POJO.OutRecord;
 import com.example.bedhouseserver.myUtil.Httpreq;
 import com.example.bedhouseserver.service.impl.OutServiceImpl;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,6 +105,40 @@ public class OutController {
         JSONObject jsonObject = new JSONObject();
         if (id == null) jsonObject.put("code", 0);
         else if (outService.del(id)) {
+            jsonObject.put("code", 1);
+        } else {
+            jsonObject.put("code", 0);
+        }
+        return jsonObject;
+    }
+
+    //外出
+    @ResponseBody
+    @RequestMapping(value = "/out/goOut", method = RequestMethod.GET)
+    public Object goOut(@RequestParam("id") Integer id) {
+        JSONObject jsonObject = new JSONObject();
+        if (id == null) {
+            jsonObject.put("code", 0);
+            jsonObject.put("msg", "id为空");
+            return jsonObject;
+        } else if (outService.goOut(id)) {
+            jsonObject.put("code", 1);
+        } else {
+            jsonObject.put("code", 0);
+        }
+        return jsonObject;
+    }
+
+    //返回
+    @ResponseBody
+    @RequestMapping(value = "/out/goBack", method = RequestMethod.GET)
+    public Object goBack(@RequestParam("id") Integer id) {
+        JSONObject jsonObject = new JSONObject();
+        if (id == null) {
+            jsonObject.put("code", 0);
+            jsonObject.put("msg", "id为空");
+            return jsonObject;
+        } else if (outService.goBack(id)) {
             jsonObject.put("code", 1);
         } else {
             jsonObject.put("code", 0);

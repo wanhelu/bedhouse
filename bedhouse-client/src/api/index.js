@@ -102,3 +102,7 @@ export const addOut = (params) => post(`out/add`, params)
 export const delOut = (id) => deletes(`out/del?id=${id}`)
 //修改
 export const editOut = (params) => post(`out/edit`, params)
+//外出
+export const goOut = (id) => get(`out/goOut?id=${id}`)
+//返回
+export const goBack = (id) => get(`out/goBack?id=${id}`)
