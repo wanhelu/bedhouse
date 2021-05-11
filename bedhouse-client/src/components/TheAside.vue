@@ -73,7 +73,8 @@ export default {
   data () {
     return {
       collapse: false,
-      checkNum: 0
+      checkNum: 0,
+      timer: ''
     }
   },
   computed: {
@@ -97,8 +98,12 @@ export default {
   created() {
     _ctrEvent.$on('collapse', msg => {
       this.collapse = msg
-    })
-    this.getNoCheckedCount()
+    });
+    this.getNoCheckedCount();
+    this.timer = setInterval(this.getNoCheckedCount, 10000);
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
   }
 }
 </script>
