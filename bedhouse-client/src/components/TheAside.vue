@@ -55,7 +55,7 @@
         <el-menu-item index="out">
           外出登记
         </el-menu-item>
-        <el-menu-item>
+        <el-menu-item index="check" v-if="this.loginStatus>=2">
           审核
         </el-menu-item>
       </el-submenu>
@@ -65,6 +65,7 @@
 
 <script>
 import _ctrEvent from '../assets/js/ctr-event'
+import {mapGetters} from "vuex";
 
 export default {
   data () {
@@ -73,9 +74,12 @@ export default {
     }
   },
   computed: {
-    onRoutes () {
+    onRoutes() {
       return this.$route.path.replace('/', '')
-    }
+    },
+    ...mapGetters([
+      'loginStatus'
+    ])
   },
   created () {
     _ctrEvent.$on('collapse', msg => {

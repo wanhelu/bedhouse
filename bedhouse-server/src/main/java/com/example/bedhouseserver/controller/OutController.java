@@ -37,6 +37,20 @@ public class OutController {
         return outService.search(Httpreq.getString(req, "word"), Httpreq.getString(req, "date"));
     }
 
+    //获取所有未审核外出信息
+    @ResponseBody
+    @RequestMapping(value = "/out/noCheckedInfo", method = RequestMethod.GET)
+    public Object allOutInfoNoChecked() {
+        return outService.allOutInfoNoChecked();
+    }
+
+    //查询未审核信息
+    @ResponseBody
+    @RequestMapping(value = "/out/searchNoChecked", method = RequestMethod.GET)
+    public Object searchNoChecked(HttpServletRequest req) {
+        return outService.searchNoChecked(Httpreq.getString(req, "word"), Httpreq.getString(req, "date"));
+    }
+
     //新增
     @ResponseBody
     @RequestMapping(value = "/out/add", method = RequestMethod.POST)
@@ -143,6 +157,35 @@ public class OutController {
         } else {
             jsonObject.put("code", 0);
         }
+        return jsonObject;
+    }
+
+    //审核更新
+    @ResponseBody
+    @RequestMapping(value = "/out/checkUpd", method = RequestMethod.POST)
+    public Object checkUpd(HttpServletRequest req) {
+        JSONObject jsonObject = new JSONObject();
+        OutRecord outRecord;
+        try {
+            outRecord = getOutRecordByReq(req);
+        } catch (Exception e) {
+            e.printStackTrace();
+            jsonObject.put("code", 0);
+            jsonObject.put("msg", "数据转换错误");
+            return jsonObject;
+        }
+
+        boolean res = false;
+        try {
+            res = outService.checkUpd(outRecord);
+        } catch (Exception e) {
+            e.printStackTrace();
+            jsonObject.put("code", 0);
+            jsonObject.put("msg", "数据库操作错误");
+            return jsonObject;
+        }
+        if (res) jsonObject.put("code", 1);
+        else jsonObject.put("code", 0);
         return jsonObject;
     }
 

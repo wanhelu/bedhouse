@@ -106,3 +106,9 @@ export const editOut = (params) => post(`out/edit`, params)
 export const goOut = (id) => get(`out/goOut?id=${id}`)
 //返回
 export const goBack = (id) => get(`out/goBack?id=${id}`)
+//获取所有未审核外出记录
+export const getOutInfoNoChecked = () => get(`out/noCheckedInfo`)
+//未审核记录中搜索搜索
+export const searchOutInfoNoChecked = (word, date) => get(`out/searchNoChecked?word=${word}&date=${date}`)
+//审核更新
+export const checkUpd = (params) => post(`out/checkUpd`, params)

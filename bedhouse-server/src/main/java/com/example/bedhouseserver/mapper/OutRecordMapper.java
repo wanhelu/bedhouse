@@ -59,7 +59,13 @@ public interface OutRecordMapper {
 
     List<OutRecord> allInfo();
 
+    List<OutRecord> allNoCheckedInfo();
+
     List<OutRecord> searchByString(@Param("word") String word, @Param("Date") String date);
 
     List<OutRecord> searchByNum(@Param("num") Integer num, @Param("Date") String date);
+
+    List<OutRecord> searchNoCheckedByString(@Param("word") String word, @Param("Date") String date);
+
+    List<OutRecord> searchNoCheckedByNum(@Param("num") Integer num, @Param("Date") String date);
 }

@@ -253,4 +253,67 @@
             </if>
         </trim>
     </select>
+    <select id="allNoCheckedInfo" resultMap="BaseResultMap">
+        select *
+        from out_record
+        where state = 1
+    </select>
+    <select id="searchNoCheckedByString" resultMap="BaseResultMap">
+        select * from out_record
+        <trim prefixOverrides="and" suffixOverrides="and" prefix="where">
+            <if test="Date!=null">
+                (
+                date(submit_time)=#{Date}
+                or
+                date(out_time)=#{Date}
+                or
+                date(forcast_bac)=#{Date}
+                or
+                date(back_time)=#{Date}
+                or
+                date(check_time)=#{Date}
+                )
+            </if>
+            <if test="word!=null">
+                and
+                (
+                text like CONCAT('%',#{word},'%')
+                )
+            </if>
+            and state=1
+        </trim>
+    </select>
+    <select id="searchNoCheckedByNum" resultMap="BaseResultMap">
+        select * from out_record
+        <trim prefixOverrides="and" suffixOverrides="and" prefix="where">
+            <if test="Date!=null">
+                (
+                date(submit_time)=#{Date}
+                or
+                date(out_time)=#{Date}
+                or
+                date(forcast_bac)=#{Date}
+                or
+                date(back_time)=#{Date}
+                or
+                date(check_time)=#{Date}
+                )
+            </if>
+            and
+            <if test="num!=null">
+                (
+                id=#{num}
+                or
+                stf_id=#{num}
+                or
+                customer_id=#{num}
+                or
+                state=#{num}
+                or
+                checker_id=#{num}
+                )
+            </if>
+            and state=1
+        </trim>
+    </select>
 </mapper>

@@ -47,6 +47,11 @@ const router = new VueRouter({
                     path: "/out",
                     name: "out",
                     component: () => import('@/pages/out')
+                },
+                {
+                    path: '/check',
+                    name: "check",
+                    component: () => import("@/pages/check")
                 }
             ]
         },
