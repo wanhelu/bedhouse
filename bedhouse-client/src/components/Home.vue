@@ -4,7 +4,9 @@
     <the-aside></the-aside>
     <div class="content-box" :class="{'content-collapse':collapse}">
       <div class="content">
-        <router-view></router-view>
+        <transition name="fade" mode="out-in" :duration="{enter:300,leave:300}">
+          <router-view></router-view>
+        </transition>
       </div>
     </div>
   </div>
@@ -35,5 +37,11 @@ export default {
 </script>
 
 <style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
 
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}
 </style>
