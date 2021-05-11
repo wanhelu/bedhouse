@@ -3,7 +3,7 @@
     <div class="handle-box">
       <el-button type="primary" size="mini" class="search-button" @click="search">搜索</el-button>
       <el-input v-model="select_word" size="mini" placeholder="筛选关键词" class="handle-input"></el-input>
-      <el-button type="primary" size="mini" class="add-button" @click="handleAdd" :disabled="this.loginStatus!=3">添加
+      <el-button type="primary" size="mini" class="add-button" @click="handleAdd">添加
       </el-button>
     </div>
     <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">

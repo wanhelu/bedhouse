@@ -316,4 +316,9 @@
             and state=1
         </trim>
     </select>
+    <select id="noCheckedCount" resultType="java.lang.Integer">
+        select count(*)
+        from out_record
+        where state = 1
+    </select>
 </mapper>

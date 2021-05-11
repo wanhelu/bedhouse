@@ -3,16 +3,17 @@
     <div class="handle-box">
       <el-button type="primary" size="mini" class="search-button" @click="search">搜索</el-button>
       <el-input v-model="select_word" size="mini" placeholder="筛选关键词" class="handle-input"></el-input>
-      <el-button type="primary" size="mini" class="add-button" @click="handleAdd" :disabled="this.loginStatus!=3">添加</el-button>
+      <el-button type="primary" size="mini" class="add-button" @click="handleAdd" v-if="this.loginStatus>=2">添加
+      </el-button>
     </div>
     <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
       <el-table-column label="编号" prop="id" align="center" sortable ></el-table-column>
       <el-table-column label="名称" prop="name" align="center"></el-table-column>
       <el-table-column label="类型" prop="type" align="center"></el-table-column>
-      <el-table-column label="标签" align="center">
+      <el-table-column label="标签" align="center" v-if="this.loginStatus>=2">
         <template slot-scope="scope">
           <el-tag v-for="item in scope.row.labelArray" class="tag">
-            {{item}}
+            {{ item }}
           </el-tag>
         </template>
       </el-table-column>

@@ -189,6 +189,16 @@ public class OutController {
         return jsonObject;
     }
 
+    //未审核申请统计
+    @ResponseBody
+    @RequestMapping(value = "/out/noCheckedCount", method = RequestMethod.GET)
+    public Object noCheckedCount() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code", 1);
+        jsonObject.put("count", outService.noCheckedCount());
+        return jsonObject;
+    }
+
     private OutRecord getOutRecordByReq(HttpServletRequest req) throws Exception {
         OutRecord outRecord = new OutRecord();
 

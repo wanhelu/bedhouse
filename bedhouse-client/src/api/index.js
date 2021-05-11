@@ -112,3 +112,5 @@ export const getOutInfoNoChecked = () => get(`out/noCheckedInfo`)
 export const searchOutInfoNoChecked = (word, date) => get(`out/searchNoChecked?word=${word}&date=${date}`)
 //审核更新
 export const checkUpd = (params) => post(`out/checkUpd`, params)
+//获取待审核记录总数
+export const NoCheckedCount = () => get(`out/noCheckedCount`)

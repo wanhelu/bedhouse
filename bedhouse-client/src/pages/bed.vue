@@ -3,7 +3,8 @@
     <div class="handle-box">
       <el-button type="primary" size="mini" class="search-button" @click="search">搜索</el-button>
       <el-input v-model="select_word" size="mini" placeholder="筛选关键词" class="handle-input"></el-input>
-      <el-button type="primary" size="mini" class="add-button" @click="handleAdd" :disabled="this.loginStatus!=3">添加</el-button>
+      <el-button type="primary" size="mini" class="add-button" @click="handleAdd" v-if="this.loginStatus==3">添加
+      </el-button>
     </div>
     <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
       <el-table-column label="编号" prop="id" align="center" sortable width="100px"></el-table-column>
@@ -12,7 +13,7 @@
                        :filters="[{text:'是',value:'是'},{text:'否',value:'否'}]"
                        :filter-method="filterHandlerSimple"></el-table-column>
       <el-table-column label="详情" prop="detail" align="center"></el-table-column>
-      <el-table-column label="操作"  align="center" width="100px">
+      <el-table-column label="操作" align="center" width="100px" v-if="this.loginStatus==3">
         <template slot-scope="scope">
           <div class="optionButton">
             <el-button size="mini" class="optionButton" @click="handleEdit(scope.row)">编辑</el-button>

@@ -68,4 +68,6 @@ public interface OutRecordMapper {
     List<OutRecord> searchNoCheckedByString(@Param("word") String word, @Param("Date") String date);
 
     List<OutRecord> searchNoCheckedByNum(@Param("num") Integer num, @Param("Date") String date);
+
+    int noCheckedCount();
 }

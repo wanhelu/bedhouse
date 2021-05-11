@@ -98,4 +98,9 @@ public class OutServiceImpl implements OutService {
         outRecord.setCheckTime(new Date());
         return outRecordMapper.updateByPrimaryKeySelective(outRecord) > 0;
     }
+
+    @Override
+    public int noCheckedCount() {
+        return outRecordMapper.noCheckedCount();
+    }
 }

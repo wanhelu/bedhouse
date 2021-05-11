@@ -25,4 +25,6 @@ public interface OutService {
     boolean goBack(int id);
 
     boolean checkUpd(OutRecord outRecord);
+
+    int noCheckedCount();
 }
