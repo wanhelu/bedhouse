@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.bedhouseserver.POJO.OutRecord;
 import com.example.bedhouseserver.myUtil.Httpreq;
 import com.example.bedhouseserver.service.impl.OutServiceImpl;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,20 @@ public class OutController {
     @RequestMapping(value = "/out/search", method = RequestMethod.GET)
     public Object search(HttpServletRequest req) {
         return outService.search(Httpreq.getString(req, "word"), Httpreq.getString(req, "date"));
+    }
+
+    //获取所有未审核外出信息
+    @ResponseBody
+    @RequestMapping(value = "/out/noCheckedInfo", method = RequestMethod.GET)
+    public Object allOutInfoNoChecked() {
+        return outService.allOutInfoNoChecked();
+    }
+
+    //查询未审核信息
+    @ResponseBody
+    @RequestMapping(value = "/out/searchNoChecked", method = RequestMethod.GET)
+    public Object searchNoChecked(HttpServletRequest req) {
+        return outService.searchNoChecked(Httpreq.getString(req, "word"), Httpreq.getString(req, "date"));
     }
 
     //新增
@@ -108,6 +123,79 @@ public class OutController {
         } else {
             jsonObject.put("code", 0);
         }
+        return jsonObject;
+    }
+
+    //外出
+    @ResponseBody
+    @RequestMapping(value = "/out/goOut", method = RequestMethod.GET)
+    public Object goOut(@RequestParam("id") Integer id) {
+        JSONObject jsonObject = new JSONObject();
+        if (id == null) {
+            jsonObject.put("code", 0);
+            jsonObject.put("msg", "id为空");
+            return jsonObject;
+        } else if (outService.goOut(id)) {
+            jsonObject.put("code", 1);
+        } else {
+            jsonObject.put("code", 0);
+        }
+        return jsonObject;
+    }
+
+    //返回
+    @ResponseBody
+    @RequestMapping(value = "/out/goBack", method = RequestMethod.GET)
+    public Object goBack(@RequestParam("id") Integer id) {
+        JSONObject jsonObject = new JSONObject();
+        if (id == null) {
+            jsonObject.put("code", 0);
+            jsonObject.put("msg", "id为空");
+            return jsonObject;
+        } else if (outService.goBack(id)) {
+            jsonObject.put("code", 1);
+        } else {
+            jsonObject.put("code", 0);
+        }
+        return jsonObject;
+    }
+
+    //审核更新
+    @ResponseBody
+    @RequestMapping(value = "/out/checkUpd", method = RequestMethod.POST)
+    public Object checkUpd(HttpServletRequest req) {
+        JSONObject jsonObject = new JSONObject();
+        OutRecord outRecord;
+        try {
+            outRecord = getOutRecordByReq(req);
+        } catch (Exception e) {
+            e.printStackTrace();
+            jsonObject.put("code", 0);
+            jsonObject.put("msg", "数据转换错误");
+            return jsonObject;
+        }
+
+        boolean res = false;
+        try {
+            res = outService.checkUpd(outRecord);
+        } catch (Exception e) {
+            e.printStackTrace();
+            jsonObject.put("code", 0);
+            jsonObject.put("msg", "数据库操作错误");
+            return jsonObject;
+        }
+        if (res) jsonObject.put("code", 1);
+        else jsonObject.put("code", 0);
+        return jsonObject;
+    }
+
+    //未审核申请统计
+    @ResponseBody
+    @RequestMapping(value = "/out/noCheckedCount", method = RequestMethod.GET)
+    public Object noCheckedCount() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code", 1);
+        jsonObject.put("count", outService.noCheckedCount());
         return jsonObject;
     }
 

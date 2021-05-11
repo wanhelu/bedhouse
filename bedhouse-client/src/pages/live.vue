@@ -14,7 +14,8 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期">
       </el-date-picker>
-      <el-button type="primary" size="mini" class="add-button" @click="handleAdd" :disabled="this.loginStatus!=3">添加</el-button>
+      <el-button type="primary" size="mini" class="add-button" @click="handleAdd" v-if="this.loginStatus>=2">添加
+      </el-button>
     </div>
     <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
       <el-table-column label="编号" prop="id" align="center" sortable ></el-table-column>
@@ -23,7 +24,7 @@
       <el-table-column label="床位编号" prop="bedId" align="center" sortable></el-table-column>
       <el-table-column label="入住时间" prop="beginDate" align="center" :formatter="dateFormat"></el-table-column>
       <el-table-column label="退住时间" prop="leaveDate" align="center" :formatter="dateFormat"></el-table-column>
-      <el-table-column label="操作"  align="center" width="250px">
+      <el-table-column label="操作" align="center" width="250px" v-if="this.loginStatus>=2">
         <template slot-scope="scope">
           <div class="optionButton">
             <el-button size="mini" class="optionButton" type="primary" @click="leaveRow(scope.row)">退住</el-button>
