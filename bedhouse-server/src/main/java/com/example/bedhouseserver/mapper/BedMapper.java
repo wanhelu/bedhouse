@@ -58,7 +58,7 @@ public interface BedMapper {
 
     List<Bed> allInfo();
 
-    int bedUsed(@Param("id")Integer id);
+    Integer bedUsed(@Param("id") Integer id);
 
     List<Bed> searchByDetail(@Param("word")String word);
 

@@ -13,9 +13,11 @@
                        :filters="[{text:'男',value:'男'},{text:'女',value:'女'}]"
                        :filter-method="filterHandlerSimple"></el-table-column>
       <el-table-column label="年龄" prop="age" align="center"></el-table-column>
-      <el-table-column label="床位" prop="bedId" align="center"
-                       :filters="[{text:'已有床位',value:true},{text:'无床位',value:false}]"
-                       :filter-method="filterHandlerBed"></el-table-column>
+      <el-table-column label="床位" prop="bedId" align="center">
+        <template slot-scope="scope">
+          <popover-container :text="scope.row.bedId" :id="scope.row.bedId" :type="2"></popover-container>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" v-if="this.loginStatus>=2">
         <template slot-scope="scope">
           <div class="optionButton">
@@ -89,18 +91,30 @@
 <script>
 import {mapGetters} from "vuex";
 import {mixin, mixinDriectly} from "@/mixin";
-import {getCustomerInfo, getUseBed, searchCustomerInfo, addCustomer, delCustomer, editCustomer} from "@/api"
+import {
+  getCustomerInfo,
+  getUseBed,
+  searchCustomerInfo,
+  addCustomer,
+  delCustomer,
+  editCustomer,
+  getCustomerInfoById
+} from "@/api"
+import popoverContainer from "@/components/popoverContainer";
 
 export default {
   name: "customer",
-  mixins:[mixin,mixinDriectly],
-  data(){
+  mixins: [mixin, mixinDriectly],
+  components: {
+    popoverContainer
+  },
+  data() {
     return {
-      form:{
-       id:'',
-       name:'',
-       gender:'',
-       age:''
+      form: {
+        id: '',
+        name: '',
+        gender: '',
+        age: ''
       }
     }
   },
@@ -113,26 +127,36 @@ export default {
     }
   },
   methods:{
-    getData(){
-      this.tableData=[]
-      getCustomerInfo().then(res=>{
-        this.tableData=res
+    getData() {
+      this.tableData = []
+      getCustomerInfo().then(res => {
+        this.tableData = res
         this.getUse()
-        this.currentPage=1
-      }).catch(err=>{
+        this.currentPage = 1
+      }).catch(err => {
         console.log(err)
       })
     },
-    search(){
-      if(this.select_word && this.select_word != ''){
-        searchCustomerInfo(this.select_word).then(res=>{
-          this.tableData=res
+    getDataById(id) {
+      this.tableData = []
+      getCustomerInfoById(id).then(res => {
+        this.$set(this.tableData, 0, res)
+        this.getUse()
+        this.currentPage = 1
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    search() {
+      if (this.select_word && this.select_word != '') {
+        searchCustomerInfo(this.select_word).then(res => {
+          this.tableData = res
           this.getUse()
-          this.currentPage=1
-        }).catch(err=>{
+          this.currentPage = 1
+        }).catch(err => {
           console.log(err)
         })
-      }else{
+      } else {
         this.getData()
       }
     },
@@ -140,13 +164,14 @@ export default {
       let i=0
       for(let item of this.tableData){
         let ii=i++
-        getUseBed(item.id).then(res=>{
-          if(res.code===1){
-            this.$set(this.tableData[ii],"bedId",res.bedId)
+        getUseBed(item.id).then(res => {
+          if (res.code === 1) {
+            this.$set(this.tableData[ii], "bedId", res.bedId)
+          } else {
+            this.$set(this.tableData[ii], "bedId", null)
           }
-          else{
-            this.$set(this.tableData[ii],"bedId",null)
-          }
+        }).catch(err => {
+          console.log(err)
         })
       }
     },
@@ -163,9 +188,6 @@ export default {
       const property = column['property'];
       return (value ^ row[property]==null)
     }
-  },
-  mounted() {
-    this.getData()
   }
 }
 </script>

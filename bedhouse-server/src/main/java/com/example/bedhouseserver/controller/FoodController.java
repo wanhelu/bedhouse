@@ -18,19 +18,27 @@ public class FoodController {
     @Autowired
     FoodService foodService;
 
-    private final Logger log= LoggerFactory.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     //获取所有信息
     @ResponseBody
     @RequestMapping(value = "/food/info", method = RequestMethod.GET)
-    public Object allInfo(){
+    public Object allInfo() {
         return foodService.allInfo();
+    }
+
+    //获取指定id信息
+    @ResponseBody
+    @RequestMapping(value = "/food/infoById", method = RequestMethod.GET)
+    public Object infoById(@RequestParam("id") Integer id) {
+        if (id == null) return null;
+        else return foodService.infoById(id);
     }
 
     //搜索
     @ResponseBody
     @RequestMapping(value = "/food/search", method = RequestMethod.GET)
-    public Object search(@RequestParam("word")String word){
+    public Object search(@RequestParam("word") String word) {
         return foodService.search(word);
     }
 

@@ -18,24 +18,31 @@ public class BedController {
     @Autowired
     BedServiceImpl bedService;
 
-    private final Logger log= LoggerFactory.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    //获取所有员工信息
+    //获取所有床位信息
     @ResponseBody
     @RequestMapping(value = "/bed/info", method = RequestMethod.GET)
-    public Object allBedInfo(){
+    public Object allBedInfo() {
         return bedService.allBedInfo();
+    }
+
+    //获取指定id床位信息
+    @ResponseBody
+    @RequestMapping(value = "/bed/infoById", method = RequestMethod.GET)
+    public Object BedInfoById(@RequestParam("id") Integer id) {
+        if (id == null) return null;
+        else return bedService.BedInfoById(id);
     }
 
     //获取床位占用信息
     @ResponseBody
     @RequestMapping(value = "/bed/usedInfo", method = RequestMethod.GET)
-    public Object bedUsedInfo(@RequestParam("id")Integer id){
-        JSONObject jsonObject=new JSONObject();
-        if(bedService.bedUsedInfo(id)){
-            jsonObject.put("used",1);
-        }
-        else{
+    public Object bedUsedInfo(@RequestParam("id") Integer id) {
+        JSONObject jsonObject = new JSONObject();
+        if (bedService.bedUsedInfo(id)) {
+            jsonObject.put("used", 1);
+        } else {
             jsonObject.put("used",0);
         }
         jsonObject.put("code",1);

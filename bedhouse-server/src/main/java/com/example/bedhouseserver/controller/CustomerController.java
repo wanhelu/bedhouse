@@ -18,19 +18,27 @@ public class CustomerController {
     @Autowired
     CustomerServiceImpl customerService;
 
-    private final Logger log= LoggerFactory.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     //获取所有客户信息
     @ResponseBody
     @RequestMapping(value = "/customer/info", method = RequestMethod.GET)
-    public Object allCustomerInfo(){
+    public Object allCustomerInfo() {
         return customerService.allCustomerInfo();
+    }
+
+    //获取指定id客户信息
+    @ResponseBody
+    @RequestMapping(value = "/customer/infoById", method = RequestMethod.GET)
+    public Object customerInfoById(@RequestParam("id") Integer id) {
+        if (id == null) return null;
+        else return customerService.customerInfoById(id);
     }
 
     //搜索
     @ResponseBody
     @RequestMapping(value = "/customer/search", method = RequestMethod.GET)
-    public Object search(@RequestParam("word")String word){
+    public Object search(@RequestParam("word") String word) {
         return customerService.search(word);
     }
 

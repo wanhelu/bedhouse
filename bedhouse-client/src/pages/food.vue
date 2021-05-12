@@ -116,7 +116,7 @@
 <script>
 import {mixin, mixinDriectly} from "@/mixin";
 import {mapGetters} from "vuex";
-import {addFood, delFood, editFood, getFoodInfo, searchFoodInfo} from "@/api";
+import {addFood, delFood, editFood, getFoodInfo, getFoodInfoById, searchFoodInfo} from "@/api";
 
 export default {
   name: "food",
@@ -147,25 +147,34 @@ export default {
       return temp
     }
   },
-  methods:{
-    getData(){
-      this.tableData=[]
-      getFoodInfo().then(res=>{
-        this.tableData=res
-        this.currentPage=1
-      }).catch(err=>{
+  methods: {
+    getData() {
+      this.tableData = []
+      getFoodInfo().then(res => {
+        this.tableData = res
+        this.currentPage = 1
+      }).catch(err => {
         console.log(err)
       })
     },
-    search(){
-      if (this.select_word && this.select_word != ''){
-        searchFoodInfo(this.select_word).then(res=>{
-          this.tableData=res
-          this.currentPage=1
-        }).catch(err=>{
+    getDataById(id) {
+      this.tableData = []
+      getFoodInfoById(id).then(res => {
+        this.$set(this.tableData, 0, res)
+        this.currentPage = 1
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    search() {
+      if (this.select_word && this.select_word != '') {
+        searchFoodInfo(this.select_word).then(res => {
+          this.tableData = res
+          this.currentPage = 1
+        }).catch(err => {
           console.log(err)
         })
-      }else{
+      } else {
         this.getData()
       }
     },
@@ -183,9 +192,6 @@ export default {
         this.$set(item,"labelArray",item.label.split("-"))
       }
     }
-  },
-  mounted() {
-    this.getData()
   }
 }
 </script>

@@ -117,6 +117,10 @@ export const mixinDriectly={
   },
   mounted() {
     this.paramsId = this.$route.params.id
+    if (this.paramsId == undefined)
+      this.getData();
+    else
+      this.getDataById(this.paramsId)
   }
 }
 

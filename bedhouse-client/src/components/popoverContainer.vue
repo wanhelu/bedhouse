@@ -13,16 +13,22 @@
 
 <script>
 import stftable from "@/components/popoverSon/stftable";
+import bedtable from "@/components/popoverSon/bedtable";
+import foodtable from "@/components/popoverSon/foodtable";
+import customertable from "@/components/popoverSon/customertable";
 
 export default {
   name: "popoverContainer",
   components: {
-    stftable
+    stftable,
+    bedtable,
+    foodtable,
+    customertable
   },
   props: {
-    type: '',
-    id: '',
-    text: ''
+    type: '', //数据类型
+    id: '',   //数据编号
+    text: ''  //显示的文本
   },
   data() {
     return {
@@ -32,9 +38,24 @@ export default {
     }
   },
   mounted() {
-    if (this.type == 1) {
-      this.title = "员工信息"
-      this.componentName = "stftable"
+    switch (this.type) {
+      case 1:
+        this.title = "员工信息"
+        this.componentName = "stftable"
+        break
+      case 2:
+        this.title = "床位信息"
+        this.componentName = "bedtable"
+        break
+      case 3:
+        this.title = "食品项信息";
+        this.componentName = "foodtable";
+        break;
+      case 4:
+        this.title = "客户信息";
+        this.componentName = "customertable";
+        break;
+        4
     }
   }
 }

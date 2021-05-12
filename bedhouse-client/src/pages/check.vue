@@ -19,7 +19,11 @@
         </template>
       </el-table-column>
       <el-table-column label="提交人员编号" prop="stfId" align="center" width="70px"></el-table-column>
-      <el-table-column label="外出人员编号" prop="customerId" align="center" width="70px"></el-table-column>
+      <el-table-column label="外出人员编号" prop="customerId" align="center" width="70px">
+        <template slot-scope="scope">
+          <popover-container :text="scope.row.customerId" :id="scope.row.customerId" :type="4"></popover-container>
+        </template>
+      </el-table-column>
       <el-table-column label="提交时间" prop="submitTime" align="center"></el-table-column>
       <el-table-column label="外出时间" prop="outTime" align="center"></el-table-column>
       <el-table-column label="预计归来时间" prop="forcastBac" align="center"></el-table-column>

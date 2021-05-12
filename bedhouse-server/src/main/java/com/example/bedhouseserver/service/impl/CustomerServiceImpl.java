@@ -25,14 +25,18 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Customer customerInfoById(int id) {
+        return customerMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
     public List<Customer> search(String word) {
-        Pattern pattern= Pattern.compile("[0-9]*");
+        Pattern pattern = Pattern.compile("[0-9]*");
         List<Customer> res;
-        if(pattern.matcher(word).matches()){
-            res=customerMapper.searchByNum(Integer.valueOf(word));
+        if (pattern.matcher(word).matches()) {
+            res = customerMapper.searchByNum(Integer.valueOf(word));
             res.addAll(customerMapper.search(word));
-        }
-        else{
+        } else {
             res=customerMapper.search(word);
         }
         LinkedHashSet<Customer> hashSet=new LinkedHashSet<>(res);

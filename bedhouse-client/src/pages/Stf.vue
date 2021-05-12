@@ -169,12 +169,6 @@ export default {
       return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     }
   },
-  mounted() {
-    if (this.paramsId == undefined)
-      this.getData()
-    else
-      this.getDataById(this.paramsId)
-  },
   methods: {
     search() {
       if (this.select_word && this.select_word != '') {

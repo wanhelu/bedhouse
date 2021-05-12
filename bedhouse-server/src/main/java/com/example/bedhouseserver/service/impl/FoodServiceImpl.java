@@ -22,14 +22,19 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
+    public Food infoById(int id) {
+        return foodMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
     public List<Food> search(String word) {
-        Pattern pattern= Pattern.compile("[0-9]*");
+        Pattern pattern = Pattern.compile("[0-9]*");
         List<Food> res;
-        if(pattern.matcher(word).matches()){
-            res=foodMapper.searchByNum(Integer.valueOf(word));
+        if (pattern.matcher(word).matches()) {
+            res = foodMapper.searchByNum(Integer.valueOf(word));
             res.addAll(foodMapper.searchByString(word));
-        }else{
-            res=foodMapper.searchByString(word);
+        } else {
+            res = foodMapper.searchByString(word);
         }
         LinkedHashSet<Food> hashSet=new LinkedHashSet<>(res);
         return new ArrayList<>(hashSet);

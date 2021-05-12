@@ -79,7 +79,7 @@
 
 <script>
 import {mapGetters} from "vuex";
-import {getBedInfo,getBedUsedInfo,searchBedInfo,addBed,editBed,delBed} from "@/api";
+import {getBedInfo, getBedUsedInfo, searchBedInfo, addBed, editBed, delBed, getBedInfoById} from "@/api";
 import {mixin, mixinDriectly} from '../mixin'
 
 export default {
@@ -125,35 +125,41 @@ export default {
     saveAdd(){
       this.saveAddMix(addBed)
     },
-    getData(){
-      this.tableData=[]
-      getBedInfo().then(res=>{
-        this.tableData=res
+    getData() {
+      this.tableData = []
+      getBedInfo().then(res => {
+        this.tableData = res
         this.getUsed()
-        this.currentPage=1
-      }).catch(err=>{
+        this.currentPage = 1
+      }).catch(err => {
         console.log(err)
       })
     },
-    getUsed(){
-      let i=0
-      for(let item of this.tableData){
-        let ii=i++
-        getBedUsedInfo(item.id).then(res=>{
-          if(res.code===1){
-            if(res.used>=1){
-              this.$set(this.tableData[ii],"used","是")
-            }
-            else{
+    getDataById(id) {
+      this.tableData = []
+      getBedInfoById(id).then(res => {
+        this.$set(this.tableData, 0, res)
+        this.getUsed()
+        this.currentPage = 1
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    getUsed() {
+      let i = 0
+      for (let item of this.tableData) {
+        let ii = i++
+        getBedUsedInfo(item.id).then(res => {
+          if (res.code === 1) {
+            if (res.used >= 1) {
+              this.$set(this.tableData[ii], "used", "是")
+            } else {
               this.$set(this.tableData[ii],"used","否")
             }
           }
         })
       }
     }
-  },
-  mounted() {
-    this.getData();
   }
 }
 </script>
