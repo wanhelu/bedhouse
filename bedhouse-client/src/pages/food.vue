@@ -7,7 +7,7 @@
       </el-button>
     </div>
     <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center" sortable ></el-table-column>
+      <el-table-column label="编号" prop="id" align="center"></el-table-column>
       <el-table-column label="名称" prop="name" align="center"></el-table-column>
       <el-table-column label="类型" prop="type" align="center"></el-table-column>
       <el-table-column label="标签" align="center" v-if="this.loginStatus>=2">
@@ -17,7 +17,7 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="价格" prop="price" align="center" sortable ></el-table-column>
+      <el-table-column label="价格" prop="price" align="center"></el-table-column>
       <el-table-column label="图片" align="center">
         <template slot-scope="scope">
           <img :src="scope.row.picurl"/>

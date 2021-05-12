@@ -18,10 +18,10 @@
       </el-button>
     </div>
     <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center" sortable ></el-table-column>
-      <el-table-column label="用户编号" prop="customerId" align="center" sortable ></el-table-column>
+      <el-table-column label="编号" prop="id" align="center"></el-table-column>
+      <el-table-column label="用户编号" prop="customerId" align="center"></el-table-column>
       <el-table-column label="用户姓名" prop="customerName" align="center"></el-table-column>
-      <el-table-column label="床位编号" prop="bedId" align="center" sortable></el-table-column>
+      <el-table-column label="床位编号" prop="bedId" align="center"></el-table-column>
       <el-table-column label="入住时间" prop="beginDate" align="center" :formatter="dateFormat"></el-table-column>
       <el-table-column label="退住时间" prop="leaveDate" align="center" :formatter="dateFormat"></el-table-column>
       <el-table-column label="操作" align="center" width="250px" v-if="this.loginStatus>=2">

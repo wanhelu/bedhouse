@@ -4,7 +4,7 @@
     <the-aside></the-aside>
     <div class="content-box" :class="{'content-collapse':collapse}">
       <div class="content">
-        <transition name="fade" mode="out-in" :duration="{enter:300,leave:300}">
+        <transition name="fade" mode="out-in" :duration="{enter:200,leave:200}">
           <router-view></router-view>
         </transition>
       </div>

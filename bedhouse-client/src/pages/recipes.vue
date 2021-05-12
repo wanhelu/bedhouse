@@ -7,12 +7,12 @@
       </el-button>
     </div>
     <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center" sortable></el-table-column>
-      <el-table-column label="客户编号" prop="customerId" align="center" sortable></el-table-column>
-      <el-table-column label="食品项编号" prop="foodId" align="center" sortable></el-table-column>
+      <el-table-column label="编号" prop="id" align="center"></el-table-column>
+      <el-table-column label="客户编号" prop="customerId" align="center"></el-table-column>
+      <el-table-column label="食品项编号" prop="foodId" align="center"></el-table-column>
       <el-table-column label="类型" prop="type" align="center"></el-table-column>
       <el-table-column label="提供日期" prop="provideDat" align="center" :formatter="dateFormat"></el-table-column>
-      <el-table-column label="提供星期" prop="week" align="center" sortable></el-table-column>
+      <el-table-column label="提供星期" prop="week" align="center"></el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <div class="optionButton">

@@ -7,13 +7,13 @@
       </el-button>
     </div>
     <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center" sortable ></el-table-column>
-      <el-table-column label="姓名" prop="name" align="center" ></el-table-column>
+      <el-table-column label="编号" prop="id" align="center"></el-table-column>
+      <el-table-column label="姓名" prop="name" align="center"></el-table-column>
       <el-table-column label="性别" prop="gender" align="center"
                        :filters="[{text:'男',value:'男'},{text:'女',value:'女'}]"
                        :filter-method="filterHandlerSimple"></el-table-column>
-      <el-table-column label="年龄" prop="age" align="center" sortable ></el-table-column>
-      <el-table-column label="床位" prop="bedId" align="center" sortable
+      <el-table-column label="年龄" prop="age" align="center"></el-table-column>
+      <el-table-column label="床位" prop="bedId" align="center"
                        :filters="[{text:'已有床位',value:true},{text:'无床位',value:false}]"
                        :filter-method="filterHandlerBed"></el-table-column>
       <el-table-column label="操作" align="center" v-if="this.loginStatus>=2">

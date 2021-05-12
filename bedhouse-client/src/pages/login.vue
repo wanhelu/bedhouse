@@ -6,8 +6,7 @@
           ref="ruleForm"
           class="demo-ruleForm"
           :model="ruleForm"
-          :rules="rules"
-      >
+          :rules="rules">
         <el-form-item prop="username">
           <el-input v-model="ruleForm.username" placeholder="username"></el-input>
         </el-form-item>
@@ -80,7 +79,7 @@ export default {
 <style scoped>
 .login-wrap {
   position: relative;
-  background: #2c3e50;
+  background: #484848;
   background-size: cover;
   width: 100%;
   height: 100%;

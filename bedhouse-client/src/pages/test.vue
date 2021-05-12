@@ -9,19 +9,23 @@
         </el-button>
       </div>
       <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-        <el-table-column label="编号" prop="id" align="center"></el-table-column>
+        <el-table-column label="编号" prop="id" align="center">
+          <template slot-scope="scope">
+            <popover-container :text="scope.row.id" :id="scope.row.id" :type="1"></popover-container>
+          </template>
+        </el-table-column>
         <el-table-column label="姓名" prop="name" align="center"></el-table-column>
         <el-table-column label="性别" prop="gender" align="center"></el-table-column>
         <el-table-column label="年龄" prop="age" align="center"></el-table-column>
         <el-table-column label="入职日期" prop="entryTime" align="center"></el-table-column>
         <el-table-column label="电话号" prop="phone" align="center"></el-table-column>
-        <el-table-column label="登录名" prop="loginName" align="center" v-if="this.loginStatus==3"></el-table-column>
-        <el-table-column label="密码" prop="password" align="center" v-if="this.loginStatus==3"></el-table-column>
+        <el-table-column label="登录名" prop="loginName" align="center"></el-table-column>
+        <el-table-column label="密码" prop="password" align="center"></el-table-column>
         <el-table-column label="权限" prop="roleId" align="center"
                          :filters="[{text:'1',value:1},{text:'2',value:2},{text:'3',value:3}]"
                          :filter-method="filterHandlerSimple"></el-table-column>
-        <el-table-column label="上次登录时间" prop="lastTime" align="center" v-if="this.loginStatus>=2"></el-table-column>
-        <el-table-column label="上次登录地址" prop="lastAddress" align="center" v-if="this.loginStatus>=2"></el-table-column>
+        <el-table-column label="上次登录时间" prop="lastTime" align="center"></el-table-column>
+        <el-table-column label="上次登录地址" prop="lastAddress" align="center"></el-table-column>
         <el-table-column label="操作" align="center" v-if="this.loginStatus==3">
           <template slot-scope="scope">
             <div class="optionButton">
@@ -135,13 +139,13 @@
 </template>
 
 <script>
-import {getStfInfoLessRoleId, searchStfInfo, addStf, delStf, editStf, getStfInfoById} from "@/api";
+import {getStfInfoLessRoleId, searchStfInfo, addStf, delStf, editStf} from "@/api";
 import {mapGetters} from "vuex"
 import {mixin, mixinDriectly} from '../mixin'
 import popoverContainer from "@/components/popoverContainer";
 
 export default {
-  name: "Stf",
+  name: "test",
   mixins: [mixin, mixinDriectly],
   components: {
     popoverContainer
@@ -170,17 +174,14 @@ export default {
     }
   },
   mounted() {
-    if (this.paramsId == undefined)
-      this.getData()
-    else
-      this.getDataById(this.paramsId)
+    this.getData()
   },
   methods: {
     search() {
       if (this.select_word && this.select_word != '') {
         searchStfInfo(this.select_word, this.loginStatus).then(res => {
           this.tableData = res
-          this.currentPage=1
+          this.currentPage = 1
         }).catch(err => {
           console.log(err)
         })
@@ -195,15 +196,6 @@ export default {
       this.tableData = []
       getStfInfoLessRoleId(this.loginStatus).then(res => {
         this.tableData = res
-        this.currentPage = 1
-      }).catch(err => {
-        console.log(err)
-      })
-    },
-    getDataById(id) {
-      this.tableData = []
-      getStfInfoById(id).then(res => {
-        this.$set(this.tableData, 0, res)
         this.currentPage = 1
       }).catch(err => {
         console.log(err)
