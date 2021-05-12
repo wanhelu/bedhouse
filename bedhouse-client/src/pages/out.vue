@@ -82,6 +82,7 @@
               v-model=form.outTime
               type="datetime"
               placeholder="选择日期"
+              style="float: left"
               value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-form-item>
@@ -90,6 +91,7 @@
               v-model=form.forcastBac
               type="datetime"
               placeholder="选择日期"
+              style="float: left"
               value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-form-item>
@@ -113,7 +115,7 @@
     </el-dialog>
 
     <!-- 编辑提示框 -->
-    <el-dialog title="编辑" :visible.sync="editVisible" width="400px">
+    <el-dialog title="编辑" :visible.sync="editVisible">
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="提交人员编号" size="mini">
           <el-input v-model="form.stfId"></el-input>
@@ -126,6 +128,7 @@
               v-model=form.submitTime
               type="datetime"
               placeholder="选择日期"
+              style="float: left"
               value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-form-item>
@@ -134,6 +137,7 @@
               v-model=form.outTime
               type="datetime"
               placeholder="选择日期"
+              style="float: left"
               value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-form-item>
@@ -142,6 +146,7 @@
               v-model=form.forcastBac
               type="datetime"
               placeholder="选择日期"
+              style="float: left"
               value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-form-item>
@@ -150,6 +155,7 @@
               v-model=form.backTime
               type="datetime"
               placeholder="选择日期"
+              style="float: left"
               value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-form-item>
@@ -167,6 +173,7 @@
               v-model=form.checkTime
               type="datetime"
               placeholder="选择日期"
+              style="float: left"
               value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-form-item>

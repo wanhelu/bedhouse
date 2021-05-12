@@ -16,7 +16,7 @@
     float: right;
 }
 .optionButton{
-    margin: 2px;
+    margin: 2px !important;
 }
 .pagination {
     display: flex;

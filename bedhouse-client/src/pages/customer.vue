@@ -68,7 +68,7 @@
     </el-dialog>
 
     <!-- 编辑提示框 -->
-    <el-dialog title="编辑" :visible.sync="editVisible" width="400px">
+    <el-dialog title="编辑" :visible.sync="editVisible">
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="姓名" size="mini">
           <el-input v-model="form.name"></el-input>

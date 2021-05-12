@@ -47,6 +47,10 @@
     <el-dialog title="添加" :visible.sync="addVisible">
       <el-form ref="form" :model="form" label-width="120px">
         <el-form-item label="客户编号" size="mini">
+          <span slot="label">
+            <popover-icon-container :type="4" :id="form.customerId" style="float: right"></popover-icon-container>
+            <p>客户编号</p>
+          </span>
           <el-input v-model="form.customerId"></el-input>
         </el-form-item>
         <el-form-item label="食品编号" size="mini">
@@ -60,6 +64,7 @@
               v-model=form.provideDat
               type="date"
               placeholder="选择日期"
+              style="float: left"
               value-format="yyyy-MM-dd">
           </el-date-picker>
         </el-form-item>
@@ -83,7 +88,7 @@
     </el-dialog>
 
     <!-- 编辑提示框 -->
-    <el-dialog title="编辑" :visible.sync="editVisible" width="400px">
+    <el-dialog title="编辑" :visible.sync="editVisible">
       <el-form ref="form" :model="form" label-width="120px">
         <el-form-item label="客户编号" size="mini">
           <el-input v-model="form.customerId"></el-input>
@@ -99,6 +104,7 @@
               v-model=form.provideDat
               type="date"
               placeholder="选择日期"
+              style="float: left"
               value-format="yyyy-MM-dd">
           </el-date-picker>
         </el-form-item>
@@ -119,12 +125,14 @@ import {mixin, mixinDriectly} from "@/mixin";
 import {mapGetters} from "vuex";
 import {addRecipes, delRecipes, editRecipes, getRecipesInfo, searchRecipesInfo} from "@/api";
 import popoverContainer from "@/components/popoverContainer";
+import popoverIconContainer from "@/components/popoverIconContainer";
 
 export default {
   name: "recipes",
   mixins: [mixin, mixinDriectly],
   components: {
-    popoverContainer
+    popoverContainer,
+    popoverIconContainer
   },
   data() {
     return {

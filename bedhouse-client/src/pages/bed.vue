@@ -17,7 +17,9 @@
         <template slot-scope="scope">
           <div class="optionButton">
             <el-button size="mini" class="optionButton" @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button size="mini" class="optionButton" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+            <el-button size="mini" class="optionButton" style="margin: 2px" type="danger"
+                       @click="handleDelete(scope.row.id)">删除
+            </el-button>
           </div>
         </template>
       </el-table-column>
@@ -60,7 +62,7 @@
     </el-dialog>
 
     <!-- 编辑提示框 -->
-    <el-dialog title="编辑" :visible.sync="editVisible" width="400px">
+    <el-dialog title="编辑" :visible.sync="editVisible">
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="房间号" size="mini">
           <el-input v-model="form.roomId"></el-input>

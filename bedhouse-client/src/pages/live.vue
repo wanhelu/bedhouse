@@ -81,7 +81,7 @@
     </el-dialog>
 
     <!-- 编辑提示框 -->
-    <el-dialog title="编辑" :visible.sync="editVisible" width="400px">
+    <el-dialog title="编辑" :visible.sync="editVisible">
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="用户编号" size="mini">
           <el-input v-model="form.customerId"></el-input>
@@ -94,6 +94,7 @@
               v-model=form.beginDate
               type="date"
               placeholder="选择日期"
+              style="float: left"
               value-format="yyyy-MM-dd">
           </el-date-picker>
         </el-form-item>
@@ -102,6 +103,7 @@
               v-model=form.leaveDate
               type="date"
               placeholder="选择日期"
+              style="float: left"
               value-format="yyyy-MM-dd">
           </el-date-picker>
         </el-form-item>

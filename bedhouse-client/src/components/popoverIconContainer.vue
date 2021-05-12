@@ -7,7 +7,7 @@
       @show="isShow=true"
       @hide="isShow=false">
     <component :is="this.componentName" :id="this.id" v-if="isShow"></component>
-    <el-button slot="reference" type="text">{{ text }}</el-button>
+    <el-button slot="reference" type="text" icon="el-icon-search"></el-button>
   </el-popover>
 </template>
 
@@ -18,7 +18,7 @@ import foodtable from "@/components/popoverSon/foodtable";
 import customertable from "@/components/popoverSon/customertable";
 
 export default {
-  name: "popoverContainer",
+  name: "popoverIconContainer",
   components: {
     stftable,
     bedtable,
@@ -28,7 +28,6 @@ export default {
   props: {
     type: '', //数据类型
     id: '',   //数据编号
-    text: '',  //显示的文本
   },
   data() {
     return {
@@ -55,7 +54,6 @@ export default {
         this.title = "客户信息";
         this.componentName = "customertable";
         break;
-        4
     }
   }
 }
