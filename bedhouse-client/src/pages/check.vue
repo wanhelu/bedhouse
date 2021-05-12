@@ -13,9 +13,17 @@
       </el-date-picker>
     </div>
     <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center" sortable width="70px"></el-table-column>
-      <el-table-column label="提交人员编号" prop="stfId" align="center" sortable width="70px"></el-table-column>
-      <el-table-column label="外出人员编号" prop="customerId" align="center" sortable width="70px"></el-table-column>
+      <el-table-column label="编号" prop="id" align="center" width="70px">
+        <template slot-scope="scope">
+          <popover-container :text="scope.row.stfId" :id="scope.row.stfId" :type="1"></popover-container>
+        </template>
+      </el-table-column>
+      <el-table-column label="提交人员编号" prop="stfId" align="center" width="70px"></el-table-column>
+      <el-table-column label="外出人员编号" prop="customerId" align="center" width="70px">
+        <template slot-scope="scope">
+          <popover-container :text="scope.row.customerId" :id="scope.row.customerId" :type="4"></popover-container>
+        </template>
+      </el-table-column>
       <el-table-column label="提交时间" prop="submitTime" align="center"></el-table-column>
       <el-table-column label="外出时间" prop="outTime" align="center"></el-table-column>
       <el-table-column label="预计归来时间" prop="forcastBac" align="center"></el-table-column>
@@ -47,10 +55,14 @@
 import {mixin, mixinDriectly} from "@/mixin";
 import {mapGetters} from "vuex";
 import {checkUpd, getOutInfoNoChecked, searchOutInfoNoChecked} from "@/api";
+import popoverContainer from "@/components/popoverContainer";
 
 export default {
   name: "check",
   mixins: [mixin, mixinDriectly],
+  components: {
+    popoverContainer
+  },
   data() {
     return {
       select_date: '',
@@ -111,7 +123,7 @@ export default {
     handleAccept(row) {
       this.form.id = row.id
       this.form.state = 3
-      this.checkerId = this.id
+      this.form.checkerId = this.id
       let params = this.paramsGenerator(this.form)
       checkUpd(params).then(res => {
         if (res.code == 1) {
@@ -127,7 +139,7 @@ export default {
     handleRefuse(row) {
       this.form.id = row.id
       this.form.state = 2
-      this.checkerId = this.id
+      this.form.checkerId = this.id
       let params = this.paramsGenerator(this.form)
       checkUpd(params).then(res => {
         if (res.code == 1) {

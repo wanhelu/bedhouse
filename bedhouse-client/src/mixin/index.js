@@ -1,4 +1,4 @@
-import {addCustomer, delCustomer, editCustomer} from "@/api";
+import {addCustomer, delCustomer, editCustomer, getStfInfoById} from "@/api";
 
 export const mixin = {
   methods: {
@@ -102,20 +102,57 @@ export const mixinDriectly={
           return data.split(" ")[0]
       },
   },
-  data(){
-    return{
-      select_word:'',
-      tableData:[],
+  data() {
+    return {
+      select_word: '',
+      tableData: [],
       currentPage: 1,
-      pageSize:5,
-      delVisible:false,
-      editVisible:false,
-      addVisible:false,
-      delId:'',
-      query:''
+      pageSize: 5,
+      delVisible: false,
+      editVisible: false,
+      addVisible: false,
+      delId: '',
+      paramsId: ''
     }
   },
   mounted() {
-    this.query=this.$route.query
+    this.paramsId = this.$route.params.id
+    if (this.paramsId == undefined)
+      this.getData();
+    else
+      this.getDataById(this.paramsId)
+  }
+}
+
+export const popMixin = {
+  props: {
+    id: ''
+  },
+  data() {
+    return {
+      tableData: "",
+      show: false
+    }
+  },
+  watch: {
+    id: function (newQuestion, oldQuestion) {
+      this.getData()
+    }
+  },
+  mounted() {
+    this.getData()
+  },
+  methods: {
+    getData() {
+      this.func(this.id).then(res => {
+        this.tableData = res
+        this.show = true
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    click() {
+      this.$router.push({name: this.routerName, params: {id: this.tableData.id}})
+    }
   }
 }

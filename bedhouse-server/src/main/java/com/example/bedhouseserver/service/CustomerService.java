@@ -7,7 +7,9 @@ import java.util.List;
 public interface CustomerService {
     List<Customer> allCustomerInfo();
 
-    List<Customer>search(String word);
+    Customer customerInfoById(int id);
+
+    List<Customer> search(String word);
 
     boolean add(Customer customer);
 

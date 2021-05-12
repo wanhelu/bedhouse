@@ -7,7 +7,7 @@
       </el-button>
     </div>
     <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center" sortable ></el-table-column>
+      <el-table-column label="编号" prop="id" align="center"></el-table-column>
       <el-table-column label="名称" prop="name" align="center"></el-table-column>
       <el-table-column label="类型" prop="type" align="center"></el-table-column>
       <el-table-column label="标签" align="center" v-if="this.loginStatus>=2">
@@ -17,7 +17,7 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="价格" prop="price" align="center" sortable ></el-table-column>
+      <el-table-column label="价格" prop="price" align="center"></el-table-column>
       <el-table-column label="图片" align="center">
         <template slot-scope="scope">
           <img :src="scope.row.picurl"/>
@@ -116,7 +116,7 @@
 <script>
 import {mixin, mixinDriectly} from "@/mixin";
 import {mapGetters} from "vuex";
-import {addFood, delFood, editFood, getFoodInfo, searchFoodInfo} from "@/api";
+import {addFood, delFood, editFood, getFoodInfo, getFoodInfoById, searchFoodInfo} from "@/api";
 
 export default {
   name: "food",
@@ -147,25 +147,34 @@ export default {
       return temp
     }
   },
-  methods:{
-    getData(){
-      this.tableData=[]
-      getFoodInfo().then(res=>{
-        this.tableData=res
-        this.currentPage=1
-      }).catch(err=>{
+  methods: {
+    getData() {
+      this.tableData = []
+      getFoodInfo().then(res => {
+        this.tableData = res
+        this.currentPage = 1
+      }).catch(err => {
         console.log(err)
       })
     },
-    search(){
-      if (this.select_word && this.select_word != ''){
-        searchFoodInfo(this.select_word).then(res=>{
-          this.tableData=res
-          this.currentPage=1
-        }).catch(err=>{
+    getDataById(id) {
+      this.tableData = []
+      getFoodInfoById(id).then(res => {
+        this.$set(this.tableData, 0, res)
+        this.currentPage = 1
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    search() {
+      if (this.select_word && this.select_word != '') {
+        searchFoodInfo(this.select_word).then(res => {
+          this.tableData = res
+          this.currentPage = 1
+        }).catch(err => {
           console.log(err)
         })
-      }else{
+      } else {
         this.getData()
       }
     },
@@ -183,9 +192,6 @@ export default {
         this.$set(item,"labelArray",item.label.split("-"))
       }
     }
-  },
-  mounted() {
-    this.getData()
   }
 }
 </script>

@@ -7,12 +7,20 @@
       </el-button>
     </div>
     <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center" sortable></el-table-column>
-      <el-table-column label="客户编号" prop="customerId" align="center" sortable></el-table-column>
-      <el-table-column label="食品项编号" prop="foodId" align="center" sortable></el-table-column>
+      <el-table-column label="编号" prop="id" align="center"></el-table-column>
+      <el-table-column label="客户编号" prop="customerId" align="center">
+        <template slot-scope="scope">
+          <popover-container :text="scope.row.customerId" :id="scope.row.customerId" :type="4"></popover-container>
+        </template>
+      </el-table-column>
+      <el-table-column label="食品项编号" prop="foodId" align="center">
+        <template slot-scope="scope">
+          <popover-container :text="scope.row.foodId" :id="scope.row.foodId" :type="3"></popover-container>
+        </template>
+      </el-table-column>
       <el-table-column label="类型" prop="type" align="center"></el-table-column>
       <el-table-column label="提供日期" prop="provideDat" align="center" :formatter="dateFormat"></el-table-column>
-      <el-table-column label="提供星期" prop="week" align="center" sortable></el-table-column>
+      <el-table-column label="提供星期" prop="week" align="center"></el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <div class="optionButton">
@@ -110,10 +118,14 @@
 import {mixin, mixinDriectly} from "@/mixin";
 import {mapGetters} from "vuex";
 import {addRecipes, delRecipes, editRecipes, getRecipesInfo, searchRecipesInfo} from "@/api";
+import popoverContainer from "@/components/popoverContainer";
 
 export default {
   name: "recipes",
   mixins: [mixin, mixinDriectly],
+  components: {
+    popoverContainer
+  },
   data() {
     return {
       form: {

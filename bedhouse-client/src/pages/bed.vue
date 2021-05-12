@@ -7,8 +7,8 @@
       </el-button>
     </div>
     <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center" sortable width="100px"></el-table-column>
-      <el-table-column label="房间号" prop="roomId" align="center" sortable width="100px"></el-table-column>
+      <el-table-column label="编号" prop="id" align="center" width="100px"></el-table-column>
+      <el-table-column label="房间号" prop="roomId" align="center" width="100px"></el-table-column>
       <el-table-column label="是否占用" prop="used" align="center" width="100px"
                        :filters="[{text:'是',value:'是'},{text:'否',value:'否'}]"
                        :filter-method="filterHandlerSimple"></el-table-column>
@@ -79,7 +79,7 @@
 
 <script>
 import {mapGetters} from "vuex";
-import {getBedInfo,getBedUsedInfo,searchBedInfo,addBed,editBed,delBed} from "@/api";
+import {getBedInfo, getBedUsedInfo, searchBedInfo, addBed, editBed, delBed, getBedInfoById} from "@/api";
 import {mixin, mixinDriectly} from '../mixin'
 
 export default {
@@ -125,35 +125,41 @@ export default {
     saveAdd(){
       this.saveAddMix(addBed)
     },
-    getData(){
-      this.tableData=[]
-      getBedInfo().then(res=>{
-        this.tableData=res
+    getData() {
+      this.tableData = []
+      getBedInfo().then(res => {
+        this.tableData = res
         this.getUsed()
-        this.currentPage=1
-      }).catch(err=>{
+        this.currentPage = 1
+      }).catch(err => {
         console.log(err)
       })
     },
-    getUsed(){
-      let i=0
-      for(let item of this.tableData){
-        let ii=i++
-        getBedUsedInfo(item.id).then(res=>{
-          if(res.code===1){
-            if(res.used>=1){
-              this.$set(this.tableData[ii],"used","是")
-            }
-            else{
+    getDataById(id) {
+      this.tableData = []
+      getBedInfoById(id).then(res => {
+        this.$set(this.tableData, 0, res)
+        this.getUsed()
+        this.currentPage = 1
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    getUsed() {
+      let i = 0
+      for (let item of this.tableData) {
+        let ii = i++
+        getBedUsedInfo(item.id).then(res => {
+          if (res.code === 1) {
+            if (res.used >= 1) {
+              this.$set(this.tableData[ii], "used", "是")
+            } else {
               this.$set(this.tableData[ii],"used","否")
             }
           }
         })
       }
     }
-  },
-  mounted() {
-    this.getData();
   }
 }
 </script>

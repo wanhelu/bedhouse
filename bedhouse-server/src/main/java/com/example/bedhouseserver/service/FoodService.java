@@ -8,6 +8,8 @@ import java.util.List;
 public interface FoodService {
     List<Food> allInfo();
 
+    Food infoById(int id);
+
     List<Food> search(String word);
 
     boolean add(Food food);

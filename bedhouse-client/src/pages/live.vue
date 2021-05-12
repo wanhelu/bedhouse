@@ -18,10 +18,18 @@
       </el-button>
     </div>
     <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center" sortable ></el-table-column>
-      <el-table-column label="用户编号" prop="customerId" align="center" sortable ></el-table-column>
+      <el-table-column label="编号" prop="id" align="center"></el-table-column>
+      <el-table-column label="用户编号" prop="customerId" align="center">
+        <template slot-scope="scope">
+          <popover-container :text="scope.row.customerId" :id="scope.row.customerId" :type="4"></popover-container>
+        </template>
+      </el-table-column>
       <el-table-column label="用户姓名" prop="customerName" align="center"></el-table-column>
-      <el-table-column label="床位编号" prop="bedId" align="center" sortable></el-table-column>
+      <el-table-column label="床位编号" prop="bedId" align="center">
+        <template slot-scope="scope">
+          <popover-container :text="scope.row.bedId" :id="scope.row.bedId" :type="2"></popover-container>
+        </template>
+      </el-table-column>
       <el-table-column label="入住时间" prop="beginDate" align="center" :formatter="dateFormat"></el-table-column>
       <el-table-column label="退住时间" prop="leaveDate" align="center" :formatter="dateFormat"></el-table-column>
       <el-table-column label="操作" align="center" width="250px" v-if="this.loginStatus>=2">
@@ -110,19 +118,23 @@
 import {mixin, mixinDriectly} from "@/mixin";
 import {mapGetters} from "vuex";
 import {addLive, delLive, editLive, getLiveInfo, leave, searchCustomerInfo, searchLiveInfo} from "@/api";
+import popoverContainer from "@/components/popoverContainer";
 
 export default {
   name: "live",
-  mixins:[mixin,mixinDriectly],
-  data(){
-    return{
-      select_date:'',
-      form:{
-        id:'',
-        customerId:'',
-        bedId:'',
-        beginDate:'',
-        leaveDate:''
+  mixins: [mixin, mixinDriectly],
+  components: {
+    popoverContainer
+  },
+  data() {
+    return {
+      select_date: '',
+      form: {
+        id: '',
+        customerId: '',
+        bedId: '',
+        beginDate: '',
+        leaveDate: ''
       }
     }
   },

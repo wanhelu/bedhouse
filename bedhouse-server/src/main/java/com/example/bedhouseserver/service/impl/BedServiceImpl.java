@@ -22,13 +22,18 @@ public class BedServiceImpl implements BedService {
     }
 
     @Override
+    public Bed BedInfoById(int id) {
+        return bedMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
     public Boolean bedUsedInfo(Integer id) {
-        return bedMapper.bedUsed(id)>0;
+        return bedMapper.bedUsed(id) > 0;
     }
 
     @Override
     public List<Bed> search(String word) {
-        Pattern pattern= Pattern.compile("[0-9]*");
+        Pattern pattern = Pattern.compile("[0-9]*");
         List<Bed> res;
         if(pattern.matcher(word).matches()){
             res=bedMapper.searchByNum(Integer.valueOf(word));
