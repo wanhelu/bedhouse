@@ -1,5 +1,3 @@
-import {addCustomer, delCustomer, editCustomer, getStfInfoById} from "@/api";
-
 export const mixin = {
   methods: {
     // 提示信息
@@ -82,19 +80,22 @@ export const mixinDriectly={
           this.getData()
           this.editVisible=false
           this.notify("修改成功","success")
-        }else{
+        } else {
           this.getData()
-          this.editVisible=false
-            this.notify("修改失败", "error")
-            console.log(res)
+          this.editVisible = false
+          this.notify("修改失败", "error")
+          console.log(res)
         }
       }).catch(err => {
-          console.log(err)
+        console.log(err)
       })
     },
-    filterHandlerSimple(value, row, column) {
-      const property = column['property'];
-      return row[property] === value;
+    filterChange(filters) {
+      let propertyName = Object.getOwnPropertyNames(filters)[0]
+      let array = filters[propertyName]
+      this.displayData = this.tableData.filter((item, index, arr) => {
+        return array.indexOf(item[propertyName]) >= 0
+      })
     },
     dateFormat(row, column) {
       let data = row[column.property]
@@ -124,6 +125,7 @@ export const mixinDriectly={
     return {
       select_word: '',
       tableData: [],
+      displayData: [],
       currentPage: 1,
       pageSize: 5,
       delVisible: false,

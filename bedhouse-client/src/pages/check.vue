@@ -46,7 +46,7 @@
           layout="total, prev, pager, next"
           :current-page="currentPage"
           :page-size="pageSize"
-          :total="tableData.length">
+          :total="displayData.length">
       </el-pagination>
     </div>
   </div>
@@ -80,7 +80,7 @@ export default {
       'id'
     ]),
     data() {
-      let temp = this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+      let temp = this.displayData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
       for (let item of temp) {
         this.$set(item, "stateString", this.tranState(item.state))
       }
@@ -90,8 +90,10 @@ export default {
   methods: {
     getData() {
       this.tableData = []
+      this.displayData = []
       getOutInfoNoChecked().then(res => {
         this.tableData = res
+        this.displayData = this.tableData
         this.currentPage = 1
       }).catch(err => {
         console.log(err)
@@ -101,6 +103,7 @@ export default {
       if ((this.select_word && this.select_word != '') || (this.select_date && this.select_date != '')) {
         searchOutInfoNoChecked(this.select_word, this.select_date).then(res => {
           this.tableData = res
+          this.displayData = this.tableData
           this.currentPage = 1
         }).catch(err => {
           console.log(err)

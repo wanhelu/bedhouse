@@ -54,7 +54,7 @@
           layout="total, prev, pager, next"
           :current-page="currentPage"
           :page-size="pageSize"
-          :total="tableData.length">
+          :total="displayData.length">
       </el-pagination>
     </div>
 
@@ -166,16 +166,18 @@ export default {
       'loginStatus'
     ]),
     data(){
-      return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+      return this.displayData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     }
   },
   methods:{
     getData(){
-      this.tableData=[]
-      getLiveInfo().then(res=>{
-        this.tableData=res
-        this.currentPage=1
-      }).catch(err=>{
+      this.tableData = []
+      this.displayData = []
+      getLiveInfo().then(res => {
+        this.tableData = res
+        this.displayData = this.tableData
+        this.currentPage = 1
+      }).catch(err => {
         console.log(err)
       })
     },
@@ -187,6 +189,7 @@ export default {
         params.append("toDate",this.select_date[1])
         searchLiveInfo(params).then(res => {
           this.tableData = res
+          this.displayData = this.tableData
           this.currentPage = 1
         }).catch(err => {
           console.log(err)
