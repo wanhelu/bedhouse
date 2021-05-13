@@ -102,9 +102,21 @@ export const mixinDriectly={
       return data.split(" ")[0]
     },
     sortChange({column, prop, order}) {
+      if (column.sortable == "custom")
+        this.sortByNum(prop, order)
+      else if (column.sortable == "customOfDate")
+        this.sortByDate(prop, order)
+    },
+    sortByNum(prop, order) {
       let orderB = order == "ascending" ? 1 : -1
       this.tableData.sort(function (a, b) {
         return (a[prop] - b[prop]) * orderB
+      })
+    },
+    sortByDate(prop, order) {
+      let orderB = order == "ascending" ? 1 : -1
+      this.tableData.sort(function (a, b) {
+        return (Date.parse(a[prop]) - Date.parse(b[prop])) * orderB
       })
     }
   },

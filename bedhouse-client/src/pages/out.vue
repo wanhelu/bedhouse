@@ -16,7 +16,7 @@
     </div>
     <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable"
               @sort-change="sortChange">
-      <el-table-column label="编号" prop="id" align="center" width="70px" sortable="custom"></el-table-column>
+      <el-table-column label="编号" prop="id" align="center" width="60px" sortable="custom"></el-table-column>
       <el-table-column label="提交人员编号" prop="stfId" align="center" width="70px" sortable="custom">
         <template slot-scope="scope">
           <popover-container :text="scope.row.stfId" :id="scope.row.stfId" :type="1"></popover-container>
@@ -27,10 +27,10 @@
           <popover-container :text="scope.row.customerId" :id="scope.row.customerId" :type="4"></popover-container>
         </template>
       </el-table-column>
-      <el-table-column label="提交时间" prop="submitTime" align="center"></el-table-column>
-      <el-table-column label="外出时间" prop="outTime" align="center"></el-table-column>
-      <el-table-column label="预计归来时间" prop="forcastBac" align="center"></el-table-column>
-      <el-table-column label="实际归来时间" prop="backTime" align="center"></el-table-column>
+      <el-table-column label="提交时间" prop="submitTime" align="center" sortable="customOfDate"></el-table-column>
+      <el-table-column label="外出时间" prop="outTime" align="center" sortable="customOfDate"></el-table-column>
+      <el-table-column label="预计归来时间" prop="forcastBac" align="center" sortable="customOfDate"></el-table-column>
+      <el-table-column label="实际归来时间" prop="backTime" align="center" sortable="customOfDate"></el-table-column>
       <el-table-column label="备注" prop="text" align="center"></el-table-column>
       <el-table-column label="状态" prop="stateString" align="center"
                        :filters="[{text:'未审核',value:1},{text:'审核不通过',value:2},{text:'审核通过-未外出',value:3},{text:'审核通过-已外出',value:4},{text:'审核通过-已归来',value:5}]"
@@ -40,22 +40,20 @@
           <popover-container :text="scope.row.checkerId" :id="scope.row.checkerId" :type="1"></popover-container>
         </template>
       </el-table-column>
-      <el-table-column label="审核时间" prop="checkTime" align="center"></el-table-column>
-      <el-table-column label="操作" align="center" width="250px">
+      <el-table-column label="审核时间" prop="checkTime" align="center" sortable="customOfDate"></el-table-column>
+      <el-table-column label="操作" align="center" width="200px">
         <template slot-scope="scope">
-          <div class="optionButton">
-            <el-button size="mini" class="optionButton" type="primary" @click="handleBack(scope.row)"
-                       v-if="scope.row.state==4">归来
-            </el-button>
-            <el-button size="mini" class="optionButton" type="primary" @click="handleOut(scope.row)"
-                       v-if="scope.row.state==3">外出
-            </el-button>
-            <el-button size="mini" class="optionButton" @click="handleEdit(scope.row)" v-if="loginStatus>=2">编辑
-            </el-button>
-            <el-button size="mini" class="optionButton" type="danger" @click="handleDelete(scope.row.id)"
+          <el-button size="mini" class="optionButton" type="primary" @click="handleBack(scope.row)"
+                     v-if="scope.row.state==4">归来
+          </el-button>
+          <el-button size="mini" class="optionButton" type="primary" @click="handleOut(scope.row)"
+                     v-if="scope.row.state==3">外出
+          </el-button>
+          <el-button size="mini" class="optionButton" @click="handleEdit(scope.row)" v-if="loginStatus>=2">编辑
+          </el-button>
+          <el-button size="mini" class="optionButton" type="danger" @click="handleDelete(scope.row.id)"
                        v-if="loginStatus>=2">删除
             </el-button>
-          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -318,9 +316,6 @@ export default {
         console.log(err)
       })
     }
-  },
-  mounted() {
-    this.getData()
   }
 }
 </script>

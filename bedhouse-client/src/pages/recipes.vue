@@ -20,7 +20,8 @@
         </template>
       </el-table-column>
       <el-table-column label="类型" prop="type" align="center"></el-table-column>
-      <el-table-column label="提供日期" prop="provideDat" align="center" :formatter="dateFormat"></el-table-column>
+      <el-table-column label="提供日期" prop="provideDat" align="center" :formatter="dateFormat"
+                       sortable="customOfDate"></el-table-column>
       <el-table-column label="提供星期" prop="week" align="center" sortable="custom"></el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
@@ -198,9 +199,6 @@ export default {
     saveEdit() {
       this.saveEditMix(editRecipes)
     }
-  },
-  mounted() {
-    this.getData()
   }
 }
 </script>

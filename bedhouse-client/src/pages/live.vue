@@ -31,8 +31,10 @@
           <popover-container :text="scope.row.bedId" :id="scope.row.bedId" :type="2"></popover-container>
         </template>
       </el-table-column>
-      <el-table-column label="入住时间" prop="beginDate" align="center" :formatter="dateFormat"></el-table-column>
-      <el-table-column label="退住时间" prop="leaveDate" align="center" :formatter="dateFormat"></el-table-column>
+      <el-table-column label="入住时间" prop="beginDate" align="center" :formatter="dateFormat"
+                       sortable="customOfDate"></el-table-column>
+      <el-table-column label="退住时间" prop="leaveDate" align="center" :formatter="dateFormat"
+                       sortable="customOfDate"></el-table-column>
       <el-table-column label="操作" align="center" width="250px" v-if="this.loginStatus>=2">
         <template slot-scope="scope">
           <div class="optionButton">
@@ -212,9 +214,6 @@ export default {
         }
       })
     }
-  },
-  mounted(){
-    this.getData()
   }
 }
 </script>

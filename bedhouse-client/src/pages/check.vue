@@ -25,10 +25,10 @@
           <popover-container :text="scope.row.customerId" :id="scope.row.customerId" :type="4"></popover-container>
         </template>
       </el-table-column>
-      <el-table-column label="提交时间" prop="submitTime" align="center"></el-table-column>
-      <el-table-column label="外出时间" prop="outTime" align="center"></el-table-column>
-      <el-table-column label="预计归来时间" prop="forcastBac" align="center"></el-table-column>
-      <el-table-column label="实际归来时间" prop="backTime" align="center"></el-table-column>
+      <el-table-column label="提交时间" prop="submitTime" align="center" sortable="customOfDate"></el-table-column>
+      <el-table-column label="外出时间" prop="outTime" align="center" sortable="customOfDate"></el-table-column>
+      <el-table-column label="预计归来时间" prop="forcastBac" align="center" sortable="customOfDate"></el-table-column>
+      <el-table-column label="实际归来时间" prop="backTime" align="center" sortable="customOfDate"></el-table-column>
       <el-table-column label="备注" prop="text" align="center"></el-table-column>
       <el-table-column label="操作" align="center" width="250px">
         <template slot-scope="scope">
@@ -153,9 +153,6 @@ export default {
         console.log(err)
       })
     }
-  },
-  mounted() {
-    this.getData()
   }
 }
 </script>
