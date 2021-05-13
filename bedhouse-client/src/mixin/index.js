@@ -144,12 +144,13 @@ export const popMixin = {
   },
   methods: {
     getData() {
-      this.func(this.id).then(res => {
-        this.tableData = res
-        this.show = true
-      }).catch(err => {
-        console.log(err)
-      })
+        if (this.id != null && this.id != '')
+            this.func(this.id).then(res => {
+                this.tableData = res
+                this.show = true
+            }).catch(err => {
+                console.log(err)
+            })
     },
     click() {
       this.$router.push({name: this.routerName, params: {id: this.tableData.id}})

@@ -57,11 +57,19 @@
 
     <!--添加弹窗-->
     <el-dialog title="添加" :visible.sync="addVisible">
-      <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="用户编号" size="mini">
+      <el-form ref="form" :model="form" label-width="100px">
+        <el-form-item label="客户编号" size="mini">
+          <span slot="label">
+            <popover-icon-container :type="4" :id="form.customerId" style="float: right"></popover-icon-container>
+            <p>客户编号</p>
+          </span>
           <el-input v-model="form.customerId"></el-input>
         </el-form-item>
         <el-form-item label="床位编号" size="mini">
+          <span slot="label">
+            <popover-icon-container :type="2" :id="form.bedId" style="float: right"></popover-icon-container>
+            <p>床位编号</p>
+          </span>
           <el-input v-model="form.bedId"></el-input>
         </el-form-item>
       </el-form>
@@ -81,12 +89,20 @@
     </el-dialog>
 
     <!-- 编辑提示框 -->
-    <el-dialog title="编辑" :visible.sync="editVisible" width="400px">
-      <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="用户编号" size="mini">
+    <el-dialog title="编辑" :visible.sync="editVisible">
+      <el-form ref="form" :model="form" label-width="100px">
+        <el-form-item label="客户编号" size="mini">
+          <span slot="label">
+            <popover-icon-container :type="4" :id="form.customerId" style="float: right"></popover-icon-container>
+            <p>客户编号</p>
+          </span>
           <el-input v-model="form.customerId"></el-input>
         </el-form-item>
         <el-form-item label="床位编号" size="mini">
+          <span slot="label">
+            <popover-icon-container :type="2" :id="form.bedId" style="float: right"></popover-icon-container>
+            <p>床位编号</p>
+          </span>
           <el-input v-model="form.bedId"></el-input>
         </el-form-item>
         <el-form-item label="入住日期" size="mini">
@@ -94,6 +110,7 @@
               v-model=form.beginDate
               type="date"
               placeholder="选择日期"
+              style="float: left"
               value-format="yyyy-MM-dd">
           </el-date-picker>
         </el-form-item>
@@ -102,6 +119,7 @@
               v-model=form.leaveDate
               type="date"
               placeholder="选择日期"
+              style="float: left"
               value-format="yyyy-MM-dd">
           </el-date-picker>
         </el-form-item>
@@ -119,12 +137,14 @@ import {mixin, mixinDriectly} from "@/mixin";
 import {mapGetters} from "vuex";
 import {addLive, delLive, editLive, getLiveInfo, leave, searchCustomerInfo, searchLiveInfo} from "@/api";
 import popoverContainer from "@/components/popoverContainer";
+import popoverIconContainer from "@/components/popoverIconContainer";
 
 export default {
   name: "live",
   mixins: [mixin, mixinDriectly],
   components: {
-    popoverContainer
+    popoverContainer,
+    popoverIconContainer
   },
   data() {
     return {

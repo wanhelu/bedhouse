@@ -13,12 +13,12 @@
       </el-date-picker>
     </div>
     <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center" width="70px">
+      <el-table-column label="编号" prop="id" align="center" width="70px"></el-table-column>
+      <el-table-column label="提交人员编号" prop="stfId" align="center" width="70px">
         <template slot-scope="scope">
           <popover-container :text="scope.row.stfId" :id="scope.row.stfId" :type="1"></popover-container>
         </template>
       </el-table-column>
-      <el-table-column label="提交人员编号" prop="stfId" align="center" width="70px"></el-table-column>
       <el-table-column label="外出人员编号" prop="customerId" align="center" width="70px">
         <template slot-scope="scope">
           <popover-container :text="scope.row.customerId" :id="scope.row.customerId" :type="4"></popover-container>
