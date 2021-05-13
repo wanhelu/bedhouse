@@ -93,13 +93,13 @@
 import {mapGetters} from "vuex";
 import {mixin, mixinDriectly} from "@/mixin";
 import {
-  getCustomerInfo,
-  getUseBed,
-  searchCustomerInfo,
   addCustomer,
   delCustomer,
   editCustomer,
-  getCustomerInfoById
+  getCustomerInfo,
+  getCustomerInfoById,
+  getUseBed,
+  searchCustomerInfo
 } from "@/api"
 import popoverContainer from "@/components/popoverContainer";
 
@@ -189,10 +189,6 @@ export default {
     },
     saveEdit(){
       this.saveEditMix(editCustomer)
-    },
-    filterHandlerBed(value, row, column){
-      const property = column['property'];
-      return (value ^ row[property]==null)
     }
   }
 }
