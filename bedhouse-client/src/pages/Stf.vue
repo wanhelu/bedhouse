@@ -138,7 +138,7 @@
 </template>
 
 <script>
-import {getStfInfoLessRoleId, searchStfInfo, addStf, delStf, editStf, getStfInfoById} from "@/api";
+import {addStf, delStf, editStf, getStfInfoById, getStfInfoLessRoleId, searchStfInfo} from "@/api";
 import {mapGetters} from "vuex"
 import {mixin, mixinDriectly} from '../mixin'
 import popoverContainer from "@/components/popoverContainer";
@@ -174,7 +174,7 @@ export default {
   },
   methods: {
     search() {
-      if (this.select_word && this.select_word != '') {
+      if (this.select_word) {
         searchStfInfo(this.select_word, this.loginStatus).then(res => {
           this.tableData = res
           this.displayData = this.tableData
