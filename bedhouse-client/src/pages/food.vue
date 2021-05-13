@@ -19,9 +19,9 @@
         </template>
       </el-table-column>
       <el-table-column label="价格" prop="price" align="center"></el-table-column>
-      <el-table-column label="图片" align="center">
+      <el-table-column label="图片" align="center" width="250px">
         <template slot-scope="scope">
-          <img :src="scope.row.picurl"/>
+          <img :src="scope.row.picurl" width="200px" height="200px" v-show="scope.row.picurl!=null"/>
         </template>
       </el-table-column>
       <el-table-column label="清真" prop="muslim" align="center"
@@ -145,7 +145,7 @@ export default {
     data(){
       let temp = this.displayData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
       for(let item of temp){
-        this.$set(item,"labelArray",item.label.split("-"))
+        this.$set(item, "labelArray", item.label != null ? item.label.split("-") : null)
       }
       return temp
     }
