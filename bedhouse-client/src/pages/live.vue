@@ -17,15 +17,16 @@
       <el-button type="primary" size="mini" class="add-button" @click="handleAdd" v-if="this.loginStatus>=2">添加
       </el-button>
     </div>
-    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center"></el-table-column>
-      <el-table-column label="用户编号" prop="customerId" align="center">
+    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable"
+              @sort-change="sortChange">
+      <el-table-column label="编号" prop="id" align="center" sortable="custom"></el-table-column>
+      <el-table-column label="用户编号" prop="customerId" align="center" sortable="custom">
         <template slot-scope="scope">
           <popover-container :text="scope.row.customerId" :id="scope.row.customerId" :type="4"></popover-container>
         </template>
       </el-table-column>
       <el-table-column label="用户姓名" prop="customerName" align="center"></el-table-column>
-      <el-table-column label="床位编号" prop="bedId" align="center">
+      <el-table-column label="床位编号" prop="bedId" align="center" sortable="custom">
         <template slot-scope="scope">
           <popover-container :text="scope.row.bedId" :id="scope.row.bedId" :type="2"></popover-container>
         </template>

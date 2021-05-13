@@ -6,9 +6,10 @@
       <el-button type="primary" size="mini" class="add-button" @click="handleAdd" v-if="this.loginStatus==3">添加
       </el-button>
     </div>
-    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center" width="100px"></el-table-column>
-      <el-table-column label="房间号" prop="roomId" align="center" width="100px"></el-table-column>
+    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable"
+              @sort-change="sortChange">
+      <el-table-column label="编号" prop="id" align="center" width="100px" sortable="custom"></el-table-column>
+      <el-table-column label="房间号" prop="roomId" align="center" width="100px" sortable="custom"></el-table-column>
       <el-table-column label="是否占用" prop="used" align="center" width="100px"
                        :filters="[{text:'是',value:'是'},{text:'否',value:'否'}]"
                        :filter-method="filterHandlerSimple"></el-table-column>

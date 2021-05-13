@@ -92,15 +92,21 @@ export const mixinDriectly={
           console.log(err)
       })
     },
-      filterHandlerSimple(value, row, column) {
-          const property = column['property'];
-          return row[property] === value;
-      },
-      dateFormat(row, column) {
-          let data = row[column.property]
-          if (data === null) return null;
-          return data.split(" ")[0]
-      },
+    filterHandlerSimple(value, row, column) {
+      const property = column['property'];
+      return row[property] === value;
+    },
+    dateFormat(row, column) {
+      let data = row[column.property]
+      if (data === null) return null;
+      return data.split(" ")[0]
+    },
+    sortChange({column, prop, order}) {
+      let orderB = order == "ascending" ? 1 : -1
+      this.tableData.sort(function (a, b) {
+        return (a[prop] - b[prop]) * orderB
+      })
+    }
   },
   data() {
     return {

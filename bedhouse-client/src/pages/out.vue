@@ -14,14 +14,15 @@
       <el-button type="primary" size="mini" class="add-button" @click="handleAdd">添加
       </el-button>
     </div>
-    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center" width="70px"></el-table-column>
-      <el-table-column label="提交人员编号" prop="stfId" align="center" width="70px">
+    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable"
+              @sort-change="sortChange">
+      <el-table-column label="编号" prop="id" align="center" width="70px" sortable="custom"></el-table-column>
+      <el-table-column label="提交人员编号" prop="stfId" align="center" width="70px" sortable="custom">
         <template slot-scope="scope">
           <popover-container :text="scope.row.stfId" :id="scope.row.stfId" :type="1"></popover-container>
         </template>
       </el-table-column>
-      <el-table-column label="外出人员编号" prop="customerId" align="center" width="70px">
+      <el-table-column label="外出人员编号" prop="customerId" align="center" width="70px" sortable="custom">
         <template slot-scope="scope">
           <popover-container :text="scope.row.customerId" :id="scope.row.customerId" :type="4"></popover-container>
         </template>
@@ -34,7 +35,7 @@
       <el-table-column label="状态" prop="stateString" align="center"
                        :filters="[{text:'未审核',value:1},{text:'审核不通过',value:2},{text:'审核通过-未外出',value:3},{text:'审核通过-已外出',value:4},{text:'审核通过-已归来',value:5}]"
                        :filter-method="filterHandler"></el-table-column>
-      <el-table-column label="审核员编号" prop="checkerId" align="center" width="70px">
+      <el-table-column label="审核员编号" prop="checkerId" align="center" width="70px" sortable="custom">
         <template slot-scope="scope">
           <popover-container :text="scope.row.checkerId" :id="scope.row.checkerId" :type="1"></popover-container>
         </template>

@@ -6,8 +6,9 @@
       <el-button type="primary" size="mini" class="add-button" @click="handleAdd" v-if="this.loginStatus>=2">添加
       </el-button>
     </div>
-    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center"></el-table-column>
+    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable"
+              @sort-change="sortChange">
+      <el-table-column label="编号" prop="id" align="center" sortable="custom"></el-table-column>
       <el-table-column label="名称" prop="name" align="center"></el-table-column>
       <el-table-column label="类型" prop="type" align="center"></el-table-column>
       <el-table-column label="标签" align="center" v-if="this.loginStatus>=2">

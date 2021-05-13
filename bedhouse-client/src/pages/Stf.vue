@@ -9,10 +9,10 @@
         </el-button>
       </div>
       <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-        <el-table-column label="编号" prop="id" align="center"></el-table-column>
+        <el-table-column label="编号" prop="id" align="center" sortable="custom"></el-table-column>
         <el-table-column label="姓名" prop="name" align="center"></el-table-column>
         <el-table-column label="性别" prop="gender" align="center"></el-table-column>
-        <el-table-column label="年龄" prop="age" align="center"></el-table-column>
+        <el-table-column label="年龄" prop="age" align="center" sortable="custom"></el-table-column>
         <el-table-column label="入职日期" prop="entryTime" align="center"></el-table-column>
         <el-table-column label="电话号" prop="phone" align="center"></el-table-column>
         <el-table-column label="登录名" prop="loginName" align="center" v-if="this.loginStatus==3"></el-table-column>
