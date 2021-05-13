@@ -6,8 +6,9 @@
       <el-button type="primary" size="mini" class="add-button" @click="handleAdd" v-if="this.loginStatus>=2">添加
       </el-button>
     </div>
-    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center"></el-table-column>
+    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable"
+              @sort-change="sortChange" @filter-change="filterChange">
+      <el-table-column label="编号" prop="id" align="center" sortable="custom"></el-table-column>
       <el-table-column label="名称" prop="name" align="center"></el-table-column>
       <el-table-column label="类型" prop="type" align="center"></el-table-column>
       <el-table-column label="标签" align="center" v-if="this.loginStatus>=2">
@@ -23,8 +24,10 @@
           <img :src="scope.row.picurl"/>
         </template>
       </el-table-column>
-      <el-table-column label="清真" prop="muslim" align="center"></el-table-column>
-      <el-table-column label="操作"  align="center">
+      <el-table-column label="清真" prop="muslim" align="center"
+                       :filters="[{text:'是',value:'是'},{text:'否',value:'否'}]"
+                       column-key="muslim"></el-table-column>
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <div class="optionButton">
             <el-button size="mini" class="optionButton" @click="handleEdit(scope.row)">编辑</el-button>
@@ -42,7 +45,7 @@
           layout="total, prev, pager, next"
           :current-page="currentPage"
           :page-size="pageSize"
-          :total="tableData.length">
+          :total="displayData.length">
       </el-pagination>
     </div>
 
@@ -140,7 +143,7 @@ export default {
       'loginStatus'
     ]),
     data(){
-      let temp=this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+      let temp = this.displayData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
       for(let item of temp){
         this.$set(item,"labelArray",item.label.split("-"))
       }
@@ -150,8 +153,10 @@ export default {
   methods: {
     getData() {
       this.tableData = []
+      this.displayData = []
       getFoodInfo().then(res => {
         this.tableData = res
+        this.displayData = this.tableData
         this.currentPage = 1
       }).catch(err => {
         console.log(err)
@@ -159,8 +164,10 @@ export default {
     },
     getDataById(id) {
       this.tableData = []
+      this.displayData = []
       getFoodInfoById(id).then(res => {
         this.$set(this.tableData, 0, res)
+        this.displayData = this.tableData
         this.currentPage = 1
       }).catch(err => {
         console.log(err)
@@ -170,6 +177,7 @@ export default {
       if (this.select_word && this.select_word != '') {
         searchFoodInfo(this.select_word).then(res => {
           this.tableData = res
+          this.displayData = this.tableData
           this.currentPage = 1
         }).catch(err => {
           console.log(err)
@@ -186,11 +194,6 @@ export default {
     },
     saveEdit(){
       this.saveEditMix(editFood)
-    },
-    createLabelArray(){
-      for(let item of this.tableData){
-        this.$set(item,"labelArray",item.label.split("-"))
-      }
     }
   }
 }

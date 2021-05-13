@@ -6,12 +6,13 @@
       <el-button type="primary" size="mini" class="add-button" @click="handleAdd" v-if="this.loginStatus==3">添加
       </el-button>
     </div>
-    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center" width="100px"></el-table-column>
-      <el-table-column label="房间号" prop="roomId" align="center" width="100px"></el-table-column>
+    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable"
+              @sort-change="sortChange" @filter-change="filterChange">
+      <el-table-column label="编号" prop="id" align="center" width="100px" sortable="custom"></el-table-column>
+      <el-table-column label="房间号" prop="roomId" align="center" width="100px" sortable="custom"></el-table-column>
       <el-table-column label="是否占用" prop="used" align="center" width="100px"
                        :filters="[{text:'是',value:'是'},{text:'否',value:'否'}]"
-                       :filter-method="filterHandlerSimple"></el-table-column>
+                       column-key="used"></el-table-column>
       <el-table-column label="详情" prop="detail" align="center"></el-table-column>
       <el-table-column label="操作" align="center" width="100px" v-if="this.loginStatus==3">
         <template slot-scope="scope">
@@ -32,7 +33,7 @@
           layout="total, prev, pager, next"
           :current-page="currentPage"
           :page-size="pageSize"
-          :total="tableData.length">
+          :total="displayData.length">
       </el-pagination>
     </div>
 
@@ -101,7 +102,7 @@ export default {
       'loginStatus'
     ]),
     data(){
-      return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+      return this.displayData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     }
   },
   methods:{
@@ -110,7 +111,8 @@ export default {
         searchBedInfo(this.select_word).then((res=>{
           this.tableData=res
           this.getUsed()
-          this.currentPage=1
+          this.displayData = this.tableData
+          this.currentPage = 1
         })).catch(err=>{
           console.log(err)
         })
@@ -129,9 +131,11 @@ export default {
     },
     getData() {
       this.tableData = []
+      this.displayData = []
       getBedInfo().then(res => {
         this.tableData = res
         this.getUsed()
+        this.displayData = this.tableData
         this.currentPage = 1
       }).catch(err => {
         console.log(err)
@@ -139,9 +143,11 @@ export default {
     },
     getDataById(id) {
       this.tableData = []
+      this.displayData = []
       getBedInfoById(id).then(res => {
         this.$set(this.tableData, 0, res)
         this.getUsed()
+        this.displayData = this.tableData
         this.currentPage = 1
       }).catch(err => {
         console.log(err)

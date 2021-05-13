@@ -6,21 +6,25 @@
       <el-button type="primary" size="mini" class="add-button" @click="handleAdd">添加
       </el-button>
     </div>
-    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center"></el-table-column>
-      <el-table-column label="客户编号" prop="customerId" align="center">
+    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable"
+              @sort-change="sortChange" @filter-change="filterChange">
+      <el-table-column label="编号" prop="id" align="center" sortable="custom"></el-table-column>
+      <el-table-column label="客户编号" prop="customerId" align="center" sortable="custom">
         <template slot-scope="scope">
           <popover-container :text="scope.row.customerId" :id="scope.row.customerId" :type="4"></popover-container>
         </template>
       </el-table-column>
-      <el-table-column label="食品项编号" prop="foodId" align="center">
+      <el-table-column label="食品项编号" prop="foodId" align="center" sortable="custom">
         <template slot-scope="scope">
           <popover-container :text="scope.row.foodId" :id="scope.row.foodId" :type="3"></popover-container>
         </template>
       </el-table-column>
-      <el-table-column label="类型" prop="type" align="center"></el-table-column>
-      <el-table-column label="提供日期" prop="provideDat" align="center" :formatter="dateFormat"></el-table-column>
-      <el-table-column label="提供星期" prop="week" align="center"></el-table-column>
+      <el-table-column label="类型" prop="type" align="center"
+                       :filters="[{text:'早',value:'早'},{text:'中',value:'中'},{text:'晚',value:'玩'}]"
+                       column-key="type"></el-table-column>
+      <el-table-column label="提供日期" prop="provideDat" align="center" :formatter="dateFormat"
+                       sortable="customOfDate"></el-table-column>
+      <el-table-column label="提供星期" prop="week" align="center" sortable="custom"></el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <div class="optionButton">
@@ -39,7 +43,7 @@
           layout="total, prev, pager, next"
           :current-page="currentPage"
           :page-size="pageSize"
-          :total="tableData.length">
+          :total="displayData.length">
       </el-pagination>
     </div>
 
@@ -163,14 +167,16 @@ export default {
       'loginStatus'
     ]),
     data() {
-      return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+      return this.displayData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     }
   },
   methods: {
     getData() {
       this.tableData = []
+      this.displayData = []
       getRecipesInfo().then(res => {
         this.tableData = res
+        this.displayData = this.tableData
         this.currentPage = 1
       }).catch(err => {
         console.log(err)
@@ -180,6 +186,7 @@ export default {
       if (this.select_word && this.select_word != '') {
         searchRecipesInfo(this.select_word).then(res => {
           this.tableData = res
+          this.displayData = this.tableData
           this.currentPage = 1
         }).catch(err => {
           console.log(err)
@@ -197,9 +204,6 @@ export default {
     saveEdit() {
       this.saveEditMix(editRecipes)
     }
-  },
-  mounted() {
-    this.getData()
   }
 }
 </script>

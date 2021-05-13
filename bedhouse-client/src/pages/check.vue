@@ -12,22 +12,23 @@
           placeholder="选择日期">
       </el-date-picker>
     </div>
-    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center" width="70px"></el-table-column>
-      <el-table-column label="提交人员编号" prop="stfId" align="center" width="70px">
+    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable"
+              @sort-change="sortChange">
+      <el-table-column label="编号" prop="id" align="center" width="70px" sortable="custom"></el-table-column>
+      <el-table-column label="提交人员编号" prop="stfId" align="center" width="70px" sortable="custom">
         <template slot-scope="scope">
           <popover-container :text="scope.row.stfId" :id="scope.row.stfId" :type="1"></popover-container>
         </template>
       </el-table-column>
-      <el-table-column label="外出人员编号" prop="customerId" align="center" width="70px">
+      <el-table-column label="外出人员编号" prop="customerId" align="center" width="70px" sortable="custom">
         <template slot-scope="scope">
           <popover-container :text="scope.row.customerId" :id="scope.row.customerId" :type="4"></popover-container>
         </template>
       </el-table-column>
-      <el-table-column label="提交时间" prop="submitTime" align="center"></el-table-column>
-      <el-table-column label="外出时间" prop="outTime" align="center"></el-table-column>
-      <el-table-column label="预计归来时间" prop="forcastBac" align="center"></el-table-column>
-      <el-table-column label="实际归来时间" prop="backTime" align="center"></el-table-column>
+      <el-table-column label="提交时间" prop="submitTime" align="center" sortable="customOfDate"></el-table-column>
+      <el-table-column label="外出时间" prop="outTime" align="center" sortable="customOfDate"></el-table-column>
+      <el-table-column label="预计归来时间" prop="forcastBac" align="center" sortable="customOfDate"></el-table-column>
+      <el-table-column label="实际归来时间" prop="backTime" align="center" sortable="customOfDate"></el-table-column>
       <el-table-column label="备注" prop="text" align="center"></el-table-column>
       <el-table-column label="操作" align="center" width="250px">
         <template slot-scope="scope">
@@ -45,7 +46,7 @@
           layout="total, prev, pager, next"
           :current-page="currentPage"
           :page-size="pageSize"
-          :total="tableData.length">
+          :total="displayData.length">
       </el-pagination>
     </div>
   </div>
@@ -79,7 +80,7 @@ export default {
       'id'
     ]),
     data() {
-      let temp = this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+      let temp = this.displayData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
       for (let item of temp) {
         this.$set(item, "stateString", this.tranState(item.state))
       }
@@ -89,8 +90,10 @@ export default {
   methods: {
     getData() {
       this.tableData = []
+      this.displayData = []
       getOutInfoNoChecked().then(res => {
         this.tableData = res
+        this.displayData = this.tableData
         this.currentPage = 1
       }).catch(err => {
         console.log(err)
@@ -100,6 +103,7 @@ export default {
       if ((this.select_word && this.select_word != '') || (this.select_date && this.select_date != '')) {
         searchOutInfoNoChecked(this.select_word, this.select_date).then(res => {
           this.tableData = res
+          this.displayData = this.tableData
           this.currentPage = 1
         }).catch(err => {
           console.log(err)
@@ -152,9 +156,6 @@ export default {
         console.log(err)
       })
     }
-  },
-  mounted() {
-    this.getData()
   }
 }
 </script>

@@ -17,21 +17,24 @@
       <el-button type="primary" size="mini" class="add-button" @click="handleAdd" v-if="this.loginStatus>=2">添加
       </el-button>
     </div>
-    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center"></el-table-column>
-      <el-table-column label="用户编号" prop="customerId" align="center">
+    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable"
+              @sort-change="sortChange">
+      <el-table-column label="编号" prop="id" align="center" sortable="custom"></el-table-column>
+      <el-table-column label="用户编号" prop="customerId" align="center" sortable="custom">
         <template slot-scope="scope">
           <popover-container :text="scope.row.customerId" :id="scope.row.customerId" :type="4"></popover-container>
         </template>
       </el-table-column>
       <el-table-column label="用户姓名" prop="customerName" align="center"></el-table-column>
-      <el-table-column label="床位编号" prop="bedId" align="center">
+      <el-table-column label="床位编号" prop="bedId" align="center" sortable="custom">
         <template slot-scope="scope">
           <popover-container :text="scope.row.bedId" :id="scope.row.bedId" :type="2"></popover-container>
         </template>
       </el-table-column>
-      <el-table-column label="入住时间" prop="beginDate" align="center" :formatter="dateFormat"></el-table-column>
-      <el-table-column label="退住时间" prop="leaveDate" align="center" :formatter="dateFormat"></el-table-column>
+      <el-table-column label="入住时间" prop="beginDate" align="center" :formatter="dateFormat"
+                       sortable="customOfDate"></el-table-column>
+      <el-table-column label="退住时间" prop="leaveDate" align="center" :formatter="dateFormat"
+                       sortable="customOfDate"></el-table-column>
       <el-table-column label="操作" align="center" width="250px" v-if="this.loginStatus>=2">
         <template slot-scope="scope">
           <div class="optionButton">
@@ -51,7 +54,7 @@
           layout="total, prev, pager, next"
           :current-page="currentPage"
           :page-size="pageSize"
-          :total="tableData.length">
+          :total="displayData.length">
       </el-pagination>
     </div>
 
@@ -163,16 +166,18 @@ export default {
       'loginStatus'
     ]),
     data(){
-      return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+      return this.displayData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     }
   },
   methods:{
     getData(){
-      this.tableData=[]
-      getLiveInfo().then(res=>{
-        this.tableData=res
-        this.currentPage=1
-      }).catch(err=>{
+      this.tableData = []
+      this.displayData = []
+      getLiveInfo().then(res => {
+        this.tableData = res
+        this.displayData = this.tableData
+        this.currentPage = 1
+      }).catch(err => {
         console.log(err)
       })
     },
@@ -184,6 +189,7 @@ export default {
         params.append("toDate",this.select_date[1])
         searchLiveInfo(params).then(res => {
           this.tableData = res
+          this.displayData = this.tableData
           this.currentPage = 1
         }).catch(err => {
           console.log(err)
@@ -211,9 +217,6 @@ export default {
         }
       })
     }
-  },
-  mounted(){
-    this.getData()
   }
 }
 </script>

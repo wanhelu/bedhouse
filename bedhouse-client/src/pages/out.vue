@@ -14,47 +14,46 @@
       <el-button type="primary" size="mini" class="add-button" @click="handleAdd">添加
       </el-button>
     </div>
-    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center" width="70px"></el-table-column>
-      <el-table-column label="提交人员编号" prop="stfId" align="center" width="70px">
+    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable"
+              @sort-change="sortChange" @filter-change="filterChange">
+      <el-table-column label="编号" prop="id" align="center" width="60px" sortable="custom"></el-table-column>
+      <el-table-column label="提交人员编号" prop="stfId" align="center" width="70px" sortable="custom">
         <template slot-scope="scope">
           <popover-container :text="scope.row.stfId" :id="scope.row.stfId" :type="1"></popover-container>
         </template>
       </el-table-column>
-      <el-table-column label="外出人员编号" prop="customerId" align="center" width="70px">
+      <el-table-column label="外出人员编号" prop="customerId" align="center" width="70px" sortable="custom">
         <template slot-scope="scope">
           <popover-container :text="scope.row.customerId" :id="scope.row.customerId" :type="4"></popover-container>
         </template>
       </el-table-column>
-      <el-table-column label="提交时间" prop="submitTime" align="center"></el-table-column>
-      <el-table-column label="外出时间" prop="outTime" align="center"></el-table-column>
-      <el-table-column label="预计归来时间" prop="forcastBac" align="center"></el-table-column>
-      <el-table-column label="实际归来时间" prop="backTime" align="center"></el-table-column>
+      <el-table-column label="提交时间" prop="submitTime" align="center" sortable="customOfDate"></el-table-column>
+      <el-table-column label="外出时间" prop="outTime" align="center" sortable="customOfDate"></el-table-column>
+      <el-table-column label="预计归来时间" prop="forcastBac" align="center" sortable="customOfDate"></el-table-column>
+      <el-table-column label="实际归来时间" prop="backTime" align="center" sortable="customOfDate"></el-table-column>
       <el-table-column label="备注" prop="text" align="center"></el-table-column>
       <el-table-column label="状态" prop="stateString" align="center"
                        :filters="[{text:'未审核',value:1},{text:'审核不通过',value:2},{text:'审核通过-未外出',value:3},{text:'审核通过-已外出',value:4},{text:'审核通过-已归来',value:5}]"
-                       :filter-method="filterHandler"></el-table-column>
-      <el-table-column label="审核员编号" prop="checkerId" align="center" width="70px">
+                       column-key="state"></el-table-column>
+      <el-table-column label="审核员编号" prop="checkerId" align="center" width="70px" sortable="custom">
         <template slot-scope="scope">
           <popover-container :text="scope.row.checkerId" :id="scope.row.checkerId" :type="1"></popover-container>
         </template>
       </el-table-column>
-      <el-table-column label="审核时间" prop="checkTime" align="center"></el-table-column>
-      <el-table-column label="操作" align="center" width="250px">
+      <el-table-column label="审核时间" prop="checkTime" align="center" sortable="customOfDate"></el-table-column>
+      <el-table-column label="操作" align="center" width="200px">
         <template slot-scope="scope">
-          <div class="optionButton">
-            <el-button size="mini" class="optionButton" type="primary" @click="handleBack(scope.row)"
-                       v-if="scope.row.state==4">归来
-            </el-button>
-            <el-button size="mini" class="optionButton" type="primary" @click="handleOut(scope.row)"
-                       v-if="scope.row.state==3">外出
-            </el-button>
-            <el-button size="mini" class="optionButton" @click="handleEdit(scope.row)" v-if="loginStatus>=2">编辑
-            </el-button>
-            <el-button size="mini" class="optionButton" type="danger" @click="handleDelete(scope.row.id)"
+          <el-button size="mini" class="optionButton" type="primary" @click="handleBack(scope.row)"
+                     v-if="scope.row.state==4">归来
+          </el-button>
+          <el-button size="mini" class="optionButton" type="primary" @click="handleOut(scope.row)"
+                     v-if="scope.row.state==3">外出
+          </el-button>
+          <el-button size="mini" class="optionButton" @click="handleEdit(scope.row)" v-if="loginStatus>=2">编辑
+          </el-button>
+          <el-button size="mini" class="optionButton" type="danger" @click="handleDelete(scope.row.id)"
                        v-if="loginStatus>=2">删除
             </el-button>
-          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -67,7 +66,7 @@
           layout="total, prev, pager, next"
           :current-page="currentPage"
           :page-size="pageSize"
-          :total="tableData.length">
+          :total="displayData.length">
       </el-pagination>
     </div>
 
@@ -241,7 +240,7 @@ export default {
       'id'
     ]),
     data() {
-      let temp = this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+      let temp = this.displayData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
       for (let item of temp) {
         this.$set(item, "stateString", this.tranState(item.state))
       }
@@ -251,8 +250,10 @@ export default {
   methods: {
     getData() {
       this.tableData = []
+      this.displayData = []
       getOutInfo().then(res => {
         this.tableData = res
+        this.displayData = this.tableData
         this.currentPage = 1
       }).catch(err => {
         console.log(err)
@@ -262,6 +263,7 @@ export default {
       if ((this.select_word && this.select_word != '') || (this.select_date && this.select_date != '')) {
         searchOutInfo(this.select_word, this.select_date).then(res => {
           this.tableData = res
+          this.displayData = this.tableData
           this.currentPage = 1
         }).catch(err => {
           console.log(err)
@@ -317,9 +319,6 @@ export default {
         console.log(err)
       })
     }
-  },
-  mounted() {
-    this.getData()
   }
 }
 </script>

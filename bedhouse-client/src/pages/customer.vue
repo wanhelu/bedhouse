@@ -6,13 +6,14 @@
       <el-button type="primary" size="mini" class="add-button" @click="handleAdd" v-if="this.loginStatus>=2">添加
       </el-button>
     </div>
-    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-      <el-table-column label="编号" prop="id" align="center"></el-table-column>
+    <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable"
+              @sort-change="sortChange" @filter-change="filterChange">
+      <el-table-column label="编号" prop="id" align="center" sortable="custom"></el-table-column>
       <el-table-column label="姓名" prop="name" align="center"></el-table-column>
       <el-table-column label="性别" prop="gender" align="center"
                        :filters="[{text:'男',value:'男'},{text:'女',value:'女'}]"
-                       :filter-method="filterHandlerSimple"></el-table-column>
-      <el-table-column label="年龄" prop="age" align="center"></el-table-column>
+                       column-key="gender"></el-table-column>
+      <el-table-column label="年龄" prop="age" align="center" sortable="custom"></el-table-column>
       <el-table-column label="床位" prop="bedId" align="center">
         <template slot-scope="scope">
           <popover-container :text="scope.row.bedId" :id="scope.row.bedId" :type="2"></popover-container>
@@ -35,7 +36,7 @@
           layout="total, prev, pager, next"
           :current-page="currentPage"
           :page-size="pageSize"
-          :total="tableData.length">
+          :total="displayData.length">
       </el-pagination>
     </div>
 
@@ -123,15 +124,17 @@ export default {
         'loginStatus'
     ]),
     data(){
-      return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+      return this.displayData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     }
   },
   methods:{
     getData() {
       this.tableData = []
+      this.displayData = []
       getCustomerInfo().then(res => {
         this.tableData = res
         this.getUse()
+        this.displayData = this.tableData
         this.currentPage = 1
       }).catch(err => {
         console.log(err)
@@ -139,9 +142,11 @@ export default {
     },
     getDataById(id) {
       this.tableData = []
+      this.displayData = []
       getCustomerInfoById(id).then(res => {
         this.$set(this.tableData, 0, res)
         this.getUse()
+        this.displayData = this.tableData
         this.currentPage = 1
       }).catch(err => {
         console.log(err)
@@ -152,6 +157,7 @@ export default {
         searchCustomerInfo(this.select_word).then(res => {
           this.tableData = res
           this.getUse()
+          this.displayData = this.tableData
           this.currentPage = 1
         }).catch(err => {
           console.log(err)

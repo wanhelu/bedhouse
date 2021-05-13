@@ -8,18 +8,19 @@
           添加
         </el-button>
       </div>
-      <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable">
-        <el-table-column label="编号" prop="id" align="center"></el-table-column>
+      <el-table :data="data" border size="mini" style="width: 100%" height=450px ref="multipleTable"
+                @filter-change="filterChange">
+        <el-table-column label="编号" prop="id" align="center" sortable="custom"></el-table-column>
         <el-table-column label="姓名" prop="name" align="center"></el-table-column>
         <el-table-column label="性别" prop="gender" align="center"></el-table-column>
-        <el-table-column label="年龄" prop="age" align="center"></el-table-column>
+        <el-table-column label="年龄" prop="age" align="center" sortable="custom"></el-table-column>
         <el-table-column label="入职日期" prop="entryTime" align="center"></el-table-column>
         <el-table-column label="电话号" prop="phone" align="center"></el-table-column>
         <el-table-column label="登录名" prop="loginName" align="center" v-if="this.loginStatus==3"></el-table-column>
         <el-table-column label="密码" prop="password" align="center" v-if="this.loginStatus==3"></el-table-column>
         <el-table-column label="权限" prop="roleId" align="center"
                          :filters="[{text:'1',value:1},{text:'2',value:2},{text:'3',value:3}]"
-                         :filter-method="filterHandlerSimple"></el-table-column>
+                         column-key="roleId"></el-table-column>
         <el-table-column label="上次登录时间" prop="lastTime" align="center" v-if="this.loginStatus>=2"></el-table-column>
         <el-table-column label="上次登录地址" prop="lastAddress" align="center" v-if="this.loginStatus>=2"></el-table-column>
         <el-table-column label="操作" align="center" v-if="this.loginStatus==3">
@@ -40,7 +41,7 @@
             layout="total, prev, pager, next"
             :current-page="currentPage"
             :page-size="pageSize"
-            :total="tableData.length">
+            :total="displayData.length">
         </el-pagination>
       </div>
 
@@ -168,7 +169,7 @@ export default {
       'loginStatus'
     ]),
     data() {
-      return this.tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+      return this.displayData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     }
   },
   methods: {
@@ -176,7 +177,8 @@ export default {
       if (this.select_word && this.select_word != '') {
         searchStfInfo(this.select_word, this.loginStatus).then(res => {
           this.tableData = res
-          this.currentPage=1
+          this.displayData = this.tableData
+          this.currentPage = 1
         }).catch(err => {
           console.log(err)
         })
@@ -189,8 +191,10 @@ export default {
     },
     getData() {
       this.tableData = []
+      this.displayData = []
       getStfInfoLessRoleId(this.loginStatus).then(res => {
         this.tableData = res
+        this.displayData = this.tableData
         this.currentPage = 1
       }).catch(err => {
         console.log(err)
@@ -198,8 +202,10 @@ export default {
     },
     getDataById(id) {
       this.tableData = []
+      this.displayData = []
       getStfInfoById(id).then(res => {
         this.$set(this.tableData, 0, res)
+        this.displayData = this.tableData
         this.currentPage = 1
       }).catch(err => {
         console.log(err)
