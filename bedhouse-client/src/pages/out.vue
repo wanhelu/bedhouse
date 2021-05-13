@@ -74,7 +74,11 @@
     <!--添加弹窗-->
     <el-dialog title="添加" :visible.sync="addVisible">
       <el-form ref="form" :model="form" label-width="100px">
-        <el-form-item label="外出用户编号" size="mini">
+        <el-form-item label="外出客户编号" size="mini">
+          <span slot="label">
+            <popover-icon-container :type="4" :id="form.customerId" style="float: right"></popover-icon-container>
+            <p>客户编号</p>
+          </span>
           <el-input v-model="form.customerId"></el-input>
         </el-form-item>
         <el-form-item label="外出时间" size="mini">
@@ -116,11 +120,19 @@
 
     <!-- 编辑提示框 -->
     <el-dialog title="编辑" :visible.sync="editVisible">
-      <el-form ref="form" :model="form" label-width="80px">
+      <el-form ref="form" :model="form" label-width="100px">
         <el-form-item label="提交人员编号" size="mini">
+          <span slot="label">
+            <popover-icon-container :type="1" :id="form.stfId" style="float: right"></popover-icon-container>
+            <p>员工编号</p>
+          </span>
           <el-input v-model="form.stfId"></el-input>
         </el-form-item>
-        <el-form-item label="外出用户编号" size="mini">
+        <el-form-item label="外出客户编号" size="mini">
+          <span slot="label">
+            <popover-icon-container :type="4" :id="form.customerId" style="float: right"></popover-icon-container>
+            <p>客户编号</p>
+          </span>
           <el-input v-model="form.customerId"></el-input>
         </el-form-item>
         <el-form-item label="提交时间" size="mini">
@@ -163,10 +175,14 @@
           <el-input v-model="form.text" type="textarea" :rows="2"></el-input>
         </el-form-item>
         <el-form-item label="状态" size="mini">
-          <el-input v-model="form.state" type="textarea" :rows="2"></el-input>
+          <el-input v-model="form.state"></el-input>
         </el-form-item>
         <el-form-item label="审核员编号" size="mini">
-          <el-input v-model="form.checkerId" type="textarea" :rows="2"></el-input>
+          <span slot="label">
+            <popover-icon-container :type="1" :id="form.checkerId" style="float: right"></popover-icon-container>
+            <p>审核员编号</p>
+          </span>
+          <el-input v-model="form.checkerId"></el-input>
         </el-form-item>
         <el-form-item label="审核时间" size="mini">
           <el-date-picker
@@ -191,12 +207,14 @@ import {mixin, mixinDriectly} from "@/mixin";
 import {mapGetters} from "vuex";
 import {addOut, delOut, editOut, getOutInfo, goBack, goOut, searchOutInfo} from "@/api";
 import popoverContainer from "@/components/popoverContainer";
+import popoverIconContainer from "@/components/popoverIconContainer";
 
 export default {
   name: "out",
   mixins: [mixin, mixinDriectly],
   components: {
-    popoverContainer
+    popoverContainer,
+    popoverIconContainer
   },
   data() {
     return {

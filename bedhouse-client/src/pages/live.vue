@@ -57,11 +57,19 @@
 
     <!--添加弹窗-->
     <el-dialog title="添加" :visible.sync="addVisible">
-      <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="用户编号" size="mini">
+      <el-form ref="form" :model="form" label-width="100px">
+        <el-form-item label="客户编号" size="mini">
+          <span slot="label">
+            <popover-icon-container :type="4" :id="form.customerId" style="float: right"></popover-icon-container>
+            <p>客户编号</p>
+          </span>
           <el-input v-model="form.customerId"></el-input>
         </el-form-item>
         <el-form-item label="床位编号" size="mini">
+          <span slot="label">
+            <popover-icon-container :type="2" :id="form.bedId" style="float: right"></popover-icon-container>
+            <p>床位编号</p>
+          </span>
           <el-input v-model="form.bedId"></el-input>
         </el-form-item>
       </el-form>
@@ -82,11 +90,19 @@
 
     <!-- 编辑提示框 -->
     <el-dialog title="编辑" :visible.sync="editVisible">
-      <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="用户编号" size="mini">
+      <el-form ref="form" :model="form" label-width="100px">
+        <el-form-item label="客户编号" size="mini">
+          <span slot="label">
+            <popover-icon-container :type="4" :id="form.customerId" style="float: right"></popover-icon-container>
+            <p>客户编号</p>
+          </span>
           <el-input v-model="form.customerId"></el-input>
         </el-form-item>
         <el-form-item label="床位编号" size="mini">
+          <span slot="label">
+            <popover-icon-container :type="2" :id="form.bedId" style="float: right"></popover-icon-container>
+            <p>床位编号</p>
+          </span>
           <el-input v-model="form.bedId"></el-input>
         </el-form-item>
         <el-form-item label="入住日期" size="mini">
@@ -121,12 +137,14 @@ import {mixin, mixinDriectly} from "@/mixin";
 import {mapGetters} from "vuex";
 import {addLive, delLive, editLive, getLiveInfo, leave, searchCustomerInfo, searchLiveInfo} from "@/api";
 import popoverContainer from "@/components/popoverContainer";
+import popoverIconContainer from "@/components/popoverIconContainer";
 
 export default {
   name: "live",
   mixins: [mixin, mixinDriectly],
   components: {
-    popoverContainer
+    popoverContainer,
+    popoverIconContainer
   },
   data() {
     return {
