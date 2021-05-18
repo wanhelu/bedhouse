@@ -1,5 +1,6 @@
 # bedhouse
-实训项目
+实训项目  
+本项目的GitHub地址<https://github.com/wanhelu/bedhouse>
 ## 项目说明
 ### 技术栈
 #### 前端
